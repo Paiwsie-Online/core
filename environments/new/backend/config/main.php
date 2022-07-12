@@ -7,7 +7,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'controllerMap' => [
         // PUT HERE YOUR CUSTOM CONTROLLER THAT EXTENDS THE ONES IN THE CORE
-        //'site' => 'backend\controllers\core\SiteController',
+        //'site' => 'backend\controllers\SiteController',
     ],
     'components' => [
         'user' => [
