@@ -2,11 +2,11 @@
 
 return [
     'adminEmail' => 'adminEmail',
-    'senderEmail' => 'senderEmail',
+    'senderEmail' => 'senderEmail', // senderEmail must be an authorized email from SmtpSettings
     'senderName' => 'senderName',
     'default_site_settings' => [
         'site_name' => 'site_name',
-        'base_url' => 'base_url',
+        'base_url' => 'base_url', // Without last / ...example: https://test.com
         'instance' => 'instance',
         'support_email' => 'support_email',
     ],
