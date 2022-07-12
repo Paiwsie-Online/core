@@ -5,6 +5,10 @@
 return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+    'controllerMap' => [
+        // PUT HERE YOUR CUSTOM CONTROLLER THAT EXTENDS THE ONES IN THE CORE
+        //'site' => 'backend\controllers\SiteController',
+    ],
     'components' => [
         'user' => [
             'identityClass' => 'common\models\core\User',

@@ -7,6 +7,7 @@ namespace common\models\core;
 
 use Yii;
 use yii\base\Model;
+use yii\web\Cookie;
 
 class LoginForm extends Model {
 
@@ -48,8 +49,42 @@ class LoginForm extends Model {
     // ACTION LOGIN EMAIL
     public function login() {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), Yii::$app->params['systemTimeout']['authTimeout']);
-            //return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            if (Yii::$app->user->login($this->getUser(), Yii::$app->params['systemTimeout']['authTimeout'])) {
+                $systemLog = new SystemLog();
+                $systemLog->user_id = Yii::$app->user->identity->id;
+                $systemLog->instance = Yii::$app->user->identity->instance;
+                $systemLog->message_short = (Yii::$app->user->identity->first_name ?? '') . ' ' . (Yii::$app->user->identity->last_name ?? '') . ' logged in';
+                $systemLog->message = (Yii::$app->user->identity->first_name ?? '') . ' ' . (Yii::$app->user->identity->last_name ?? '') . ' logged in using Email: ' . ($model->email ?? 'Error!') . ' for this instance ' . Yii::$app->user->identity->instance . ' from ip: ' . Yii::$app->request->getUserIP();
+                $dataFormat = [
+                    'event' => 'login',
+                    'user' => Yii::$app->user->identity->id,
+                    'method' => 'email',
+                    'ip' => Yii::$app->request->getUserIP(),
+                ];
+                $systemLog->data_format = json_encode($dataFormat);
+                $systemLog->save();
+                $userLogin = new UserLogin();
+                $userLogin->user_id = Yii::$app->user->identity->id;
+                $userLogin->ip = Yii::$app->request->getUserIP();
+                $timeNow = new \DateTime('now', new \DateTimeZone(Yii::$app->params['defaults']['systemTimeZone']));
+                $timeNowUTC = $timeNow->getTimestamp();
+                $userLogin->expire = $timeNowUTC + Yii::$app->params['systemTimeout']['authTimeout'];
+                $userLogin->session_logged = $timeNowUTC;
+                $userLogin->session_id = Yii::$app->session->id;
+                $userLogin->save();
+                if (isset(Yii::$app->request->cookies['userSession'])) {
+                    $cookies = Yii::$app->response->cookies;
+                    unset($cookies['userSession']);
+                }
+                $userSessionCookie = new Cookie([
+                    'name' => 'userSession',
+                    'value' => '1',
+                    'httpOnly' => false,
+                ]);
+                Yii::$app->response->cookies->add($userSessionCookie);
+                Yii::$app->cache->flush();
+                return true;
+            }
         }
         return false;
     }

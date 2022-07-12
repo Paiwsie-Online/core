@@ -2,14 +2,14 @@
 
 return [
     'default_site_settings' => [
-        'site_name' => 'SmartAdmin',
-        'base_url' => 'https://smartadmin.paiwise.com',
-        'instance' => 'smartadmin',
-        'support_email' => 'smartadmin@paiwise.com',
+        'site_name' => 'site_name',
+        'base_url' => 'base_url',
+        'instance' => 'instance',
+        'support_email' => 'support_email',
     ],
-    'adminEmail' => 'admin@smartadmin.paiwise.com',
-    'senderEmail' => 'payment@paiwise.com',
-    'senderName' => 'SmartAdmin Core',
+    'adminEmail' => 'adminEmail',
+    'senderEmail' => 'senderEmail',
+    'senderName' => 'senderName',
     'loginOptions' => [
         'allowQR' => true,
         'allowEmail' => true,

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@smartadmin.paiwise.com',
-    'senderEmail' => 'payment@paiwise.com',
-    'senderName' => 'SmartAdmin Core',
+    'adminEmail' => 'adminEmail',
+    'senderEmail' => 'senderEmail',
+    'senderName' => 'senderName',
 ];

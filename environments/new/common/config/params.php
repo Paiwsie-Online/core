@@ -5,9 +5,9 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'default_site_settings' => [
-        'site_name' => 'SmartAdmin',
-        'base_url' => 'https://backdev.smartadmincore.com',
-        'api_url' => 'https://apidev.smartadmincore.com',
+        'site_name' => 'site_name',
+        'base_url' => 'base_url',
+        'api_url' => 'api_url',
     ],
     'defaults' => [
         'systemTimeZone' => 'Etc/UTC'

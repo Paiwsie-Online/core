@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@smartadmincore.backend.test',
-    'senderEmail' => 'payment@paiwise.com',
-    'senderName' => 'SmartAdmin Core',
+    'adminEmail' => 'adminEmail',
+    'senderEmail' => 'senderEmail', // senderEmail must be an authorized email from SmtpSettings
+    'senderName' => 'senderName',
     'default_site_settings' => [
-        'site_name' => 'SmartAdmin Core',
-        'base_url' => 'https://smartadmincore.backend.test',
-        'instance' => 'smartadmin',
-        'support_email' => 'smartadmin@paiwise.com',
+        'site_name' => 'site_name',
+        'base_url' => 'base_url', // Without last / ...example: https://test.com
+        'instance' => 'instance',
+        'support_email' => 'support_email',
     ],
     'inputSettings' => [
         'phoneInput' => [
@@ -32,6 +32,6 @@ return [
     ],
     'textLocal' => [
         'apiKey' => "apiKey",
-        'default_sms_sender_name' => 'SmartAdmin Core', //max 11 characters
+        'default_sms_sender_name' => 'default_sms_sender_name', //max 11 characters
     ],
 ];
