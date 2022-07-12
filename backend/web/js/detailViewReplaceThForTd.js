@@ -1,0 +1,1 @@
+$('table').find('th').contents().unwrap().wrap('<td class="poppinsStrong">');

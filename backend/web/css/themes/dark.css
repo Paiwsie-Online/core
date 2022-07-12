@@ -1,0 +1,290 @@
+body {
+    background-color: #121212;
+    color: #FFFFFF;
+}
+
+.testModeMessage {
+    background-color: #FFBB00 !important;
+    color: #121212;
+}
+
+.testModeMessage a {
+    color: #121212;
+}
+
+.testModeMessage i {
+    color: #000000;
+}
+
+.border-rounded {
+    background-color: #303030;
+}
+
+.dropdown-toggle::after {
+    color: #FFBB00;
+}
+
+.textColor {
+    color: #FFFFFF;
+}
+
+#layout-navbar, .layout-footer {
+    background-color: #303030 !important;
+}
+
+.buttonColor {
+    background-color: #121212;
+    border-color: #FFBB00;
+}
+
+.buttonColor:hover, .buttonColor:focus {
+    background-color: #FFBB00 !important;
+    border-color: #FFBB00 !important;
+    color: #121212 !important;
+}
+
+.card {
+    border: none;
+    background-color: transparent;
+}
+
+.cardHeader {
+    background-color: #303030 !important;
+}
+
+.cardContent {
+    background-color: #303030 !important;
+}
+
+.card-header, .card-body, .card-footer, .li {
+    background-color: #1A1A1A;
+}
+
+.borderTop {
+    border-top: 1px solid #888888;
+}
+
+.btn-outline-danger {
+    color: #FFBB00;
+    border-color: #FFBB00;
+}
+
+.btn-outline-danger:hover, .btn-outline-danger:focus {
+    background-color: #FFBB00 !important;
+    border-color: #FFBB00 !important;
+    color: #121212 !important;
+}
+
+.breadcrumb {
+    background-color: #121212;
+}
+
+.breadcrumb-item, .active {
+    color: #FFFFFF !important;
+}
+
+.introjs-tooltip {
+    background-color: #303030;
+    /*color: #353535;*/
+}
+
+th {
+    background-color: #303030;
+    color: #FFFFFF;
+}
+
+th > a, th > a:hover {
+    color: #FFFFFF;
+}
+
+.fa-info-circle {
+    color: #67A0E8;
+}
+
+.empty {
+    background-color: #ECF4FB;
+    color: #000000;
+}
+
+tr {
+    border-color: #BFC7D3 !important;
+}
+
+.table-striped tbody tr:nth-of-type(2n+1) {
+    background-color: #1A1A1A;
+}
+
+.table-striped tbody tr:nth-of-type(2n) {
+    background-color: #202020;
+}
+
+input, select, textarea, #country-listbox {
+    background-color: #1A1A1A !important;
+    color: #FFFFFF !important;
+}
+
+.fa-times-square {
+    color: #D56A59;
+}
+
+.fa-check-square {
+    color: #B1E541;
+}
+
+table {
+    color: #FFFFFF !important;
+}
+
+svg {
+    color: #FFBB00;
+}
+
+.form-control {
+    border-color: #888888 !important;
+}
+
+a, a:hover, a:focus {
+    color: #FFBB00;
+}
+
+.summary {
+    color: #656565;
+}
+
+.dropdown-menu, .modal-body {
+    background-color: #303030;
+}
+
+.dropdown-menu > a, .switcher-label, .logout {
+    color: #FFFFFF;
+}
+
+div.card-body > div.layout-sidenav > ul > li.sidenav-item {
+    border: 1px solid #FFBB00;
+}
+
+div.card-body > div.layout-sidenav > ul > li.sidenav-item:hover {
+    background-color: #FFBB00;
+}
+
+div.card-body > div.layout-sidenav > ul > li > a.sidenav-link {
+    color: #FFFFFF;
+}
+
+div.card-body > div.layout-sidenav > ul > li > a.sidenav-link:hover {
+    color: #FFFFFF;
+}
+
+.btn-outline-dark {
+    border-color: #FFBB00;
+    color: #FFBB00;
+}
+
+.btn-outline-dark:hover {
+    background-color: #FFBB00;
+    color: #000000;
+    border-color: #FFBB00;
+}
+
+.bootstrap-tagsinput {
+    background-color: #1A1A1A !important;
+    border-color: #888888 !important;
+}
+
+.badge-warning {
+    color: #000000;
+}
+
+.poppinsStrong {
+    color: #FFFFFF;
+}
+
+.aNotCss, .aNotCss:hover {
+    color: #FFFFFF !important;
+}
+
+.modal-header {
+    background-color: #121212;
+}
+
+.redColor {
+    color: #D56A59;
+}
+
+.greenColor {
+    color: #B1E541;
+}
+
+.backgroundTestModeQuickPayment {
+    background-color: #FFBB00;
+    color: #121212;
+}
+
+.borderTop2 {
+    border-top: 1px solid #121212;
+}
+
+a.btn.float-right {
+    color: #FFBB00;
+}
+
+.no-activated2 {
+    background-color: #303030;
+}
+
+.activated2 {
+    background-color: #FFBB00;
+}
+
+div.card-body > div.row > div.col-md-6 > form > div.form-group > div.iti--allow-dropdown > input {
+    background-color: #303030 !important;
+}
+
+.badge-outline-dark {
+    background-color: #121212;
+    color: #FFFFFF;
+}
+
+.border-info2 {
+    border: 1px solid #FFBB00;
+}
+
+.color-link {
+    color: #FFBB00 !important;
+}
+
+.color-link:hover {
+    color: #000000 !important;
+}
+
+.ui-icon {
+    border-color: transparent !important;
+}
+
+#ui-datepicker-div {
+    background-color: #888888;
+}
+
+.ui-datepicker-header {
+    border: solid 1px #000000;
+    background-color: #303030;
+    color: #FFFFFF;
+}
+
+.black {
+    color: #000000 !important;
+}
+
+.apexcharts-menu {
+    background: #303030 !important;
+}
+
+.apexcharts-menu-item:hover {
+    background: #888888 !important;
+}
+
+.trEmpty {
+    background-color: #303030 !important;
+    border-top: none !important;
+
+}
