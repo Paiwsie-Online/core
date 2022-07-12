@@ -13,7 +13,11 @@ use yii\helpers\Url;
 
 <h4 class="text-center text-lighter font-weight-normal mt-5 mb-5"><?=Yii::t('core_system', 'Sign in to Your Account')?></h4>
 <?php
-$form = ActiveForm::begin(['id' => 'login-form']); ?>
+$form = ActiveForm::begin([
+    'enableAjaxValidation' => true,
+    'enableClientValidation' => true,
+]);
+?>
 <?= $form->field($model, 'email')->textInput(['autofocus' => false]) ?>
 <?= $form->field($model, 'password')->passwordInput() ?>
 <div class="form-group row">
