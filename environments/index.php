@@ -82,6 +82,7 @@ return [
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
+            'common/config/codeception-local.php',
             'api/config/main-local.php',
         ],
     ],
@@ -99,6 +100,7 @@ return [
         ],
         'setCookieValidationKey' => [
             'backend/config/main.php',
+            'common/config/main.php',
             'api/config/main.php',
         ],
     ],
