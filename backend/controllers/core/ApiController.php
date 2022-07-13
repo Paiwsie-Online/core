@@ -103,7 +103,7 @@ class ApiController extends BaseController {
                     }
                     $picture = new Picture();
                     $picture->uri = '/uploads/profilePictures/'.$imgName;
-                    $picture->uploaded_by = $user->id;
+                    //$picture->uploaded_by = $user->id;
                     $picture->save();
 
                     $userSetting = new UserSetting();

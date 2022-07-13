@@ -227,7 +227,7 @@ class OrganizationSettingController extends BaseController {
                         $files = Picture::findOne(['id' => $value['organization_logo']]);
                     }
                     $files->uri = '/uploads/organizationLogo/' . $date . '_' . $fileName . '.' . $file->extension;
-                    $files->uploaded_by = Yii::$app->user->identity->id;
+                    //$files->uploaded_by = Yii::$app->user->identity->id;
                     $files->save();
                 }
                 $organization_logo = $files->id;

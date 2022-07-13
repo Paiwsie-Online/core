@@ -191,7 +191,7 @@ class UserController extends BaseController {
                 $model->cid = md5(($model->email . uniqid('', true)));
                 $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->temp_password);
             }
-            $model->registered = $this->systemTime;
+            //$model->registered = $this->systemTime;
             $model->auth_key = \Yii::$app->security->generateRandomString();
             $model->access_token = \Yii::$app->security->generateRandomString();
             $model->instance = \Yii::$app->params['default_site_settings']['instance'];

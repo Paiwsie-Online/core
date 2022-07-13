@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * @property int $loginID
@@ -32,6 +35,17 @@ class UserSession extends \yii\db\ActiveRecord {
         ];
     }
 
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['sessionTime'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+        ];
+    }
     public function attributeLabels() {
         return [
             'loginID' => Yii::t('core_model', 'Login ID'),

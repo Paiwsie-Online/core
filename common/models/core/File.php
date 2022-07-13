@@ -41,7 +41,6 @@ class File extends \yii\db\ActiveRecord {
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded'],
                 ],
-                'value' => Yii::$app->uiComponent->getsystemTime(),
             ],
         ];
     }

@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -45,6 +48,25 @@ class Organization extends \yii\db\ActiveRecord {
             [['tax_number'], 'string', 'max' => 64],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['created', 'kyc', 'kyc_status_changed', 'legal_name'], 'safe'],
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
         ];
     }
 

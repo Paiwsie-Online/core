@@ -91,7 +91,7 @@ class OrganizationUserRelationController extends BaseController {
             if (!isset($organizationUserRelation)) {
                 $model->organization_id = $id;
                 $model->user_id = null;
-                $model->added_by = Yii::$app->user->identity->id;
+                //$model->added_by = Yii::$app->user->identity->id;
                 $model->selected_organization = 0;
                 if ($model->save()) {
                     $parentModel->cid = md5(($email . uniqid('', true)));
@@ -201,7 +201,7 @@ class OrganizationUserRelationController extends BaseController {
                         $cUUR = new OrganizationUsergroupUserRelation();
                         $cUUR->ou_relation_id = $model->id;
                         $cUUR->group_id = $userGroup;
-                        $cUUR->added_by = $model->added_by;
+                        //$cUUR->added_by = $model->added_by;
                         $cUUR->save();
                     }
                 }

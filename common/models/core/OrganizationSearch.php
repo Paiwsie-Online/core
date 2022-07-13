@@ -65,8 +65,8 @@ class OrganizationSearch extends Organization {
             ->andFilterWhere(['like', 'organization.created_by', $this->created_by])
             ->andFilterWhere(['like', 'organization.created', $this->created])
             ->andFilterWhere(['like', 'concat(user.first_name,SPACE(1),user.last_name)', $this->created_by_full_name]);
-        $query->andFilterWhere(['>=', 'organization.created', $this->createdStart])
-            ->andFilterWhere(['<', 'organization.created', date('Y-m-d H:i:s', strtotime($this->createdEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'organization.created', strtotime($this->createdStart)])
+            ->andFilterWhere(['<', 'organization.created', strtotime($this->createdEnd . "+ 1 day")]);
         return $dataProvider;
     }
 

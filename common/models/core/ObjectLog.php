@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "object_log".
@@ -40,6 +43,26 @@ class ObjectLog extends \yii\db\ActiveRecord
             [['value'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['data'], 'string', 'max' => 128],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['uploaded_by'],
+                ],
+            ],
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['uploaded_at'],
+                ],
+            ],
         ];
     }
 

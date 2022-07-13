@@ -6,7 +6,10 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\bootstrap4\Html;
+use yii\db\ActiveRecord;
 use yii\jui\DatePicker;
 
 /**
@@ -35,6 +38,25 @@ class ApiKey extends \yii\db\ActiveRecord {
 
     public static function tableName() {
         return 'api_key';
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+        ];
     }
 
     public function rules() {

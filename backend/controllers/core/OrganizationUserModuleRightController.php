@@ -147,8 +147,8 @@ class OrganizationUserModuleRightController extends BaseController {
             $systemLog->data_format = json_encode($dataFormat);
             $systemLog->save();
         }
-        $moduleRights->rights_given = $this->systemTime;
-        $moduleRights->rights_given_by = Yii::$app->user->identity->id;
+        //$moduleRights->rights_given = $this->systemTime;
+        //$moduleRights->rights_given_by = Yii::$app->user->identity->id;
         if (!$moduleRights->save()) {
             Yii::$app->session->setFlash('danger', Yii::t('core_system', 'Something went wrong, please try again!'));
         }
@@ -168,8 +168,8 @@ class OrganizationUserModuleRightController extends BaseController {
         $moduleRights->right_read = 2;
         $moduleRights->right_update = 2;
         $moduleRights->right_delete = 2;
-        $moduleRights->rights_given = $this->systemTime;
-        $moduleRights->rights_given_by = Yii::$app->user->identity->id;
+        //$moduleRights->rights_given = $this->systemTime;
+        //$moduleRights->rights_given_by = Yii::$app->user->identity->id;
         $systemLog = new SystemLog();
         $systemLog->user_id = Yii::$app->user->identity->id;
         $systemLog->organization_id = Yii::$app->user->identity->selectedOrganization->id;

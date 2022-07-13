@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * @property int $id
@@ -28,6 +31,24 @@ class OrganizationUsergroup extends \yii\db\ActiveRecord {
         return 'organization_usergroup';
     }
 
+    public function behaviors() {
+        return [
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+        ];
+    }
     public function rules() {
         return [
             [['name'], 'required'],

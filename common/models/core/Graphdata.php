@@ -43,14 +43,15 @@ class Graphdata extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['uploaded_by'],
                 ],
             ],
             [
                 'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['uploaded_at'],
                 ],
-                'value' => Yii::$app->uiComponent->getsystemTime(),
             ],
         ];
     }
