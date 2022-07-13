@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * @property int $id
@@ -28,6 +31,18 @@ class SystemLog extends \yii\db\ActiveRecord {
 
     public static function tableName() {
         return 'system_log';
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['log_time'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+        ];
     }
 
     public function rules() {

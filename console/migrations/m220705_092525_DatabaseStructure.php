@@ -22,7 +22,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'key'=> $this->string(128)->notNull(),
             'instance'=> $this->string(64)->null()->defaultValue(null),
             'organization_id'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'created'=> $this->integer(11)->notNull(),
             'created_by'=> $this->integer(11)->null()->defaultValue(null),
             'key_config'=> $this->text()->null()->defaultValue(null),
             'expiry_date'=> $this->date()->null()->defaultValue(null),
@@ -38,10 +38,10 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'name'=> $this->string(256)->notNull(),
             'tax_number'=> $this->string(64)->null()->defaultValue(null),
             'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->timestamp()->null()->defaultExpression("CURRENT_TIMESTAMP"),
+            'created'=> $this->integer(11)->notNull(),
             'instance'=> $this->string(128)->null()->defaultValue(null),
             'kyc'=> "enum('none', 'inProgress', 'pending', 'approved', 'denied', 'awaitingMoreInfo') NOT NULL DEFAULT 'none'",
-            'kyc_status_changed'=> $this->timestamp()->null()->defaultValue(null),
+            'kyc_status_changed'=> $this->integer(11)->null()->defaultValue(null),
             'legal_name'=> $this->string(256)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -55,7 +55,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(4)->notNull(),
             'right_update'=> $this->tinyInteger(4)->notNull(),
             'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -72,7 +72,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -85,7 +85,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'parent_organization'=> $this->integer(11)->notNull(),
             'child_organization'=> $this->integer(11)->notNull(),
             'added_by'=> $this->integer(11)->null()->defaultValue(null),
-            'added_time'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'added_time'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('parent_organization','{{%organization_organization_relation}}',['parent_organization','child_organization','added_by'],false);
@@ -101,7 +101,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -125,7 +125,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
             'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -158,7 +158,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
             'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
             'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -173,9 +173,9 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'title'=> $this->string(128)->null()->defaultValue(null),
             'added_by'=> $this->integer(11)->null()->defaultValue(null),
             'user_level'=> "enum('owner', 'admin', 'user') NOT NULL DEFAULT 'user'",
-            'added'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'added'=> $this->integer(11)->notNull(),
             'status'=> "enum('pending', 'accepted', 'declined') NOT NULL DEFAULT 'pending'",
-            'status_changed'=> $this->timestamp()->null()->defaultValue(null),
+            'status_changed'=> $this->integer(11)->null()->defaultValue(null),
             'selected_organization'=> $this->tinyInteger(3)->null()->defaultValue(0),
         ], $tableOptions);
 
@@ -199,7 +199,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'organization_id'=> $this->integer(11)->notNull(),
             'name'=> $this->string(128)->notNull(),
             'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'created'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('organization_id','{{%organization_usergroup}}',['organization_id','created_by'],false);
@@ -210,7 +210,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'ou_relation_id'=> $this->integer(11)->notNull(),
             'group_id'=> $this->integer(11)->notNull(),
             'added_by'=> $this->integer(11)->null()->defaultValue(null),
-            'added'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'added'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('ou_relation_id','{{%organization_usergroup_user_relation}}',['ou_relation_id','group_id','added_by'],false);
@@ -229,8 +229,8 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
         $this->createTable('{{%cronjob_log}}',[
             'id'=> $this->primaryKey(11),
             'cronjob_id'=> $this->string(128)->notNull(),
-            'started'=> $this->timestamp()->notNull(),
-            'ended'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'started'=> $this->integer(11)->notNull(),
+            'ended'=> $this->integer(11)->notNull(),
             'data'=> $this->text()->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -249,7 +249,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'id'=> $this->primaryKey(11),
             'uri'=> $this->string(512)->notNull(),
             'uploaded_by'=> $this->integer(11)->null()->defaultValue(null),
-            'uploaded'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'uploaded'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('file_ibfk_1','{{%file}}',['uploaded_by'],false);
@@ -261,10 +261,10 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'property'=> $this->string(128)->notNull(),
             'value'=> $this->text()->null()->defaultValue(null),
             'unit'=> $this->string(128)->null()->defaultValue(null),
-            'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created_at'=> $this->timestamp()->null(),
-            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
-            'updated_at'=> $this->timestamp()->null(),
+            'created_by'=> $this->integer(11)->null(),
+            'created_at'=> $this->integer(11)->null(),
+            'updated_by'=> $this->integer(11)->null(),
+            'updated_at'=> $this->integer(11)->null(),
         ], $tableOptions);
 
         $this->createTable('{{%language}}',[
@@ -329,9 +329,9 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'data'=> $this->string(128)->notNull(),
             'value'=> $this->text()->null()->defaultValue(null),
             'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created_at'=> $this->timestamp()->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
             'updated_by'=> $this->integer(11)->null()->defaultValue(null),
-            'updated_at'=> $this->timestamp()->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createTable('{{%object_participant}}',[
@@ -346,7 +346,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'id'=> $this->primaryKey(11),
             'uri'=> $this->string(512)->notNull(),
             'uploaded_by'=> $this->integer(11)->null()->defaultValue(null),
-            'uploaded'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'uploaded'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('uploaded_by','{{%picture}}',['uploaded_by'],false);
@@ -359,7 +359,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(4)->notNull(),
             'right_update'=> $this->tinyInteger(4)->notNull(),
             'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -383,7 +383,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'message_short'=> $this->string(512)->null()->defaultValue(null),
             'message'=> $this->text()->null()->defaultValue(null),
             'data_format'=> $this->text()->null()->defaultValue(null),
-            'log_time'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'log_time'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('user_id','{{%system_log}}',['user_id','organization_id'],false);
@@ -404,7 +404,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(4)->notNull(),
             'right_update'=> $this->tinyInteger(4)->notNull(),
             'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'rights_given'=> $this->integer(11)->notNull(),
             'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
@@ -423,7 +423,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'password'=> $this->string(512)->null()->defaultValue(null),
             'cid'=> $this->string(45)->notNull(),
             'status'=> "enum('registered', 'verified', 'blocked', '') NOT NULL DEFAULT 'registered'",
-            'registered'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'registered'=> $this->integer(11)->notNull(),
             'auth_key'=> $this->string(128)->notNull(),
             'access_token'=> $this->string(128)->notNull(),
             'instance'=> $this->string(128)->null()->defaultValue(null),
@@ -436,7 +436,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'id'=> $this->primaryKey(11),
             'user_id'=> $this->integer(11)->notNull(),
             'ip'=> $this->string(64)->null()->defaultValue(null),
-            'logged'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'logged'=> $this->integer(11)->notNull(),
             'expire'=> $this->integer(11)->null()->defaultValue(null),
             'session_id'=> $this->string(64)->null()->defaultValue(null),
             'session_logged'=> $this->integer(11)->null()->defaultValue(null),
@@ -448,7 +448,7 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'loginID'=> $this->primaryKey(11),
             'sessionID'=> $this->string(255)->notNull(),
             'uID'=> $this->integer(11)->notNull(),
-            'sessionTime'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+            'sessionTime'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('uID','{{%user_session}}',['uID'],false);

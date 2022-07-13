@@ -155,7 +155,7 @@ class ApiKeyController extends BaseController {
             $model->key_type = 'instance';
             $model->key = \Yii::$app->security->generateRandomString();
             $model->instance = Yii::$app->user->identity->instance;
-            $model->created_by = Yii::$app->user->identity->id;
+            //$model->created_by = Yii::$app->user->identity->id;
             if ($model->expiry_date === '') {
                 $model->expiry_date = null;
             }
@@ -175,7 +175,7 @@ class ApiKeyController extends BaseController {
                         $siteAdminApiKey->right_update = 1;
                         $siteAdminApiKey->right_delete = 1;
                     }
-                    $siteAdminApiKey->rights_given_by = Yii::$app->user->identity->id;
+                    //$siteAdminApiKey->rights_given_by = Yii::$app->user->identity->id;
                     $siteAdminApiKey->save();
                 }
                 $systemLog = new SystemLog();
@@ -364,7 +364,7 @@ class ApiKeyController extends BaseController {
             $model->key = \Yii::$app->security->generateRandomString();
             $model->instance = Yii::$app->user->identity->instance;
             $model->organization_id = Yii::$app->user->identity->selectedOrganization->id;
-            $model->created_by = Yii::$app->user->identity->id;
+            //$model->created_by = Yii::$app->user->identity->id;
             if ($model->expiry_date === '') {
                 $model->expiry_date = null;
             }
@@ -379,7 +379,7 @@ class ApiKeyController extends BaseController {
                     $organizationApiKey->right_read = 0;
                     $organizationApiKey->right_update = 0;
                     $organizationApiKey->right_delete = 0;
-                    $organizationApiKey->rights_given_by = Yii::$app->user->identity->id;
+                    //$organizationApiKey->rights_given_by = Yii::$app->user->identity->id;
                     $organizationApiKey->save();
                 }
                 $systemLog = new SystemLog();

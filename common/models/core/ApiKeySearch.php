@@ -55,8 +55,8 @@ class ApiKeySearch extends ApiKey {
             ->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'expiry_date', $this->expiry_date])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->created_by_full_name]);
-        $query->andFilterWhere(['>=', 'created', $this->createdStart])
-            ->andFilterWhere(['<', 'created', date('Y-m-d H:i:s', strtotime($this->createdEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'created', strtotime($this->createdStart)])
+            ->andFilterWhere(['<', 'created', strtotime($this->createdEnd . "+ 1 day")]);
         return $dataProvider;
     }
 
@@ -86,8 +86,8 @@ class ApiKeySearch extends ApiKey {
             ->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'expiry_date', $this->expiry_date])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->created_by_full_name]);
-        $query->andFilterWhere(['>=', 'created', $this->createdStart])
-            ->andFilterWhere(['<', 'created', date('Y-m-d H:i:s', strtotime($this->createdEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'created', strtotime($this->createdStart)])
+            ->andFilterWhere(['<', 'created', strtotime($this->createdEnd . "+ 1 day")]);
         return $dataProvider;
     }
 

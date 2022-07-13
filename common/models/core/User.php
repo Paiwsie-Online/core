@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\NotAcceptableHttpException;
 use yii\web\NotFoundHttpException;
@@ -62,6 +65,18 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
     public static function tableName() {
         return 'user';
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['registered'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+        ];
     }
 
     public function fields() {
@@ -562,7 +577,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
                 $newRelation->organization_id = $secondRelation->organization_id;
                 $newRelation->user_id = $secondRelation->user_id;
                 $newRelation->title = $secondRelation->title;
-                $newRelation->added_by = $secondRelation->added_by;
+                //$newRelation->added_by = $secondRelation->added_by;
                 // Compare user levels
                 if ($cur->user_level === 'owner' || $secondRelation->user_level === 'owner') {
                     $newRelation->user_level = 'owner';

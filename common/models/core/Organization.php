@@ -6,6 +6,9 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -17,6 +20,7 @@ use yii\helpers\ArrayHelper;
  * @property string $instance
  * @property string $kyc
  * @property string $kyc_status_changed
+ * @property string $model
 
  * @property User $createdBy
  * @property OrganizationOrganizationRelation[] $organizationOrganizationRelations
@@ -41,10 +45,30 @@ class Organization extends \yii\db\ActiveRecord {
             [['name'], 'required'],
             [['created_by'], 'integer'],
             [['name'], 'string', 'max' => 256],
+            [['model'], 'string', 'max' => 512],
             [['instance'], 'string', 'max' => 126],
             [['tax_number'], 'string', 'max' => 64],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['created', 'kyc', 'kyc_status_changed', 'legal_name'], 'safe'],
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => BlameableBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+            ],
         ];
     }
 
@@ -60,6 +84,7 @@ class Organization extends \yii\db\ActiveRecord {
             'created_by_full_name'  =>  Yii::t('core_model', 'Created By'),
             'kyc'   =>  Yii::t('core_model', 'kyc'),
             'kyc_status_changed' => Yii::t('core_model', 'kyc status changed'),
+            'model' => Yii::t('core_model', 'model'),
         ];
     }
 

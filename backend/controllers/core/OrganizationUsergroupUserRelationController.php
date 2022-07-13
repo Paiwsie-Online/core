@@ -91,7 +91,7 @@ class OrganizationUsergroupUserRelationController extends BaseController {
         $parentModel = OrganizationUserRelation::findOne($id);
         if ($model->load(Yii::$app->request->post())) {
             $model->ou_relation_id = $parentModel->id;
-            $model->added_by = Yii::$app->user->identity->id;
+            //$model->added_by = Yii::$app->user->identity->id;
             if (!OrganizationUsergroupUserRelation::find()->where(['ou_relation_id' => $model->ou_relation_id, 'group_id' => $model->group_id])->one()) {
                 if ($model->save()) {
                     $user = OrganizationUserRelation::find()->where(['id' => $model->ou_relation_id])->one();

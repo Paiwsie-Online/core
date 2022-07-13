@@ -32,14 +32,15 @@ class Picture extends \yii\db\ActiveRecord {
                 'class' => BlameableBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded_by'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
                 ],
             ],
             [
                 'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
                 ],
-                'value' => Yii::$app->uiComponent->getsystemTime(),
             ],
         ];
     }

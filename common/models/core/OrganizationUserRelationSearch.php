@@ -112,8 +112,8 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
             ->andFilterWhere(['like', 'status_changed', $this->status_changed])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->user_full_name])
             ->andFilterWhere(['like', 'concat(u2.first_name,SPACE(1),u2.last_name)', $this->added_by_full_name]);
-        $query->andFilterWhere(['>=', 'added', $this->addedStart])
-            ->andFilterWhere(['<', 'added', date('Y-m-d H:i:s', strtotime($this->addedEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'added', strtotime($this->addedStart)])
+            ->andFilterWhere(['<', 'added', strtotime($this->addedEnd . "+ 1 day")]);
         return $dataProvider;
     }
 

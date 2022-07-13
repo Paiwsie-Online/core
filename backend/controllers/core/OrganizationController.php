@@ -157,7 +157,7 @@ class OrganizationController extends BaseController {
     // CREATE ORGANIZATION PAGE
     public function actionRegisterOrganization() {
         $model = new Organization();
-        $model->created_by = Yii::$app->user->identity->id;
+        //$model->created_by = Yii::$app->user->identity->id;
         $model->instance = \Yii::$app->params['default_site_settings']['instance'];
         if ($model->load(Yii::$app->request->post())) {
             $model->legal_name = $model->name;
@@ -166,7 +166,7 @@ class OrganizationController extends BaseController {
             $organizationUserRelation->organization_id = $model->id;
             $organizationUserRelation->user_id = Yii::$app->user->identity->id;
             $organizationUserRelation->title = 'Owner';
-            $organizationUserRelation->added_by = Yii::$app->user->identity->id;
+            //$organizationUserRelation->added_by = Yii::$app->user->identity->id;
             $organizationUserRelation->user_level = 'owner';
             $organizationUserRelation->status = 'accepted';
             $organizationUserRelation->status_changed = $this->systemTime;

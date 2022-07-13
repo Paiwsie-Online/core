@@ -63,8 +63,8 @@ class UserSearch extends User {
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'registered', $this->registered])
             ->andFilterWhere(['like', 'concat(first_name,SPACE(1),last_name)', $this->full_name]);
-        $query->andFilterWhere(['>=', 'registered', $this->registeredStart])
-            ->andFilterWhere(['<', 'registered', date('Y-m-d H:i:s', strtotime($this->registeredEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'registered', strtotime($this->registeredStart)])
+            ->andFilterWhere(['<', 'registered', strtotime($this->registeredEnd . "+ 1 day")]);
         return $dataProvider;
     }
 
@@ -97,8 +97,8 @@ class UserSearch extends User {
         $query->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'concat(first_name,SPACE(1),last_name)', $this->full_name]);
-        $query->andFilterWhere(['>=', 'registered', $this->registeredStart])
-            ->andFilterWhere(['<', 'registered', date('Y-m-d H:i:s', strtotime($this->registeredEnd . "+ 1 day"))]);
+        $query->andFilterWhere(['>=', 'registered', strtotime($this->registeredStart)])
+            ->andFilterWhere(['<', 'registered', strtotime($this->registeredEnd . "+ 1 day")]);
         return $dataProvider;
     }
 
