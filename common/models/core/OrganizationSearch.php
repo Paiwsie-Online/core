@@ -18,7 +18,7 @@ class OrganizationSearch extends Organization {
     public function rules() {
         return [
             [['id', 'created_by'], 'integer'],
-            [['created_by_full_name', 'name', 'tax_number', 'instance', 'created', 'createdStart', 'createdEnd'], 'safe'],
+            [['created_by_full_name', 'name', 'tax_number', 'instance', 'created', 'createdStart', 'createdEnd', 'model'], 'safe'],
         ];
     }
 
@@ -31,9 +31,9 @@ class OrganizationSearch extends Organization {
         //$query = Organization::find();
         $query = Organization::find()->select(['organization.*', 'concat(user.first_name,SPACE(1),user.last_name) as created_by_full_name'])->leftJoin('user', 'user.id=organization.created_by');
         // add conditions that should always apply here
-        $query->orderBy('name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['organization.name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
@@ -43,7 +43,8 @@ class OrganizationSearch extends Organization {
                 'created_by',
                 'created',
                 'instance',
-                'created_by_full_name'
+                'created_by_full_name',
+                'model',
             ]
         ]);
         $this->load($params);
@@ -73,9 +74,9 @@ class OrganizationSearch extends Organization {
     public function searchAffiliates($params) {
         $queryAffiliates = OrganizationModuleRelation::find()->select(['organization_id'])->where(['module_id' => 'affiliate']);
         $query = Organization::find()->select(['organization.*'])->leftJoin(['sq' => $queryAffiliates], 'sq.organization_id=organization.id')->where('sq.organization_id=organization.id');
-        $query->orderBy('name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['organization.name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
