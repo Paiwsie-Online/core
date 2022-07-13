@@ -27,6 +27,7 @@ use yii\helpers\ArrayHelper;
  * @property OrganizationOrganizationRelation[] $organizationOrganizationRelations0
  * @property OrganizationModuleRelation[] $organizationModuleRelations
  * @property Module[] $modules
+ * @property OrganizationDetail[] $details
  * @property OrganizationUserRelation[] $organizationUserRelations
  * @property OrganizationUsergroup[] $organizationUsergroups
  * @property SystemLog[] $systemLogs
@@ -111,6 +112,11 @@ class Organization extends \yii\db\ActiveRecord {
     // GET MODULE MODEL
     public function getModules() {
         return $this->hasMany(Module::className(), ['id' => 'module_id'])->viaTable('organization_module_relation', ['organization_id' => 'id']);
+    }
+
+    // GET ORGANIZATION DETAILS
+    public function getDetails() {
+        return $this->hasMany(OrganizationDetail::className(), ['organization_id' => 'id']);
     }
 
     // GET ORGANIZATION USER RELATIONS MODEL
