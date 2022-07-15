@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 class OrganizationUserRelationController extends core\OrganizationUserRelationController
 {
 
-    public function actionInvite($id = null) {
+   /* public function actionInvite($id = null) {
         if (!isset($id)) {
             $id = Yii::$app->user->identity->selectedOrganization->id;
         }
@@ -104,6 +104,6 @@ class OrganizationUserRelationController extends core\OrganizationUserRelationCo
             ->setHtmlBody($message)
             ->send();
         return 'OK';
-    }
+    }*/
 
 }
