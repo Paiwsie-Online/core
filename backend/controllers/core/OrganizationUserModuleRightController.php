@@ -110,24 +110,24 @@ class OrganizationUserModuleRightController extends BaseController {
             if ($value === 1) {
                 $moduleRights->right_read = 1;
                 if ($right !== 'create') {
-                    $moduleRights->right_create = ($moduleRights->cuRelation->user->hasAccess($module_id, 'create', false) ? 1 : 0);
+                    $moduleRights->right_create = ($moduleRights->ouRelation->user->hasAccess($module_id, 'create', false) ? 1 : 0);
                 }
                 if ($right !== 'update') {
-                    $moduleRights->right_update = ($moduleRights->cuRelation->user->hasAccess($module_id, 'update', false) ? 1 : 0);
+                    $moduleRights->right_update = ($moduleRights->ouRelation->user->hasAccess($module_id, 'update', false) ? 1 : 0);
                 }
                 if ($right !== 'delete') {
-                    $moduleRights->right_delete = ($moduleRights->cuRelation->user->hasAccess($module_id, 'delete', false) ? 1 : 0);
+                    $moduleRights->right_delete = ($moduleRights->ouRelation->user->hasAccess($module_id, 'delete', false) ? 1 : 0);
                 }
             }
             if ($value === 0) {
                 if ($right !== 'create') {
-                    $moduleRights->right_create = ($moduleRights->cuRelation->user->hasAccess($module_id, 'create', false) ? 1 : 0);
+                    $moduleRights->right_create = ($moduleRights->ouRelation->user->hasAccess($module_id, 'create', false) ? 1 : 0);
                 }
                 if ($right !== 'update') {
-                    $moduleRights->right_update = ($moduleRights->cuRelation->user->hasAccess($module_id, 'update', false) ? 1 : 0);
+                    $moduleRights->right_update = ($moduleRights->ouRelation->user->hasAccess($module_id, 'update', false) ? 1 : 0);
                 }
                 if ($right !== 'delete') {
-                    $moduleRights->right_delete = ($moduleRights->cuRelation->user->hasAccess($module_id, 'delete', false) ? 1 : 0);
+                    $moduleRights->right_delete = ($moduleRights->ouRelation->user->hasAccess($module_id, 'delete', false) ? 1 : 0);
                 }
             }
             $systemLog = new SystemLog();

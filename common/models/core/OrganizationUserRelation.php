@@ -33,6 +33,8 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
 
     public $user_full_name;
     public $added_by_full_name;
+    public $sent_to_email;
+    public $sent_to_mobile;
 
     public static function tableName() {
         return 'organization_user_relation';
@@ -44,14 +46,14 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
                 'class' => BlameableBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['added_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['user_id'],
                 ],
             ],
             [
                 'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['added'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['status_changed'],
                 ],
             ],
         ];

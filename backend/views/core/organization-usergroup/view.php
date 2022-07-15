@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $added_byOu_relation_id = OrganizationUserRelation::find()->where(['organization_id' => $model->organization_id, 'user_id' => $user->added_by])->one();
                         ?>
                         <tr>
-                            <td><a href="/organization-user-relation/view?id=<?=$user->ou_relation_id?>"><?= User::getUserName($user->cuRelation->user->id) ?></a></td>
+                            <td><a href="/organization-user-relation/view?id=<?=$user->ou_relation_id?>"><?= User::getUserName($user->ouRelation->user->id) ?></a></td>
                             <td><?=($added_byOu_relation_id ? /*'<a href="/organization-user-relation/view?id=' . $added_byOu_relation_id->id . '">' .*/ User::getUserName($user->added_by) /*. '</a>'*/ : User::getUserName($user->added_by)) ?></td>
                             <td><?= Yii::$app->formatter->asDatetime($user->added, 'php:Y-m-d H:i') ?></td>
                             <td class="text-right"><?= Html::a(Yii::t('core_system', 'Delete'), ['/organization-usergroup-user-relation/delete', 'id' => $user->id], [

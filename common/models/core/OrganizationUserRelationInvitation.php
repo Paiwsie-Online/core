@@ -15,10 +15,13 @@ use Yii;
  * @property int|null $our_id
  * @property string|null $invite_params
 
- * @property OrganizationUserRelation $cur
+ * @property OrganizationUserRelation $our
  */
 
 class OrganizationUserRelationInvitation extends \yii\db\ActiveRecord {
+
+    public $sent_to_email;
+    public $sent_to_mobile;
 
     public static function tableName() {
         return 'organization_user_relation_invitation';
@@ -26,11 +29,21 @@ class OrganizationUserRelationInvitation extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['sent_to'], 'required'],
-            [['sent_to'], 'email','message' => Yii::t('core_system', 'The email is not the correct format')],
+            [['sent_to', 'sent_via'], 'required'],
             [['sent_via'], 'string'],
             [['our_id'], 'integer'],
-            [['sent_to'], 'string', 'max' => 256],
+            ['sent_to_email', 'required', 'when' => function($model){
+                return $model->sent_via === 'email' && !isset($model->sent_to);
+            }, 'whenClient' => "function (attribute, value){
+                return $('#organizationuserrelationinvitation-sent_via').val() === 'email'
+            }"],
+            ['sent_to_mobile', 'required', 'when' => function($model){
+                return $model->sent_via === 'sms' && !isset($model->sent_to);
+            }, 'whenClient' => "function (attribute, value){
+                return $('#organizationuserrelationinvitation-sent_via').val() === 'sms'
+            }"],
+            [['sent_to_email'], 'email','message' => Yii::t('core_system', 'The email is not the correct format')],
+            [['sent_to_mobile'], 'number'],
             [['cid'], 'string', 'max' => 45],
             [['invite_params'], 'string'],
             [['our_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationUserRelation::className(), 'targetAttribute' => ['our_id' => 'id']],
@@ -48,7 +61,7 @@ class OrganizationUserRelationInvitation extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getCur() {
+    public function getOur() {
         return $this->hasOne(OrganizationUserRelation::className(), ['id' => 'our_id']);
     }
 
@@ -59,4 +72,11 @@ class OrganizationUserRelationInvitation extends \yii\db\ActiveRecord {
         ];
     }
 
+    // RETURN ARRAY FOR SENT VIA DROPDOWN
+    public static function getSentVia() {
+        return [
+            'email' => Yii::t('quick_payment', 'Email'),
+            'sms' => Yii::t('company_user_relation_invitation', 'Sms'),
+        ];
+    }
 }

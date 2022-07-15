@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property int|null $added_by
  * @property string $added
 
- * @property OrganizationUserRelation $cuRelation
+ * @property OrganizationUserRelation $ouRelation
  * @property OrganizationUsergroup $group
  * @property User $addedBy
  */
@@ -66,7 +66,7 @@ class OrganizationUsergroupUserRelation extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getCuRelation() {
+    public function getOuRelation() {
         return $this->hasOne(OrganizationUserRelation::className(), ['id' => 'ou_relation_id']);
     }
 
