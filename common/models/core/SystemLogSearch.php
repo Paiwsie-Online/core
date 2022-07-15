@@ -30,9 +30,9 @@ class SystemLogSearch extends SystemLog {
         //$query = SystemLog::find();
         $query = SystemLog::find()->select(['system_log.*', 'c.name as organization_name', 'concat(u.first_name,SPACE(1),u.last_name) as user_name'])->leftJoin('organization c', 'c.id=system_log.organization_id')->leftJoin('user u', 'u.id=system_log.user_id');
         // add conditions that should always apply here
-        $query->orderBy('id DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['system_log.id' => SORT_DESC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [

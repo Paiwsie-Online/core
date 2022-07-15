@@ -32,9 +32,9 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
         //$query = OrganizationUserRelation::find();
         $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=added_by');
         // add conditions that should always apply here
-        $query->orderBy('user_full_name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['user_full_name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
@@ -77,9 +77,9 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
         //$query = OrganizationUserRelation::find();
         $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=added_by');
         // add conditions that should always apply here
-        $query->orderBy('user_full_name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['organization_user_relation.user_full_name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [

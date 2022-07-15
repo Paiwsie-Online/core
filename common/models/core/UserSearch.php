@@ -30,9 +30,9 @@ class UserSearch extends User {
     // INDEX PAGE
     public function search($params) {
         $query = User::find()->select(['*', 'concat(first_name,SPACE(1),last_name) as full_name']);
-        $query->orderBy('full_name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['full_name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
            'attributes' =>  [
@@ -72,9 +72,9 @@ class UserSearch extends User {
     public function searchFrontendUsers($params) {
         $frontendInstance = OrganizationSetting::findOne(['organization_id' => Yii::$app->user->identity->selectedOrganization->id, 'setting' => 'frontendInstance']);
         $query = User::find()->select(['*', 'concat(first_name,SPACE(1),last_name) as full_name'])->where(['instance' => $frontendInstance->value]);
-        $query->orderBy('full_name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['full_name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [

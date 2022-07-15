@@ -30,9 +30,9 @@ class ApiKeySearch extends ApiKey {
     // INDEX SITE ADMIN PAGE
     public function search($params) {
         $query = ApiKey::find()->select(['api_key.*', 'concat(u.first_name,SPACE(1),u.last_name) as created_by_full_name'])->leftJoin('user u', 'u.id=created_by')->where(['api_key.instance' => Yii::$app->user->identity->instance]);
-        $query->orderBy('id DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['api_key.id' => SORT_DESC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
@@ -63,9 +63,9 @@ class ApiKeySearch extends ApiKey {
     // INDEX ORGANIZATION PAGE
     public function searchOrganization($params) {
         $query = ApiKey::find()->select(['api_key.*', 'concat(u.first_name,SPACE(1),u.last_name) as created_by_full_name'])->leftJoin('user u', 'u.id=created_by')->where(['api_key.instance' => Yii::$app->user->identity->instance, 'key_type' => 'organization', 'api_key.organization_id' => Yii::$app->user->identity->selectedOrganization->id]);
-        $query->orderBy('id DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['api_key.id' => SORT_DESC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
