@@ -22,7 +22,7 @@ use yii\db\ActiveRecord;
  * @property string $rights_given
  * @property int|null $rights_given_by
 
- * @property OrganizationUserRelation $cuRelation
+ * @property OrganizationUserRelation $ouRelation
  * @property OrganizationModuleRelation $module
  * @property User $rightsGivenBy
  */
@@ -77,7 +77,7 @@ class OrganizationUserModuleRight extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getCuRelation() {
+    public function getOuRelation() {
         return $this->hasOne(OrganizationUserRelation::className(), ['id' => 'ou_relation_id']);
     }
 

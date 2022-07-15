@@ -6,6 +6,7 @@ Do not change this file unless you know what you are doing.
 namespace backend\controllers\core;
 
 use backend\components\core\BaseController;
+use common\helpers\core\SmsHelper;
 use common\models\core\Organization;
 use common\models\core\OrganizationSetting;
 use common\models\core\OrganizationUsergroupUserRelation;
@@ -13,6 +14,7 @@ use common\models\core\OrganizationUserRelationInvitation;
 use common\models\core\SystemContent;
 use common\models\core\SystemLog;
 use common\models\core\User;
+use PHPUnit\Runner\DefaultTestResultCache;
 use Yii;
 use common\models\core\OrganizationUserRelation;
 use common\models\core\OrganizationUserRelationSearch;
@@ -20,6 +22,8 @@ use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class OrganizationUserRelationController extends BaseController {
 
@@ -82,25 +86,61 @@ class OrganizationUserRelationController extends BaseController {
         }
         $model = new OrganizationUserRelation();
         $parentModel = new OrganizationUserRelationInvitation();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if (Yii::$app->request->isAjax && $parentModel->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($parentModel);
+        }
         if ($model->load(Yii::$app->request->post()) && $parentModel->load(Yii::$app->request->post())) {
-            $email = strtolower($parentModel->sent_to);
-            $user = User::findOne(['email' => $email, 'instance' => Yii::$app->params['default_site_settings']['instance']]);
-            if ($user) {
-                $organizationUserRelation = OrganizationUserRelation::findOne(['user_id' => $user->id, 'organization_id' => $id]);
+            if (isset($parentModel->sent_via)) {
+                switch ($parentModel->sent_via) {
+                    case "email":
+                        $user = User::findOne(['email' => strtolower($parentModel->sent_to_email), 'instance' => Yii::$app->params['default_site_settings']['instance']]);
+                    case "sms":
+                        $user = User::findOne(['phone' => $parentModel->sent_to_mobile, 'instance' => Yii::$app->params['default_site_settings']['instance']]);
+                }
+                if (isset($user)) {
+                    $organizationUserRelation = OrganizationUserRelation::find()->where(['user_id' => $user->id, 'organization_id' => $id, 'status' => 'accepted'])->one();
+                    $organizationUserRelationPending = OrganizationUserRelation::find()->where(['user_id' => $user->id, 'organization_id' => $id, 'status' => 'pending'])->one();
+                }
             }
-            if (!isset($organizationUserRelation)) {
+            if (!isset($organizationUserRelation) && !isset($organizationUserRelationPending)) {
                 $model->organization_id = $id;
-                $model->user_id = null;
+                $model->user_id = ($user->id ?? null);;
                 //$model->added_by = Yii::$app->user->identity->id;
                 $model->selected_organization = 0;
                 if ($model->save()) {
-                    $parentModel->cid = md5(($email . uniqid('', true)));
+                    $parentModel->sent_to = $parentModel->sent_to_email ?? $parentModel->sent_to_mobile;
+                    $parentModel->cid = md5((($parentModel->sent_to_email ?? $parentModel->sent_to_mobile) . uniqid('', true)));
                     $parentModel->our_id = $model->id;
+                    if ($parentModel->invite_params === '') {
+                        $parentModel->invite_params = null;
+                    }
                     if ($parentModel->save()) {
                         if ($parentModel->sent_via === 'email') {
                             $this->sendInvitationMail($model, $parentModel);
+                            Yii::$app->session->setFlash('success', Yii::t('core_system', 'Your invitation has been sent to {receiver}!', ['receiver' => ($parentModel->sent_to_email ?? $parentModel->sent_to_mobile)]));
+                        } elseif ($parentModel->sent_via === 'sms') {
+                            $orgDetail = OrganizationSetting::findOne(['organization_id' => $id, 'setting' => 'organizationDetails']);
+                            if (isset($orgDetail)) {
+                                $orgDetailDecoded = json_decode($orgDetail->value);
+                                if (isset($orgDetailDecoded->sms_name)) {
+                                    $params = [
+                                        'organizationName' => $orgDetailDecoded->sms_name,
+                                    ];
+                                } else {
+                                    $params = [];
+                                }
+                            } else {
+                                $params = [];
+                            }
+                            $smsHelper = new SmsHelper();
+                            $smsHelper->sendSms('userInvite', $params, $parentModel->sent_to);
+                            Yii::$app->session->setFlash('success', Yii::t('core_system', 'Your invitation has been sent to {phone}!', ['phone' => ($parentModel->sent_to_email ?? $parentModel->sent_to_mobile)]));
                         }
-                        Yii::$app->session->setFlash('success', Yii::t('core_system', 'Your invitation has been sent to {receiver}!', ['receiver' => $email]));
                         if (isset($_GET['id'])) {
                             return $this->redirect(['/organization/view', 'id' => $id]);
                         } else {
@@ -109,7 +149,11 @@ class OrganizationUserRelationController extends BaseController {
                     }
                 }
             } else {
-                Yii::$app->session->setFlash('danger', Yii::t('core_system', 'Can not invite a user that belongs to same organization'));
+                if (isset($organizationUserRelationPending)) {
+                    Yii::$app->session->setFlash('danger', Yii::t('core_system', 'This user has a pending invitation'));
+                } else {
+                    Yii::$app->session->setFlash('danger', Yii::t('core_system', 'Can not invite a user that belongs to same organization'));
+                }
             }
         }
         $organizationModel = Organization::findOne($id);
@@ -191,6 +235,7 @@ class OrganizationUserRelationController extends BaseController {
     public function actionRespondInvitation($id, $response) {
         $model = $this->findModel($id);
         $model->status = $response;
+        //$model->user_id = Yii::$app->user->identity->id;
         $model->status_changed = $this->systemTime;
         $curInvitation = OrganizationUserRelationInvitation::find()->where(['our_id' => $model->id])->one();
         if ($model->save()) {

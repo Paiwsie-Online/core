@@ -34,6 +34,7 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
         $query->orderBy('name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['organization_usergroup.name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [
@@ -69,9 +70,9 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
         //$query = OrganizationUsergroup::find();
         $query = OrganizationUsergroup::find()->select(['organization_usergroup.*', 'concat(user.first_name,SPACE(1),user.last_name) as created_by_full_name'])->leftJoin('user','user.id=created_by');
         // add conditions that should always apply here
-        $query->orderBy('name ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['organization_usergroup.name' => SORT_ASC]],
         ]);
         $dataProvider->setSort([
             'attributes' =>  [

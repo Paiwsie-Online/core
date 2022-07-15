@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                             'update'    =>  false,
                             'delete'    =>  function($data){
-                                return ($data->status !== 'accepted');
+                                return ($data->status === 'pending');
                             }
                         ]
                     ],

@@ -48,15 +48,17 @@ if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isse
 <div class="row">
     <?php
     $userInvitations = OrganizationUserRelation::find()->where(['user_id' => Yii::$app->user->identity->id, 'status' => 'pending'])->all();
-
-    if (count($userInvitations) !== 0) {
+    if (empty($userInvitations)) {
+        $userInvitations = OrganizationUserRelation::find()->select(['organization_user_relation.*'])->leftJoin('organization_user_relation_invitation ouri', 'ouri.our_id=organization_user_relation.id')->where(['organization_user_relation.user_id' => null, 'organization_user_relation.status' => 'pending', 'ouri.sent_to' => Yii::$app->user->identity->phone])->all();
+    }
+    if (!empty($userInvitations)) {
         ?>
         <div class="col-md-4">
             <div class="card mb-3">
                 <div class="card-header">
-                    <?= Yii::t('core_system', 'You have {numInvites, plural, =0{no} =1{one} other{#}} new {numInvites, plural, =0{invitations} =1{invitation} other{invitations}}!', ['numInvites' => count($userInvitations)]) ?>
+                    <h4><?= Yii::t('core_system', 'You have {numInvites, plural, =0{no} =1{one} other{#}} new {numInvites, plural, =0{invitations} =1{invitation} other{invitations}}!', ['numInvites' => count($userInvitations)]) ?></h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body borderTop indexView">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -105,9 +107,9 @@ if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isse
             <div class="col-md-4">
                 <div class="card mb-3 h-100">
                     <div class="card-header">
-                        <?= Yii::t('core_system', 'Welcome to') . ' index.php' .Yii::$app->params['default_site_settings']['site_name']?>
+                        <h4><?= Yii::t('core_system', 'Welcome to') . ' ' .Yii::$app->params['default_site_settings']['site_name']?></h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body borderTop">
                         <?=Yii::t('core_system', '<p>Thank you for registering an account!</p><p>In order for you to get started on the right track we have prepared a startup guide for you.</p>')?>
                         <button type="button" onclick="getstartednewuser();" class="btn btn-success btn-block"><?=Yii::t('core_system', 'Get started')?></button>
                     </div>

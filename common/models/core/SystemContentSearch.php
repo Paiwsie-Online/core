@@ -25,9 +25,9 @@ class SystemContentSearch extends SystemContent {
     public function search($params) {
         $query = SystemContent::find();
         // add conditions that should always apply here
-        $query->orderBy('instance ASC, content ASC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  =>  ['defaultOrder' => ['instance' => SORT_ASC, 'content' => SORT_ASC]],
         ]);
         $this->load($params);
         if (!$this->validate()) {

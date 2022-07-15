@@ -60,7 +60,7 @@ return [
     'modules' => [
         'translatemanager' => [
             'class' => 'lajax\translatemanager\Module',
-            'root'  => [__DIR__ . '/../../backend', __DIR__ . '/../../common'],             //'@app',
+            'root'  => [__DIR__ . '/../../../backend', __DIR__ . '/../../../common'],             //'@app',
             'scanRootParentDirectory' => false,
             'layout' => '@app/views/layouts/core/translation',
             'tables' => [
@@ -73,6 +73,12 @@ return [
                 [
                     'connection' => 'db',
                     'table' => 'system_content',
+                    'columns' => ['value'],
+                    'category' => 'database-table-name'
+                ],
+                [
+                    'connection' => 'db',
+                    'table' => 'language_force_translation',
                     'columns' => ['value'],
                     'category' => 'database-table-name'
                 ],

@@ -33,7 +33,7 @@ class sms extends Component {
         $messageSend = rawurlencode($message);
         $data = ['apiKey' => Yii::$app->params['textLocal']['apiKey'], 'numbers' => $numbers, 'sender' => $senderName, 'message' => $messageSend];
         // Send the POST request with cURL
-        $ch = curl_init('http://api.txtlocal.com/send/');
+        $ch = curl_init('https://api.txtlocal.com/send/');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

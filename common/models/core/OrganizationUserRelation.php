@@ -33,6 +33,8 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
 
     public $user_full_name;
     public $added_by_full_name;
+    public $sent_to_email;
+    public $sent_to_mobile;
 
     public static function tableName() {
         return 'organization_user_relation';
@@ -44,14 +46,14 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
                 'class' => BlameableBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['added_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['user_id'],
                 ],
             ],
             [
                 'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['added'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['status_changed'],
                 ],
             ],
         ];
@@ -160,19 +162,25 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
     }
 
     public static function getUserLevelOptions() {
-        return array(
-            'owner' => Yii::t('organization_user_relation', 'Owner'),
-            'admin' => Yii::t('organization_user_relation', 'Admin'),
-            'user' => Yii::t('organization_user_relation', 'User')
-        );
+        $enumUserLevel = OrganizationUserRelation::getTableSchema()->columns['user_level']->enumValues;
+        $userLevelList = [];
+        foreach ($enumUserLevel as $enum) {
+            $userLevelList += [
+                $enum => ucfirst(Yii::t('language_force_translation', $enum)),
+            ];
+        }
+        return $userLevelList;
     }
 
     public static function getStatusOptions() {
-        return array(
-            'pending' => Yii::t('organization_user_relation', 'Pending'),
-            'accepted' => Yii::t('organization_user_relation', 'Accepted'),
-            'declined' => Yii::t('organization_user_relation', 'Declined')
-        );
+        $enumStatus = OrganizationUserRelation::getTableSchema()->columns['status']->enumValues;
+        $userStatusList = [];
+        foreach ($enumStatus as $enum) {
+            $userStatusList += [
+                $enum => ucfirst(Yii::t('language_force_translation', $enum)),
+            ];
+        }
+        return $userStatusList;
     }
 
 }

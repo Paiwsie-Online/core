@@ -23,8 +23,7 @@ class BaseController extends Controller {
             return false;
         }
         $dt = new DateTime('now', new DateTimeZone(Yii::$app->params['defaults']['systemTimeZone']));
-        $this->systemTime = $dt->format('Y-m-d H:i:s');
-
+        $this->systemTime = $dt->getTimestamp();
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 5);
         } else {
