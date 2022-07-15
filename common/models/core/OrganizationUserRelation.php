@@ -44,17 +44,13 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
         return [
             [
                 'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['user_id'],
-                ],
+                'createdByAttribute' => 'added_by',
+                'updatedByAttribute' => false,
             ],
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['status_changed'],
-                ],
+                'createdAtAttribute' => 'added',
+                'updatedAtAttribute' => false,
             ],
         ];
     }

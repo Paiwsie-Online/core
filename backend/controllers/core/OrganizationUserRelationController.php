@@ -235,7 +235,7 @@ class OrganizationUserRelationController extends BaseController {
     public function actionRespondInvitation($id, $response) {
         $model = $this->findModel($id);
         $model->status = $response;
-        //$model->user_id = Yii::$app->user->identity->id;
+        $model->user_id = Yii::$app->user->identity->id;
         $model->status_changed = $this->systemTime;
         $curInvitation = OrganizationUserRelationInvitation::find()->where(['our_id' => $model->id])->one();
         if ($model->save()) {
