@@ -60,7 +60,7 @@ return [
     // Above the list of layouts that doesn't belong to the core (ones in views/layouts folder)
     // Put here your customized layout
     'layout' => [
-        //'main' => 'main',
+        'main' => 'main',
         //'authentication' => 'authentication',
         //'systemMessage' => 'system_message',
     ],

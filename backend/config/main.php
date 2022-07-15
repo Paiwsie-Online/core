@@ -7,7 +7,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\core\User',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             'authTimeout' => $params['systemTimeout']['authTimeout'],
             'enableSession' => true,
@@ -20,6 +20,10 @@ return [
     ],
     'controllerMap' => [
         'site' => 'backend\controllers\SiteController',
+        'team' => 'backend\controllers\TeamController',
+        'association' => 'backend\controllers\AssociationController',
+        'organization-user-relation' => 'backend\controllers\OrganizationUserRelationController',
+        'user' => 'backend\controllers\UserController',
     ],
     'layout' => $params['layout']['main']
 ];
