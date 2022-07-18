@@ -22,200 +22,19 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'key'=> $this->string(128)->notNull(),
             'instance'=> $this->string(64)->null()->defaultValue(null),
             'organization_id'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->integer(11)->notNull(),
-            'created_by'=> $this->integer(11)->null()->defaultValue(null),
             'key_config'=> $this->text()->null()->defaultValue(null),
             'expiry_date'=> $this->date()->null()->defaultValue(null),
             'status'=> "enum('active', 'blocked', 'expired', 'deleted') NOT NULL DEFAULT 'active'",
             'type'=> "enum('live', 'test') NOT NULL",
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('fk_organizationid_table_organization_id','{{%api_key}}',['organization_id'],false);
         $this->createIndex('fk_createdby_table_user_id','{{%api_key}}',['created_by'],false);
-
-        $this->createTable('{{%organization}}',[
-            'id'=> $this->primaryKey(11),
-            'name'=> $this->string(256)->notNull(),
-            'tax_number'=> $this->string(64)->null()->defaultValue(null),
-            'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->integer(11)->notNull(),
-            'instance'=> $this->string(128)->null()->defaultValue(null),
-            'kyc'=> "enum('none', 'inProgress', 'pending', 'approved', 'denied', 'awaitingMoreInfo') NOT NULL DEFAULT 'none'",
-            'kyc_status_changed'=> $this->integer(11)->null()->defaultValue(null),
-            'legal_name'=> $this->string(256)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('created_by','{{%organization}}',['created_by'],false);
-
-        $this->createTable('{{%organization_api_key}}',[
-            'id'=> $this->primaryKey(11),
-            'key_id'=> $this->integer(11)->notNull(),
-            'cmr_id'=> $this->bigInteger(20)->notNull(),
-            'right_create'=> $this->tinyInteger(4)->notNull(),
-            'right_read'=> $this->tinyInteger(4)->notNull(),
-            'right_update'=> $this->tinyInteger(4)->notNull(),
-            'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('fk_cmrid_table_organization_module_relation_id','{{%organization_api_key}}',['cmr_id'],false);
-        $this->createIndex('fk_keyid_table_api_key_id','{{%organization_api_key}}',['key_id'],false);
-        $this->createIndex('fk_rightsgivenby_table_user_id','{{%organization_api_key}}',['rights_given_by'],false);
-
-        $this->createTable('{{%organization_organization_group_right}}',[
-            'id'=> $this->primaryKey(11),
-            'group_id'=> $this->integer(11)->notNull(),
-            'cc_relation_id'=> $this->integer(11)->notNull(),
-            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('group_id','{{%organization_organization_group_right}}',['group_id','cc_relation_id','rights_given_by'],false);
-        $this->createIndex('cc_relation_id','{{%organization_organization_group_right}}',['cc_relation_id'],false);
-        $this->createIndex('rights_given_by','{{%organization_organization_group_right}}',['rights_given_by'],false);
-
-        $this->createTable('{{%organization_organization_relation}}',[
-            'id'=> $this->primaryKey(11),
-            'parent_organization'=> $this->integer(11)->notNull(),
-            'child_organization'=> $this->integer(11)->notNull(),
-            'added_by'=> $this->integer(11)->null()->defaultValue(null),
-            'added_time'=> $this->integer(11)->notNull(),
-        ], $tableOptions);
-
-        $this->createIndex('parent_organization','{{%organization_organization_relation}}',['parent_organization','child_organization','added_by'],false);
-        $this->createIndex('child_organization','{{%organization_organization_relation}}',['child_organization'],false);
-        $this->createIndex('added_by','{{%organization_organization_relation}}',['added_by'],false);
-
-        $this->createTable('{{%organization_organization_user_right}}',[
-            'id'=> $this->primaryKey(11),
-            'cc_relation_id'=> $this->integer(11)->notNull(),
-            'user_id'=> $this->integer(11)->notNull(),
-            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('cc_relation_id','{{%organization_organization_user_right}}',['cc_relation_id','user_id','rights_given_by'],false);
-        $this->createIndex('user_id','{{%organization_organization_user_right}}',['user_id'],false);
-        $this->createIndex('rights_given_by','{{%organization_organization_user_right}}',['rights_given_by'],false);
-
-        $this->createTable('{{%organization_detail}}',[
-            'organization_id'=> $this->integer(11)->notNull(),
-            'detail'=> $this->string(128)->notNull(),
-            'value'=> $this->text()->notNull(),
-        ], $tableOptions);
-
-        $this->addPrimaryKey('pk_on_organization_detail','{{%organization_detail}}',['organization_id','detail']);
-
-        $this->createTable('{{%organization_group_module_right}}',[
-            'id'=> $this->primaryKey(11),
-            'group_id'=> $this->integer(11)->notNull(),
-            'cmr_id'=> $this->bigInteger(20)->notNull(),
-            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('group_id','{{%organization_group_module_right}}',['group_id'],false);
-        $this->createIndex('rights_given_by','{{%organization_group_module_right}}',['rights_given_by'],false);
-        $this->createIndex('cmr_id','{{%organization_group_module_right}}',['cmr_id'],false);
-
-        $this->createTable('{{%organization_module_relation}}',[
-            'id'=> $this->bigPrimaryKey(20),
-            'organization_id'=> $this->integer(11)->notNull(),
-            'module_id'=> $this->string(50)->notNull(),
-        ], $tableOptions);
-
-        $this->createIndex('organization_id','{{%organization_module_relation}}',['organization_id','module_id'],false);
-        $this->createIndex('module_id','{{%organization_module_relation}}',['module_id'],false);
-
-        $this->createTable('{{%organization_setting}}',[
-            'organization_id'=> $this->integer(11)->notNull(),
-            'setting'=> $this->string(128)->notNull(),
-            'value'=> $this->text()->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->addPrimaryKey('pk_on_organization_setting','{{%organization_setting}}',['organization_id','setting']);
-
-        $this->createTable('{{%organization_user_module_right}}',[
-            'id'=> $this->primaryKey(11),
-            'ou_relation_id'=> $this->integer(11)->notNull(),
-            'cmr_id'=> $this->bigInteger(20)->notNull(),
-            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
-            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
-            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
-            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('organization_id','{{%organization_user_module_right}}',['ou_relation_id'],false);
-        $this->createIndex('rights_given_by','{{%organization_user_module_right}}',['rights_given_by'],false);
-        $this->createIndex('cmr_id','{{%organization_user_module_right}}',['cmr_id'],false);
-
-        $this->createTable('{{%organization_user_relation}}',[
-            'id'=> $this->primaryKey(11),
-            'organization_id'=> $this->integer(11)->notNull(),
-            'user_id'=> $this->integer(11)->null()->defaultValue(null),
-            'title'=> $this->string(128)->null()->defaultValue(null),
-            'added_by'=> $this->integer(11)->null()->defaultValue(null),
-            'user_level'=> "enum('owner', 'admin', 'user') NOT NULL DEFAULT 'user'",
-            'added'=> $this->integer(11)->notNull(),
-            'status'=> "enum('pending', 'accepted', 'declined') NOT NULL DEFAULT 'pending'",
-            'status_changed'=> $this->integer(11)->null()->defaultValue(null),
-            'selected_organization'=> $this->tinyInteger(3)->null()->defaultValue(0),
-        ], $tableOptions);
-
-        $this->createIndex('organization_id','{{%organization_user_relation}}',['organization_id','user_id','added_by'],false);
-        $this->createIndex('user_id','{{%organization_user_relation}}',['user_id'],false);
-        $this->createIndex('added_by','{{%organization_user_relation}}',['added_by'],false);
-
-        $this->createTable('{{%organization_user_relation_invitation}}',[
-            'id'=> $this->primaryKey(11),
-            'sent_via'=> "enum('email', 'sms') NULL DEFAULT NULL",
-            'sent_to'=> $this->string(256)->null()->defaultValue(null),
-            'cid'=> $this->string(45)->null()->defaultValue(null),
-            'our_id'=> $this->integer(11)->null()->defaultValue(null),
-            'invite_params'=> $this->text()->null()->defaultValue(null),
-        ], $tableOptions);
-
-        $this->createIndex('our_id','{{%organization_user_relation_invitation}}',['our_id'],false);
-
-        $this->createTable('{{%organization_usergroup}}',[
-            'id'=> $this->primaryKey(11),
-            'organization_id'=> $this->integer(11)->notNull(),
-            'name'=> $this->string(128)->notNull(),
-            'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created'=> $this->integer(11)->notNull(),
-        ], $tableOptions);
-
-        $this->createIndex('organization_id','{{%organization_usergroup}}',['organization_id','created_by'],false);
-        $this->createIndex('created_by','{{%organization_usergroup}}',['created_by'],false);
-
-        $this->createTable('{{%organization_usergroup_user_relation}}',[
-            'id'=> $this->primaryKey(11),
-            'ou_relation_id'=> $this->integer(11)->notNull(),
-            'group_id'=> $this->integer(11)->notNull(),
-            'added_by'=> $this->integer(11)->null()->defaultValue(null),
-            'added'=> $this->integer(11)->notNull(),
-        ], $tableOptions);
-
-        $this->createIndex('ou_relation_id','{{%organization_usergroup_user_relation}}',['ou_relation_id','group_id','added_by'],false);
-        $this->createIndex('group_id','{{%organization_usergroup_user_relation}}',['group_id'],false);
-        $this->createIndex('added_by','{{%organization_usergroup_user_relation}}',['added_by'],false);
+        $this->createIndex('fk_updatedby_table_user_id','{{%api_key}}',['updated_by'],false);
 
         $this->createTable('{{%cronjob}}',[
             'id'=> $this->string(128)->notNull(),
@@ -248,11 +67,11 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
         $this->createTable('{{%file}}',[
             'id'=> $this->primaryKey(11),
             'uri'=> $this->string(512)->notNull(),
-            'uploaded_by'=> $this->integer(11)->null()->defaultValue(null),
-            'uploaded'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
-        $this->createIndex('file_ibfk_1','{{%file}}',['uploaded_by'],false);
+        $this->createIndex('file_ibfk_1','{{%file}}',['created_by'],false);
 
         $this->createTable('{{%graphdata}}',[
             'id'=> $this->bigPrimaryKey(20),
@@ -277,6 +96,12 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
         ], $tableOptions);
 
         $this->addPrimaryKey('pk_on_language','{{%language}}',['language_id']);
+
+        $this->createTable('{{%language_force_translation}}',[
+            'value'=> $this->text()->notNull(),
+        ], $tableOptions);
+
+        $this->createIndex('value','{{%language_force_translation}}',['value'],true);
 
         $this->createTable('{{%language_source}}',[
             'id'=> $this->primaryKey(11),
@@ -342,14 +167,226 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'level'=> $this->bigInteger(20)->notNull(),
         ], $tableOptions);
 
+        $this->createTable('{{%organization}}',[
+            'id'=> $this->primaryKey(11),
+            'name'=> $this->string(256)->notNull(),
+            'tax_number'=> $this->string(64)->null()->defaultValue(null),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'instance'=> $this->string(128)->null()->defaultValue(null),
+            'kyc'=> "enum('none', 'inProgress', 'pending', 'approved', 'denied', 'awaitingMoreInfo') NOT NULL DEFAULT 'none'",
+            'kyc_status_changed'=> $this->integer(11)->null()->defaultValue(null),
+            'legal_name'=> $this->string(256)->null()->defaultValue(null),
+            'model' => $this->string(512)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('created_by','{{%organization}}',['created_by'],false);
+
+        $this->createTable('{{%organization_api_key}}',[
+            'id'=> $this->primaryKey(11),
+            'key_id'=> $this->integer(11)->notNull(),
+            'cmr_id'=> $this->bigInteger(20)->notNull(),
+            'right_create'=> $this->tinyInteger(4)->notNull(),
+            'right_read'=> $this->tinyInteger(4)->notNull(),
+            'right_update'=> $this->tinyInteger(4)->notNull(),
+            'right_delete'=> $this->tinyInteger(4)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('fk_cmrid_table_organization_module_relation_id','{{%organization_api_key}}',['cmr_id'],false);
+        $this->createIndex('fk_keyid_table_api_key_id','{{%organization_api_key}}',['key_id'],false);
+        $this->createIndex('fk_createdby_table_user_id','{{%organization_api_key}}',['created_by'],false);
+        $this->createIndex('fk_updatedby_table_user_id','{{%organization_api_key}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_organization_group_right}}',[
+            'id'=> $this->primaryKey(11),
+            'group_id'=> $this->integer(11)->notNull(),
+            'cc_relation_id'=> $this->integer(11)->notNull(),
+            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('group_id','{{%organization_organization_group_right}}',['group_id','cc_relation_id','created_by'],false);
+        $this->createIndex('cc_relation_id','{{%organization_organization_group_right}}',['cc_relation_id'],false);
+        $this->createIndex('created_by','{{%organization_organization_group_right}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_organization_group_right}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_organization_relation}}',[
+            'id'=> $this->primaryKey(11),
+            'parent_organization'=> $this->integer(11)->notNull(),
+            'child_organization'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('parent_organization','{{%organization_organization_relation}}',['parent_organization','child_organization','created_by'],false);
+        $this->createIndex('child_organization','{{%organization_organization_relation}}',['child_organization'],false);
+        $this->createIndex('created_by','{{%organization_organization_relation}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_organization_relation}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_organization_user_right}}',[
+            'id'=> $this->primaryKey(11),
+            'cc_relation_id'=> $this->integer(11)->notNull(),
+            'user_id'=> $this->integer(11)->notNull(),
+            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_grant'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('cc_relation_id','{{%organization_organization_user_right}}',['cc_relation_id','user_id','created_by'],false);
+        $this->createIndex('user_id','{{%organization_organization_user_right}}',['user_id'],false);
+        $this->createIndex('created_by','{{%organization_organization_user_right}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_organization_user_right}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_detail}}',[
+            'organization_id'=> $this->integer(11)->notNull(),
+            'detail'=> $this->string(128)->notNull(),
+            'value'=> $this->text()->notNull(),
+        ], $tableOptions);
+
+        $this->addPrimaryKey('pk_on_organization_detail','{{%organization_detail}}',['organization_id','detail']);
+
+        $this->createTable('{{%organization_group_module_right}}',[
+            'id'=> $this->primaryKey(11),
+            'group_id'=> $this->integer(11)->notNull(),
+            'cmr_id'=> $this->bigInteger(20)->notNull(),
+            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(0),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('group_id','{{%organization_group_module_right}}',['group_id'],false);
+        $this->createIndex('created_by','{{%organization_group_module_right}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_group_module_right}}',['updated_by'],false);
+        $this->createIndex('cmr_id','{{%organization_group_module_right}}',['cmr_id'],false);
+
+        $this->createTable('{{%organization_module_relation}}',[
+            'id'=> $this->bigPrimaryKey(20),
+            'organization_id'=> $this->integer(11)->notNull(),
+            'module_id'=> $this->string(50)->notNull(),
+        ], $tableOptions);
+
+        $this->createIndex('organization_id','{{%organization_module_relation}}',['organization_id','module_id'],false);
+        $this->createIndex('module_id','{{%organization_module_relation}}',['module_id'],false);
+
+        $this->createTable('{{%organization_setting}}',[
+            'organization_id'=> $this->integer(11)->notNull(),
+            'setting'=> $this->string(128)->notNull(),
+            'value'=> $this->text()->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->addPrimaryKey('pk_on_organization_setting','{{%organization_setting}}',['organization_id','setting']);
+
+        $this->createTable('{{%organization_user_module_right}}',[
+            'id'=> $this->primaryKey(11),
+            'ou_relation_id'=> $this->integer(11)->notNull(),
+            'cmr_id'=> $this->bigInteger(20)->notNull(),
+            'right_create'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
+            'right_read'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
+            'right_update'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
+            'right_delete'=> $this->tinyInteger(1)->notNull()->defaultValue(2),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('organization_id','{{%organization_user_module_right}}',['ou_relation_id'],false);
+        $this->createIndex('created_by','{{%organization_user_module_right}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_user_module_right}}',['updated_by'],false);
+        $this->createIndex('cmr_id','{{%organization_user_module_right}}',['cmr_id'],false);
+
+        $this->createTable('{{%organization_user_relation}}',[
+            'id'=> $this->primaryKey(11),
+            'organization_id'=> $this->integer(11)->notNull(),
+            'user_id'=> $this->integer(11)->null()->defaultValue(null),
+            'title'=> $this->string(128)->null()->defaultValue(null),
+            'user_level'=> "enum('owner', 'admin', 'user') NOT NULL DEFAULT 'user'",
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+            'status'=> "enum('pending', 'accepted', 'declined') NOT NULL DEFAULT 'pending'",
+            'status_changed'=> $this->integer(11)->null()->defaultValue(null),
+            'selected_organization'=> $this->tinyInteger(3)->null()->defaultValue(0),
+        ], $tableOptions);
+
+        $this->createIndex('organization_id','{{%organization_user_relation}}',['organization_id','user_id','created_by'],false);
+        $this->createIndex('user_id','{{%organization_user_relation}}',['user_id'],false);
+        $this->createIndex('created_by','{{%organization_user_relation}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_user_relation}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_user_relation_invitation}}',[
+            'id'=> $this->primaryKey(11),
+            'sent_via'=> "enum('email', 'sms') NULL DEFAULT NULL",
+            'sent_to'=> $this->string(256)->null()->defaultValue(null),
+            'cid'=> $this->string(45)->null()->defaultValue(null),
+            'our_id'=> $this->integer(11)->null()->defaultValue(null),
+            'invite_params'=> $this->text()->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('our_id','{{%organization_user_relation_invitation}}',['our_id'],false);
+
+        $this->createTable('{{%organization_usergroup}}',[
+            'id'=> $this->primaryKey(11),
+            'organization_id'=> $this->integer(11)->notNull(),
+            'name'=> $this->string(128)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('organization_id','{{%organization_usergroup}}',['organization_id','created_by'],false);
+        $this->createIndex('created_by','{{%organization_usergroup}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_usergroup}}',['updated_by'],false);
+
+        $this->createTable('{{%organization_usergroup_user_relation}}',[
+            'id'=> $this->primaryKey(11),
+            'ou_relation_id'=> $this->integer(11)->notNull(),
+            'group_id'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+        ], $tableOptions);
+
+        $this->createIndex('ou_relation_id','{{%organization_usergroup_user_relation}}',['ou_relation_id','group_id','created_by'],false);
+        $this->createIndex('group_id','{{%organization_usergroup_user_relation}}',['group_id'],false);
+        $this->createIndex('created_by','{{%organization_usergroup_user_relation}}',['created_by'],false);
+        $this->createIndex('updated_by','{{%organization_usergroup_user_relation}}',['updated_by'],false);
+
         $this->createTable('{{%picture}}',[
             'id'=> $this->primaryKey(11),
             'uri'=> $this->string(512)->notNull(),
-            'uploaded_by'=> $this->integer(11)->null()->defaultValue(null),
-            'uploaded'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
-        $this->createIndex('uploaded_by','{{%picture}}',['uploaded_by'],false);
+        $this->createIndex('created_by','{{%picture}}',['created_by'],false);
 
         $this->createTable('{{%siteadmin_api_key}}',[
             'id'=> $this->primaryKey(11),
@@ -359,13 +396,16 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(4)->notNull(),
             'right_update'=> $this->tinyInteger(4)->notNull(),
             'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('fk_siteadmin_api_key_key_id','{{%siteadmin_api_key}}',['key_id'],false);
         $this->createIndex('fk_siteadmin_api_key_module_id','{{%siteadmin_api_key}}',['module_id'],false);
-        $this->createIndex('fk_siteadmin_api_key_rights_given_by','{{%siteadmin_api_key}}',['rights_given_by'],false);
+        $this->createIndex('fk_siteadmin_api_key_created_by','{{%siteadmin_api_key}}',['created_by'],false);
+        $this->createIndex('fk_siteadmin_api_key_updated_by','{{%siteadmin_api_key}}',['updated_by'],false);
 
         $this->createTable('{{%system_content}}',[
             'instance'=> $this->string(128)->notNull(),
@@ -383,11 +423,13 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'message_short'=> $this->string(512)->null()->defaultValue(null),
             'message'=> $this->text()->null()->defaultValue(null),
             'data_format'=> $this->text()->null()->defaultValue(null),
-            'log_time'=> $this->integer(11)->notNull(),
+            'created_at'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('user_id','{{%system_log}}',['user_id','organization_id'],false);
         $this->createIndex('organization_id','{{%system_log}}',['organization_id'],false);
+        $this->createIndex('created_by','{{%system_log}}',['created_by'],false);
 
         $this->createTable('{{%system_setting}}',[
             'id'=> $this->primaryKey(11),
@@ -404,13 +446,16 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'right_read'=> $this->tinyInteger(4)->notNull(),
             'right_update'=> $this->tinyInteger(4)->notNull(),
             'right_delete'=> $this->tinyInteger(4)->notNull(),
-            'rights_given'=> $this->integer(11)->notNull(),
-            'rights_given_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_at'=> $this->integer(11)->null()->defaultValue(null),
+            'updated_by'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('fk_systemadmin_api_key_key_id','{{%systemadmin_api_key}}',['key_id'],false);
         $this->createIndex('fk_systemadmin_api_key_module_id','{{%systemadmin_api_key}}',['module_id'],false);
-        $this->createIndex('fk_systemadmin_api_key_rights_given_by','{{%systemadmin_api_key}}',['rights_given_by'],false);
+        $this->createIndex('fk_systemadmin_api_key_created_by','{{%systemadmin_api_key}}',['created_by'],false);
+        $this->createIndex('fk_systemadmin_api_key_updated_by','{{%systemadmin_api_key}}',['updated_by'],false);
 
         $this->createTable('{{%user}}',[
             'id'=> $this->primaryKey(11),
@@ -439,19 +484,23 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'logged'=> $this->integer(11)->notNull(),
             'expire'=> $this->integer(11)->null()->defaultValue(null),
             'session_id'=> $this->string(64)->null()->defaultValue(null),
-            'session_logged'=> $this->integer(11)->null()->defaultValue(null),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('user_id','{{%user_login}}',['user_id'],false);
+        $this->createIndex('created_by','{{%user_login}}',['created_by'],false);
 
         $this->createTable('{{%user_session}}',[
             'loginID'=> $this->primaryKey(11),
             'sessionID'=> $this->string(255)->notNull(),
             'uID'=> $this->integer(11)->notNull(),
-            'sessionTime'=> $this->integer(11)->notNull(),
+            'created_by'=> $this->integer(11)->null()->defaultValue(null),
+            'created_at'=> $this->integer(11)->notNull(),
         ], $tableOptions);
 
         $this->createIndex('uID','{{%user_session}}',['uID'],false);
+        $this->createIndex('created_by','{{%user_session}}',['created_by'],false);
 
         $this->createTable('{{%user_detail}}',[
             'user_id'=> $this->integer(11)->notNull(),
@@ -483,6 +532,12 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
+            'fk_api_key_updated_by',
+            '{{%api_key}}', 'updated_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
             'fk_organization_created_by',
             '{{%organization}}', 'created_by',
             '{{%user}}', 'id',
@@ -501,8 +556,14 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_api_key_rights_given_by',
-            '{{%organization_api_key}}', 'rights_given_by',
+            'fk_organization_api_key_created_by',
+            '{{%organization_api_key}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_api_key_updated_by',
+            '{{%organization_api_key}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -519,14 +580,26 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_organization_group_right_rights_given_by',
-            '{{%organization_organization_group_right}}', 'rights_given_by',
+            'fk_organization_organization_group_right_created_by',
+            '{{%organization_organization_group_right}}', 'created_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_organization_relation_added_by',
-            '{{%organization_organization_relation}}', 'added_by',
+            'fk_organization_organization_group_right_updated_by',
+            '{{%organization_organization_group_right}}', 'updated_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_organization_relation_created_by',
+            '{{%organization_organization_relation}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_organization_relation_updated_by',
+            '{{%organization_organization_relation}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -549,8 +622,14 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_organization_user_right_rights_given_by',
-            '{{%organization_organization_user_right}}', 'rights_given_by',
+            'fk_organization_organization_user_right_created_by',
+            '{{%organization_organization_user_right}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_organization_user_right_updated_by',
+            '{{%organization_organization_user_right}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -579,8 +658,14 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_group_module_right_rights_given_by',
-            '{{%organization_group_module_right}}', 'rights_given_by',
+            'fk_organization_group_module_right_created_by',
+            '{{%organization_group_module_right}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_group_module_right_updated_by',
+            '{{%organization_group_module_right}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -615,16 +700,28 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_user_module_right_rights_given_by',
-            '{{%organization_user_module_right}}', 'rights_given_by',
+            'fk_organization_user_module_right_created_by',
+            '{{%organization_user_module_right}}', 'created_by',
             '{{%user}}', 'id',
-            'CASCADE', 'CASCADE'
+            'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_user_relation_added_by',
-            '{{%organization_user_relation}}', 'added_by',
+            'fk_organization_user_module_right_updated_by',
+            '{{%organization_user_module_right}}', 'updated_by',
             '{{%user}}', 'id',
-            'CASCADE', 'CASCADE'
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_user_relation_created_by',
+            '{{%organization_user_relation}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_user_relation_updated_by',
+            '{{%organization_user_relation}}', 'updated_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
             'fk_organization_user_relation_organization_id',
@@ -657,8 +754,20 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_organization_usergroup_user_relation_added_by',
-            '{{%organization_usergroup_user_relation}}', 'added_by',
+            'fk_organization_usergroup_updated_by',
+            '{{%organization_usergroup}}', 'updated_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_usergroup_user_relation_created_by',
+            '{{%organization_usergroup_user_relation}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_organization_usergroup_user_relation_updated_by',
+            '{{%organization_usergroup_user_relation}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -687,8 +796,8 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_file_uploaded_by',
-            '{{%file}}', 'uploaded_by',
+            'fk_file_created_by',
+            '{{%file}}', 'created_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -741,8 +850,8 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_picture_uploaded_by',
-            '{{%picture}}', 'uploaded_by',
+            'fk_picture_created_by',
+            '{{%picture}}', 'created_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -759,8 +868,14 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_siteadmin_api_key_rights_given_by',
-            '{{%siteadmin_api_key}}', 'rights_given_by',
+            'fk_siteadmin_api_key_created_by',
+            '{{%siteadmin_api_key}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_siteadmin_api_key_updated_by',
+            '{{%siteadmin_api_key}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -777,6 +892,12 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
+            'fk_system_log_created_by',
+            '{{%system_log}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
             'fk_systemadmin_api_key_key_id',
             '{{%systemadmin_api_key}}', 'key_id',
             '{{%api_key}}', 'id',
@@ -789,8 +910,14 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             'CASCADE', 'CASCADE'
         );
         $this->addForeignKey(
-            'fk_systemadmin_api_key_rights_given_by',
-            '{{%systemadmin_api_key}}', 'rights_given_by',
+            'fk_systemadmin_api_key_created_by',
+            '{{%systemadmin_api_key}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_systemadmin_api_key_updated_by',
+            '{{%systemadmin_api_key}}', 'updated_by',
             '{{%user}}', 'id',
             'SET NULL', 'CASCADE'
         );
@@ -799,6 +926,12 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
             '{{%user_login}}', 'user_id',
             '{{%user}}', 'id',
             'CASCADE', 'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_user_login_created_by',
+            '{{%user_login}}', 'created_by',
+            '{{%user}}', 'id',
+            'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
             'fk_user_session_uID',
@@ -4246,6 +4379,29 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
                 'value' => '<b>Hi</b><br>You have paid the payment request<p>{organization_name} thanks you for making the payment.</p><p>We attach the payment receipt, you can also see it in the following link.',
             ],
         ]);
+
+        $this->batchInsert('{{%language_force_translation}}', ["value"],
+            [
+                [
+                    'value' => 'owner',
+                ],
+                [
+                    'value' => 'admin',
+                ],
+                [
+                    'value' => 'user',
+                ],
+                [
+                    'value' => 'pending',
+                ],
+                [
+                    'value' => 'accepted',
+                ],
+                [
+                    'value' => 'declined',
+                ],
+            ]
+        );
     }
 
 
@@ -4253,97 +4409,5 @@ class m220705_092525_DatabaseStructure extends \yii\db\Migration
     public function safeDown()
     {
         echo 'This migration can not be reversed';
-        /*            $this->dropForeignKey('fk_api_key_organization_id', '{{%api_key}}');
-                    $this->dropForeignKey('fk_api_key_created_by', '{{%api_key}}');
-                    $this->dropForeignKey('fk_organization_created_by', '{{%organization}}');
-                    $this->dropForeignKey('fk_organization_api_key_cmr_id', '{{%organization_api_key}}');
-                    $this->dropForeignKey('fk_organization_api_key_key_id', '{{%organization_api_key}}');
-                    $this->dropForeignKey('fk_organization_api_key_rights_given_by', '{{%organization_api_key}}');
-                    $this->dropForeignKey('fk_organization_organization_group_right_cc_relation_id', '{{%organization_organization_group_right}}');
-                    $this->dropForeignKey('fk_organization_organization_group_right_group_id', '{{%organization_organization_group_right}}');
-                    $this->dropForeignKey('fk_organization_organization_group_right_rights_given_by', '{{%organization_organization_group_right}}');
-                    $this->dropForeignKey('fk_organization_organization_relation_added_by', '{{%organization_organization_relation}}');
-                    $this->dropForeignKey('fk_organization_organization_relation_child_organization', '{{%organization_organization_relation}}');
-                    $this->dropForeignKey('fk_organization_organization_relation_parent_organization', '{{%organization_organization_relation}}');
-                    $this->dropForeignKey('fk_organization_organization_user_right_cc_relation_id', '{{%organization_organization_user_right}}');
-                    $this->dropForeignKey('fk_organization_organization_user_right_rights_given_by', '{{%organization_organization_user_right}}');
-                    $this->dropForeignKey('fk_organization_organization_user_right_user_id', '{{%organization_organization_user_right}}');
-                    $this->dropForeignKey('fk_organization_group_module_right_cmr_id', '{{%organization_group_module_right}}');
-                    $this->dropForeignKey('fk_organization_group_module_right_group_id', '{{%organization_group_module_right}}');
-                    $this->dropForeignKey('fk_organization_group_module_right_rights_given_by', '{{%organization_group_module_right}}');
-                    $this->dropForeignKey('fk_organization_module_relation_organization_id', '{{%organization_module_relation}}');
-                    $this->dropForeignKey('fk_organization_module_relation_module_id', '{{%organization_module_relation}}');
-                    $this->dropForeignKey('fk_organization_setting_organization_id', '{{%organization_setting}}');
-                    $this->dropForeignKey('fk_organization_user_module_right_cmr_id', '{{%organization_user_module_right}}');
-                    $this->dropForeignKey('fk_organization_user_module_right_ou_relation_id', '{{%organization_user_module_right}}');
-                    $this->dropForeignKey('fk_organization_user_module_right_rights_given_by', '{{%organization_user_module_right}}');
-                    $this->dropForeignKey('fk_organization_user_relation_added_by', '{{%organization_user_relation}}');
-                    $this->dropForeignKey('fk_organization_user_relation_organization_id', '{{%organization_user_relation}}');
-                    $this->dropForeignKey('fk_organization_user_relation_user_id', '{{%organization_user_relation}}');
-                    $this->dropForeignKey('fk_organization_user_relation_invitation_our_id', '{{%organization_user_relation_invitation}}');
-                    $this->dropForeignKey('fk_organization_usergroup_organization_id', '{{%organization_usergroup}}');
-                    $this->dropForeignKey('fk_organization_usergroup_created_by', '{{%organization_usergroup}}');
-                    $this->dropForeignKey('fk_organization_usergroup_user_relation_added_by', '{{%organization_usergroup_user_relation}}');
-                    $this->dropForeignKey('fk_organization_usergroup_user_relation_ou_relation_id', '{{%organization_usergroup_user_relation}}');
-                    $this->dropForeignKey('fk_organization_usergroup_user_relation_group_id', '{{%organization_usergroup_user_relation}}');
-                    $this->dropForeignKey('fk_cronjob_log_cronjob_id', '{{%cronjob_log}}');
-                    $this->dropForeignKey('fk_enumeration_parent', '{{%enumeration}}');
-                    $this->dropForeignKey('fk_file_uploaded_by', '{{%file}}');
-                    $this->dropForeignKey('fk_language_translate_id', '{{%language_translate}}');
-                    $this->dropForeignKey('fk_language_translate_language', '{{%language_translate}}');
-                    $this->dropForeignKey('fk_picture_uploaded_by', '{{%picture}}');
-                    $this->dropForeignKey('fk_siteadmin_api_key_key_id', '{{%siteadmin_api_key}}');
-                    $this->dropForeignKey('fk_siteadmin_api_key_module_id', '{{%siteadmin_api_key}}');
-                    $this->dropForeignKey('fk_siteadmin_api_key_rights_given_by', '{{%siteadmin_api_key}}');
-                    $this->dropForeignKey('fk_system_log_organization_id', '{{%system_log}}');
-                    $this->dropForeignKey('fk_system_log_user_id', '{{%system_log}}');
-                    $this->dropForeignKey('fk_systemadmin_api_key_key_id', '{{%systemadmin_api_key}}');
-                    $this->dropForeignKey('fk_systemadmin_api_key_module_id', '{{%systemadmin_api_key}}');
-                    $this->dropForeignKey('fk_systemadmin_api_key_rights_given_by', '{{%systemadmin_api_key}}');
-                    $this->dropForeignKey('fk_user_login_user_id', '{{%user_login}}');
-                    $this->dropForeignKey('fk_user_session_uID', '{{%user_session}}');
-                    $this->dropForeignKey('fk_user_setting_user_id', '{{%user_setting}}');
-                    $this->dropTable('{{%api_key}}');
-                    $this->dropTable('{{%organization}}');
-                    $this->dropTable('{{%organization_api_key}}');
-                    $this->dropTable('{{%organization_organization_group_right}}');
-                    $this->dropTable('{{%organization_organization_relation}}');
-                    $this->dropTable('{{%organization_organization_user_right}}');
-                    $this->dropTable('{{%organization_group_module_right}}');
-                    $this->dropTable('{{%organization_module_relation}}');
-                    $this->dropPrimaryKey('pk_on_organization_setting','{{%organization_setting}}');
-                    $this->dropTable('{{%organization_setting}}');
-                    $this->dropTable('{{%organization_user_module_right}}');
-                    $this->dropTable('{{%organization_user_relation}}');
-                    $this->dropTable('{{%organization_user_relation_invitation}}');
-                    $this->dropTable('{{%organization_usergroup}}');
-                    $this->dropTable('{{%organization_usergroup_user_relation}}');
-                    $this->dropPrimaryKey('pk_on_cronjob','{{%cronjob}}');
-                    $this->dropTable('{{%cronjob}}');
-                    $this->dropTable('{{%cronjob_log}}');
-                    $this->dropTable('{{%digital_signature}}');
-                    $this->dropTable('{{%enumeration}}');
-                    $this->dropTable('{{%file}}');
-                    $this->dropPrimaryKey('pk_on_language','{{%language}}');
-                    $this->dropTable('{{%language}}');
-                    $this->dropTable('{{%language_source}}');
-                    $this->dropPrimaryKey('pk_on_language_translate','{{%language_translate}}');
-                    $this->dropTable('{{%language_translate}}');
-                    $this->dropPrimaryKey('pk_on_migration','{{%migration}}');
-                    $this->dropTable('{{%migration}}');
-                    $this->dropPrimaryKey('pk_on_module','{{%module}}');
-                    $this->dropTable('{{%module}}');
-                    $this->dropTable('{{%picture}}');
-                    $this->dropTable('{{%siteadmin_api_key}}');
-                    $this->dropPrimaryKey('pk_on_system_content','{{%system_content}}');
-                    $this->dropTable('{{%system_content}}');
-                    $this->dropTable('{{%system_log}}');
-                    $this->dropTable('{{%system_setting}}');
-                    $this->dropTable('{{%systemadmin_api_key}}');
-                    $this->dropTable('{{%user}}');
-                    $this->dropTable('{{%user_login}}');
-                    $this->dropTable('{{%user_session}}');
-                    $this->dropPrimaryKey('pk_on_user_setting','{{%user_setting}}');
-                    $this->dropTable('{{%user_setting}}');*/
     }
 }

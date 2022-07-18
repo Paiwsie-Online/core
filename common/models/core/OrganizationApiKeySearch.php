@@ -14,8 +14,8 @@ class OrganizationApiKeySearch extends OrganizationApiKey {
     public function rules()
     {
         return [
-            [['id', 'key_id', 'cmr_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'rights_given_by'], 'integer'],
-            [['rights_given'], 'safe'],
+            [['id', 'key_id', 'cmr_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
         ];
     }
 
@@ -50,8 +50,8 @@ class OrganizationApiKeySearch extends OrganizationApiKey {
             'right_read' => $this->right_read,
             'right_update' => $this->right_update,
             'right_delete' => $this->right_delete,
-            'rights_given' => $this->rights_given,
-            'rights_given_by' => $this->rights_given_by,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
         ]);
 
         return $dataProvider;

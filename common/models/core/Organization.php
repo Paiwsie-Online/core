@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property string $name
  * @property string $legal_name
  * @property int|null $created_by
- * @property string $created
+ * @property int $created_at
  * @property string $instance
  * @property string $kyc
  * @property string $kyc_status_changed
@@ -50,7 +50,7 @@ class Organization extends \yii\db\ActiveRecord {
             [['instance'], 'string', 'max' => 126],
             [['tax_number'], 'string', 'max' => 64],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['created', 'kyc', 'kyc_status_changed', 'legal_name'], 'safe'],
+            [['created_at', 'kyc', 'kyc_status_changed', 'legal_name'], 'safe'],
         ];
     }
 
@@ -58,17 +58,11 @@ class Organization extends \yii\db\ActiveRecord {
         return [
             [
                 'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedByAttribute' => false,
             ],
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -80,7 +74,7 @@ class Organization extends \yii\db\ActiveRecord {
             'legal_name' => Yii::t('core_model', 'Legal Name'),
             'tax_number' => Yii::t('core_model', 'Tax Number'),
             'created_by' => Yii::t('core_model', 'Created By'),
-            'created' => Yii::t('core_model', 'Created Time'),
+            'created_at' => Yii::t('core_model', 'Created Time'),
             'instance'  =>  Yii::t('core_model', 'Instance'),
             'created_by_full_name'  =>  Yii::t('core_model', 'Created By'),
             'kyc'   =>  Yii::t('core_model', 'kyc'),

@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
                     [
-                        'attribute' =>  'added',
+                        'attribute' =>  'created_at',
                         'filter' => '<div class="row" style="width: 330px">
                             <div class="col-md-5">' . DatePicker::widget([
                                 'name'  => 'OrganizationUserRelationSearch[addedStart]',
@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) . '</div>
                             </div>',
                         'value' =>  function($data) {
-                            return Yii::$app->formatter->asDatetime($data->added, 'php:Y-m-d H:i');
+                            return Yii::$app->formatter->asDatetime($data->created_at, 'php:Y-m-d H:i');
                         }
                     ],
                     [

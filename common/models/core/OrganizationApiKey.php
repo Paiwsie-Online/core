@@ -18,8 +18,8 @@ use yii\db\ActiveRecord;
  * @property int $right_read
  * @property int $right_update
  * @property int $right_delete
- * @property string $rights_given
- * @property int|null $rights_given_by
+ * @property int $created_at
+ * @property int|null $created_by
  *
  * @property OrganizationModuleRelation $cmr
  * @property ApiKey $key
@@ -34,31 +34,19 @@ class OrganizationApiKey extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['rights_given_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['rights_given'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
     public function rules() {
         return [
             [['key_id', 'cmr_id', 'right_create', 'right_read', 'right_update', 'right_delete'], 'required'],
-            [['key_id', 'cmr_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'rights_given_by'], 'integer'],
-            [['rights_given'], 'safe'],
+            [['key_id', 'cmr_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'created_by'], 'integer'],
+            [['created_at', 'updated_by', 'updated_at'], 'safe'],
             [['cmr_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationModuleRelation::className(), 'targetAttribute' => ['cmr_id' => 'id']],
             [['key_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApiKey::className(), 'targetAttribute' => ['key_id' => 'id']],
-            [['rights_given_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['rights_given_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -71,8 +59,8 @@ class OrganizationApiKey extends \yii\db\ActiveRecord {
             'right_read' => Yii::t('core_model', 'Right Read') . '*',
             'right_update' => Yii::t('core_model', 'Right Update') . '*',
             'right_delete' => Yii::t('core_model', 'Right Delete') . '*',
-            'rights_given' => Yii::t('core_model', 'Rights Given'),
-            'rights_given_by' => Yii::t('core_model', 'Rights Given By'),
+            'created_at' => Yii::t('core_model', 'Rights Given'),
+            'created_by' => Yii::t('core_model', 'Rights Given By'),
         ];
     }
 
@@ -84,8 +72,8 @@ class OrganizationApiKey extends \yii\db\ActiveRecord {
         return $this->hasOne(ApiKey::className(), ['id' => 'key_id']);
     }
 
-    public function getRightsGivenBy() {
-        return $this->hasOne(User::className(), ['id' => 'rights_given_by']);
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
 }

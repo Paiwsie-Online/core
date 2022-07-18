@@ -18,7 +18,8 @@ use yii\db\ActiveRecord;
  * @property string|null $message_short
  * @property string|null $message
  * @property string|null $data_format
- * @property string $log_time
+ * @property int $created_at
+ * @property int|null $created_by
 
  * @property Organization $organization
  * @property User $user
@@ -36,11 +37,12 @@ class SystemLog extends \yii\db\ActiveRecord {
     public function behaviors() {
         return [
             [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+            [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['log_time'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -49,7 +51,7 @@ class SystemLog extends \yii\db\ActiveRecord {
         return [
             [['user_id', 'organization_id'], 'integer'],
             [['message', 'data_format'], 'string'],
-            [['log_time', 'instance'], 'safe'],
+            [['created_at', 'instance', 'created_by'], 'safe'],
             [['message_short'], 'string', 'max' => 512],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -64,7 +66,7 @@ class SystemLog extends \yii\db\ActiveRecord {
             'message_short' => Yii::t('core_model', 'Message Short'),
             'message' => Yii::t('core_model', 'Message'),
             'data_format' => Yii::t('core_model', 'Data Format'),
-            'log_time' => Yii::t('core_model', 'Log Time'),
+            'created_at' => Yii::t('core_model', 'Log Time'),
             'organization_name'  =>  Yii::t('core_model', 'Organization'),
             'user_name'  =>  Yii::t('core_model', 'User'),
             'instance'  =>  Yii::t('core_model', 'Instance'),

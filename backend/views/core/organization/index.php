@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'created_by_full_name',
                     [
-                        'attribute' =>  'created',
+                        'attribute' =>  'created_at',
                         'filter' => '<div class="row" style="width: 330px">
                             <div class="col-md-5">' . DatePicker::widget([
                                 'name'  => 'OrganizationSearch[createdStart]',
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) . '</div>
                             </div>',
                         'value' =>  function($data) {
-                            return ($data->created ? Yii::$app->formatter->asDatetime($data->created, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
+                            return ($data->created_at ? Yii::$app->formatter->asDatetime($data->created_at, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
                         }
                     ],
                     [

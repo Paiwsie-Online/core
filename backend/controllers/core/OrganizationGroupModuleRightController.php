@@ -64,8 +64,8 @@ class OrganizationGroupModuleRightController extends BaseController {
             $moduleRights->cmr_id = $organizationModuleRelation->id;
         }
         $moduleRights->{$accessRight} = $value;
-        //$moduleRights->rights_given = $this->systemTime;
-        //$moduleRights->rights_given_by = Yii::$app->user->identity->id;
+        //$moduleRights->created_at = $this->systemTime;
+        //$moduleRights->created_by = Yii::$app->user->identity->id;
         if ($right === 'read') {
             if ($value === 1) {
                 $systemLog = new SystemLog();

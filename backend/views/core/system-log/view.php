@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
                 <tr>
                     <td class="poppinsStrong"><?=Yii::t('core_system', 'Log Time')?></td>
-                    <td><?=($model->log_time ? Yii::$app->formatter->asDatetime($model->log_time, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'))?></td>
+                    <td><?=($model->created_at ? Yii::$app->formatter->asDatetime($model->created_at, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'))?></td>
                 </tr>
                 <?php
                 if ($model->instance !== null) {

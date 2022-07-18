@@ -12,8 +12,8 @@ class OrganizationOrganizationRelationSearch extends OrganizationOrganizationRel
 
     public function rules() {
         return [
-            [['id', 'parent_organization', 'child_organization', 'added_by'], 'integer'],
-            [['added_time'], 'safe'],
+            [['id', 'parent_organization', 'child_organization', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
         ];
     }
 
@@ -39,8 +39,8 @@ class OrganizationOrganizationRelationSearch extends OrganizationOrganizationRel
             'id' => $this->id,
             'parent_organization' => $this->parent_organization,
             'child_organization' => $this->child_organization,
-            'added_by' => $this->added_by,
-            'added_time' => $this->added_time,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
         ]);
         return $dataProvider;
     }

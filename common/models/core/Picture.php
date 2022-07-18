@@ -13,8 +13,8 @@ use yii\db\ActiveRecord;
 /**
  * @property int $id
  * @property string $uri
- * @property int|null $uploaded_by
- * @property string $uploaded
+ * @property int|null $created_by
+ * @property int $created_at
  * @property User $uploadedBy
  * @property User[] $users
  */
@@ -30,17 +30,11 @@ class Picture extends \yii\db\ActiveRecord {
         return [
             [
                 'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedByAttribute' => false,
             ],
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -48,10 +42,8 @@ class Picture extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['uri'], 'required'],
-            /*[['uploaded_by'], 'integer'],
-            [['uploaded'], 'safe'],*/
             [['uri'], 'string', 'max' => 512],
-            [['uploaded_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uploaded_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -59,12 +51,12 @@ class Picture extends \yii\db\ActiveRecord {
         return [
             'id' => Yii::t('core_model', 'ID'),
             'uri' => Yii::t('core_model', 'Uri') . '*',
-            'uploaded_by' => Yii::t('core_model', 'Uploaded By'),
-            'uploaded' => Yii::t('core_model', 'Uploaded'),
+            'created_by' => Yii::t('core_model', 'Uploaded By'),
+            'created_at' => Yii::t('core_model', 'Uploaded'),
         ];
     }
 
-    public function getUploadedBy() {
+    public function getCreatedBy() {
         return $this->hasOne(User::className(), ['id' => 'uploaded_by']);
     }
 

@@ -18,7 +18,7 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
     public function rules() {
         return [
             [['id', 'organization_id', 'created_by'], 'integer'],
-            [['created_by_full_name', 'name', 'created', 'createdStart', 'createdEnd'], 'safe'],
+            [['created_by_full_name', 'name', 'created_at', 'createdStart', 'createdEnd'], 'safe'],
         ];
     }
 
@@ -42,7 +42,7 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
                 'organization_id',
                 'name',
                 'created_by_full_name',
-                'created'
+                'created_at'
             ]
         ]);
         $this->load($params);
@@ -62,7 +62,7 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
         ]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->created_by_full_name])
-            ->andFilterWhere(['like', 'created', strtotime($this->created)]);
+            ->andFilterWhere(['like', 'created_at', strtotime($this->created)]);
         return $dataProvider;
     }
 
@@ -80,7 +80,7 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
                 'organization_id',
                 'name',
                 'created_by_full_name',
-                'created'
+                'created_at'
             ]
         ]);
         $this->load($params);
@@ -98,9 +98,9 @@ class OrganizationUsergroupSearch extends OrganizationUsergroup {
         ]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'concat(user.first_name,SPACE(1),user.last_name)', $this->created_by_full_name])
-            ->andFilterWhere(['like', 'created', $this->created]);
-        $query->andFilterWhere(['>=', 'created', strtotime($this->createdStart)])
-            ->andFilterWhere(['<', 'created', strtotime($this->createdEnd . "+ 1 day")]);
+            ->andFilterWhere(['like', 'created_at', $this->created_at]);
+        $query->andFilterWhere(['>=', 'created_at', strtotime($this->createdStart)])
+            ->andFilterWhere(['<', 'created_at', strtotime($this->createdEnd . "+ 1 day")]);
         return $dataProvider;
     }
 
