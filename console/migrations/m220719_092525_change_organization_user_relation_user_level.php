@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m220714_070246_change_organization_user_relation_user_level
  */
-class m220714_070246_change_organization_user_relation_user_level extends Migration
+class m220719_092525_change_organization_user_relation_user_level extends Migration
 {
     /**
      * {@inheritdoc}
