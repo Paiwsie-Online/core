@@ -43,9 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'message_short',
                     'message',
                     [
-                        'attribute' =>  'log_time',
+                        'attribute' =>  'created_at',
                         'value' =>  function($data) {
-                            return ($data->log_time ? Yii::$app->formatter->asDatetime($data->log_time, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
+                            return ($data->created_at ? Yii::$app->formatter->asDatetime($data->created_at, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
                         }
                     ],
                     [

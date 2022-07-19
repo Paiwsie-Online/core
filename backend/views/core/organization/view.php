@@ -44,7 +44,7 @@ $this->registerJsFile('@web/js/pageScripts/organizationView.js',['depends' => [\
                                 <span class="poppinsStrong"><?=Yii::t('core_system', 'Instance')?></span>: <?= ($model->instance ?? Yii::t('core_system','Not Set')) ?>
                             </div>
                             <div>
-                                <span class="poppinsStrong"><?=Yii::t('core_system', 'Created Time')?></span>: <?=(Yii::$app->formatter->asDatetime($model->created, 'php:Y-m-d H:i') ?? Yii::t('core_system','Not Set'))?>
+                                <span class="poppinsStrong"><?=Yii::t('core_system', 'Created Time')?></span>: <?=(Yii::$app->formatter->asDatetime($model->created_at, 'php:Y-m-d H:i') ?? Yii::t('core_system','Not Set'))?>
                             </div>
                         </div>
                     </div>

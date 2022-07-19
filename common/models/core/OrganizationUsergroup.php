@@ -15,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property int $organization_id
  * @property string $name
  * @property int|null $created_by
- * @property string $created
+ * @property int $created_at
  * @property OrganizationOrganizationGroupRight[] $organizationOrganizationGroupRights
  * @property OrganizationGroupModuleRight[] $organizationGroupModuleRights
  * @property Organization $organization
@@ -33,27 +33,15 @@ class OrganizationUsergroup extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
     public function rules() {
         return [
             [['name'], 'required'],
             [['organization_id', 'created_by'], 'integer'],
-            [['created'], 'safe'],
+            [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 128],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
@@ -66,7 +54,7 @@ class OrganizationUsergroup extends \yii\db\ActiveRecord {
             'organization_id' => Yii::t('core_model', 'Organization'),
             'name' => Yii::t('core_model', 'Name') . '*',
             'created_by' => Yii::t('core_model', 'Created By'),
-            'created' => Yii::t('core_model', 'Creation date'),
+            'created_at' => Yii::t('core_model', 'Creation date'),
             'created_by_full_name'  =>  Yii::t('core_model', 'Created By'),
         ];
     }

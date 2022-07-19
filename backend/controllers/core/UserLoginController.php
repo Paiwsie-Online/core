@@ -67,7 +67,7 @@ class UserLoginController extends BaseController {
             $timeNow = new \DateTime('now', new \DateTimeZone(Yii::$app->params['defaults']['systemTimeZone']));
             $timeNowUTC = $timeNow->getTimestamp();
             $sessionTimeout = Yii::$app->params['systemTimeout']['authTimeout'];
-            if (($timeNowUTC - $userLoginSession->session_logged) > $sessionTimeout) {
+            if (($timeNowUTC - $userLoginSession->created_at) > $sessionTimeout) {
                 $userLoginSession->expire = $timeNowUTC + $sessionTimeout;
                 $userLoginSession->save();
             }

@@ -18,8 +18,8 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
 
     public function rules() {
         return [
-            [['id', 'organization_id', 'user_id', 'added_by'], 'integer'],
-            [['user_full_name', 'added_by_full_name', 'title', 'user_level', 'added', 'status', 'status_changed', 'addedStart', 'addedEnd'], 'safe'],
+            [['id', 'organization_id', 'user_id', 'created_by'], 'integer'],
+            [['user_full_name', 'added_by_full_name', 'title', 'user_level', 'created_at', 'status', 'status_changed', 'addedStart', 'addedEnd'], 'safe'],
         ];
     }
 
@@ -30,7 +30,7 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
 
     public function search($params) {
         //$query = OrganizationUserRelation::find();
-        $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=added_by');
+        $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=created_by');
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -42,7 +42,7 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
                 'title',
                 'added_by_full_name',
                 'user_level',
-                'added',
+                'added_at',
                 'status',
                 'status_changed'
             ]
@@ -61,12 +61,12 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
             'id' => $this->id,
             'organization_id' => $this->organization_id,
             'user_id' => $this->user_id,
-            'added_by' => $this->added_by,
+            'created_by' => $this->created_by,
             'user_level' => $this->user_level,
             'organization_user_relation.status' => $this->status,
         ]);
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'added', $this->added])
+            ->andFilterWhere(['like', 'created_at', $this->created_at])
             ->andFilterWhere(['like', 'status_changed', $this->status_changed])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->user_full_name])
             ->andFilterWhere(['like', 'concat(u2.first_name,SPACE(1),u2.last_name)', $this->added_by_full_name]);
@@ -75,7 +75,7 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
 
     public function searchList($params) {
         //$query = OrganizationUserRelation::find();
-        $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=added_by');
+        $query = OrganizationUserRelation::find()->select(['organization_user_relation.*', 'concat(u.first_name,SPACE(1),u.last_name) as user_full_name', 'concat(u2.first_name,SPACE(1),u2.last_name) as added_by_full_name'])->leftJoin('user u','u.id=user_id')->leftJoin('user u2', 'u2.id=created_by');
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -87,7 +87,7 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
                 'title',
                 'added_by_full_name',
                 'user_level',
-                'added',
+                'created_at',
                 'status',
                 'status_changed'
             ]
@@ -108,12 +108,12 @@ class OrganizationUserRelationSearch extends OrganizationUserRelation {
             'organization_user_relation.status' => $this->status,
         ]);
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'added', $this->added])
+            ->andFilterWhere(['like', 'created_at', $this->created_at])
             ->andFilterWhere(['like', 'status_changed', $this->status_changed])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->user_full_name])
             ->andFilterWhere(['like', 'concat(u2.first_name,SPACE(1),u2.last_name)', $this->added_by_full_name]);
-        $query->andFilterWhere(['>=', 'added', strtotime($this->addedStart)])
-            ->andFilterWhere(['<', 'added', strtotime($this->addedEnd . "+ 1 day")]);
+        $query->andFilterWhere(['>=', 'created_at', strtotime($this->addedStart)])
+            ->andFilterWhere(['<', 'created_at', strtotime($this->addedEnd . "+ 1 day")]);
         return $dataProvider;
     }
 

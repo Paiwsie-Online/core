@@ -239,27 +239,27 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
     // GET ORGANIZATION ORGANIZATION GROUP RIGHTS MODEL
     public function getOrganizationOrganizationGroupRights() {
-        return $this->hasMany(OrganizationOrganizationGroupRight::className(), ['rights_given_by' => 'id']);
+        return $this->hasMany(OrganizationOrganizationGroupRight::className(), ['created_by' => 'id']);
     }
 
     // GET ORGANIZATION ORGANIZATION RELATION MODEL
     public function getOrganizationOrganizationRelations() {
-        return $this->hasMany(OrganizationOrganizationRelation::className(), ['added_by' => 'id']);
+        return $this->hasMany(OrganizationOrganizationRelation::className(), ['created_by' => 'id']);
     }
 
     // GET ORGANIZATION ORGANIZATION USER RIGHTS MODEL
     public function getOrganizationOrganizationUserRights() {
-        return $this->hasMany(OrganizationOrganizationUserRight::className(), ['rights_given_by' => 'id']);
+        return $this->hasMany(OrganizationOrganizationUserRight::className(), ['created_by' => 'id']);
     }
 
     // GET ORGANIZATION GROUP MODULE RIGHTS MODEL
     public function getOrganizationGroupModuleRights() {
-        return $this->hasMany(OrganizationGroupModuleRight::className(), ['rights_given_by' => 'id']);
+        return $this->hasMany(OrganizationGroupModuleRight::className(), ['created_by' => 'id']);
     }
 
     // GET ORGANIZATION USER MODULE RIGHTS MODEL
     public function getOrganizationUserModuleRights() {
-        return $this->hasMany(OrganizationUserModuleRight::className(), ['rights_given_by' => 'id']);
+        return $this->hasMany(OrganizationUserModuleRight::className(), ['created_by' => 'id']);
     }
 
     // GET ORGANIZATION USER RELATION MODEL
@@ -274,7 +274,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
     // GET ORGANIZATION USERGROUP USER RELATION MODEL
     public function getOrganizationUsergroupUserRelations() {
-        return $this->hasMany(OrganizationUsergroupUserRelation::className(), ['added_by' => 'id']);
+        return $this->hasMany(OrganizationUsergroupUserRelation::className(), ['created_by' => 'id']);
     }
 
     // GET SYSTEM LOG MODEL
@@ -539,15 +539,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
          */
         $directUpdates = [
             'organization' => 'created_by',
-            'organization_organization_group_rights' => 'rights_given_by',
-            'organization_organization_relation' => 'added_by',
-            'organization_organization_user_rights' => 'rights_given_by',
-            'organization_group_module_rights' => 'rights_given_by',
+            'organization_organization_group_rights' => 'created_by',
+            'organization_organization_relation' => 'created_by',
+            'organization_organization_user_rights' => 'created_by',
+            'organization_group_module_rights' => 'created_by',
             'organization_usergroup' => 'created_by',
-            'organization_usergroup_user_relation' => 'added_by',
-            'organization_user_module_rights' => 'rights_given_by',
-            'organization_user_relation' => 'added_by',
-            'picture'   =>  'uploaded_by',
+            'organization_usergroup_user_relation' => 'created_by',
+            'organization_user_module_rights' => 'created_by',
+            'organization_user_relation' => 'created_by',
+            'picture'   =>  'created_by',
             'user_login'    =>  'user_id',
             'system_log' => 'user_id',
         ];
@@ -577,7 +577,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
                 $newRelation->organization_id = $secondRelation->organization_id;
                 $newRelation->user_id = $secondRelation->user_id;
                 $newRelation->title = $secondRelation->title;
-                //$newRelation->added_by = $secondRelation->added_by;
+                //$newRelation->created_by = $secondRelation->created_by;
                 // Compare user levels
                 if ($cur->user_level === 'owner' || $secondRelation->user_level === 'owner') {
                     $newRelation->user_level = 'owner';
@@ -587,7 +587,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
                     $newRelation->user_level = 'user';
                 }
                 // Compare added use oldest
-                $newRelation->added = ($cur->added < $secondRelation->added ? $cur->added : $secondRelation->added);
+                $newRelation->created_at = ($cur->created_at < $secondRelation->created_at ? $cur->created_at : $secondRelation->created_at);
                 // Compare status priority accepted, pending, ignore declined and Status changed use from the used status
                 if ($cur->status === 'accepted' || $secondRelation->status === 'accepted') {
                     if ($cur->status === 'accepted' && $secondRelation->status === 'accepted') {

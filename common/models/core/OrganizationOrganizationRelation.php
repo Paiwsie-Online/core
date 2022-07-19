@@ -14,8 +14,8 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $parent_organization
  * @property int $child_organization
- * @property int|null $added_by
- * @property string $added_time
+ * @property int|null $created_by
+ * @property int $created
  * @property OrganizationOrganizationGroupRight[] $organizationOrganizationGroupRights
  * @property Organization $parentOrganization
  * @property Organization $childOrganization
@@ -31,31 +31,19 @@ class OrganizationOrganizationRelation extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added_time'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
     public function rules() {
         return [
             [['parent_organization', 'child_organization'], 'required'],
-            [['parent_organization', 'child_organization', 'added_by'], 'integer'],
-            [['added_time'], 'safe'],
+            [['parent_organization', 'child_organization', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
             [['parent_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['parent_organization' => 'id']],
             [['child_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['child_organization' => 'id']],
-            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -64,8 +52,8 @@ class OrganizationOrganizationRelation extends \yii\db\ActiveRecord {
             'id' => Yii::t('core_model', 'ID'),
             'parent_organization' => Yii::t('core_model', 'Parent Organization') . '*',
             'child_organization' => Yii::t('core_model', 'Child Organization') . '*',
-            'added_by' => Yii::t('core_model', 'Added By'),
-            'added_time' => Yii::t('core_model', 'Added Time'),
+            'created_by' => Yii::t('core_model', 'Added By'),
+            'created_at' => Yii::t('core_model', 'Added Time'),
         ];
     }
 
@@ -81,8 +69,8 @@ class OrganizationOrganizationRelation extends \yii\db\ActiveRecord {
         return $this->hasOne(Organization::className(), ['id' => 'child_organization']);
     }
 
-    public function getAddedBy() {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     public function getOrganizationOrganizationUserRights() {

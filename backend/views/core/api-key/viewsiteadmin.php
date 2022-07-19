@@ -42,7 +42,7 @@ if ($checkOrganization !== false) {
                     ],
                 ]) ?>
             </span>
-            <h4><?=Yii::t('core_system', 'Key Access')?> - <?=($model->type === 'test' ? '<small class="badge badge-pill badge-warning mr-2">' . Yii::t('core_system', 'Test') . '</small>' : '<small class="badge badge-pill badge-warning mr-2">' . Yii::t('core_system', 'Live') . '</small>')?> <small class="poppinsStrong text-muted"><?=Yii::t('core_system', 'Created By')?> <?= (isset($model->created_by) ? User::getUserName($model->created_by) : Yii::t('core_system', 'Not Set')) ?> <?= $model->created ?></small></h4>
+            <h4><?=Yii::t('core_system', 'Key Access')?> - <?=($model->type === 'test' ? '<small class="badge badge-pill badge-warning mr-2">' . Yii::t('core_system', 'Test') . '</small>' : '<small class="badge badge-pill badge-warning mr-2">' . Yii::t('core_system', 'Live') . '</small>')?> <small class="poppinsStrong text-muted"><?=Yii::t('core_system', 'Created By')?> <?= (isset($model->created_by) ? User::getUserName($model->created_by) : Yii::t('core_system', 'Not Set')) ?> <?= $model->created_at ?></small></h4>
         </div>
         <div class="card-body indexView">
             <div class="row">

@@ -12,8 +12,8 @@ class OrganizationOrganizationGroupRightSearch extends OrganizationOrganizationG
 
     public function rules() {
         return [
-            [['id', 'group_id', 'cc_relation_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'rights_given_by'], 'integer'],
-            [['rights_given'], 'safe'],
+            [['id', 'group_id', 'cc_relation_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'created_by'], 'integer'],
+            [['created_at', 'updated_by', 'updated_at'], 'safe'],
         ];
     }
 
@@ -43,8 +43,8 @@ class OrganizationOrganizationGroupRightSearch extends OrganizationOrganizationG
             'right_read' => $this->right_read,
             'right_update' => $this->right_update,
             'right_delete' => $this->right_delete,
-            'rights_given' => $this->rights_given,
-            'rights_given_by' => $this->rights_given_by,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
         ]);
         return $dataProvider;
     }

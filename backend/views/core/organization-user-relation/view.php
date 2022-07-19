@@ -165,8 +165,8 @@ $groups = Yii::$app->user->identity->selectedOrganization->getGroupListUserRelat
                         ?>
                         <tr>
                             <td><a href="/organization-usergroup/view?id=<?=$organizationUserGroupRelation->group_id?>"><?= $group->name ?></a></td>
-                            <td><!--<a href="/organization-user-relation/view?id=< ?=$organizationUserGroupRelation->ou_relation_id?>">--><?=User::getUserName($organizationUserGroupRelation->added_by)?><!--</a>--></td>
-                            <td><?= Yii::$app->formatter->asDatetime($organizationUserGroupRelation->added, 'php:Y-m-d H:i') ?></td>
+                            <td><!--<a href="/organization-user-relation/view?id=< ?=$organizationUserGroupRelation->ou_relation_id?>">--><?=User::getUserName($organizationUserGroupRelation->created_by)?><!--</a>--></td>
+                            <td><?= Yii::$app->formatter->asDatetime($organizationUserGroupRelation->created_at, 'php:Y-m-d H:i') ?></td>
                             <td class="text-right"><?= Html::a(Yii::t('core_system', 'Delete'), ['/organization-usergroup-user-relation/delete', 'id' => $organizationUserGroupRelation->id], [
                                     'class' => 'btn btn-outline-danger',
                                     'data' => [
