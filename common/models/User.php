@@ -3,6 +3,8 @@
 namespace common\models;
 
 use common\models\core\Module;
+use common\models\core\ObjectParticipant;
+use common\models\core\Objects;
 use common\models\core\Organization;
 use common\models\core\OrganizationGroupModuleRight;
 use common\models\core\OrganizationModuleRelation;
@@ -14,6 +16,7 @@ use yii\helpers\ArrayHelper;
 /**
 * @property array $teamList
 * @property array $assocList
+* @property Athlete[] $athletes
  */
 class User extends core\User
 {
@@ -109,17 +112,27 @@ class User extends core\User
 
     // RETURN ARRAY TEAM LIST BY USER
     public function getTeamList() {
-        $temp_list = $this->hasMany(Organization::className(), ['id' => 'organization_id'])->andWhere(['model' => 'common\models\Team'])->viaTable('organization_user_relation', ['user_id' => 'id'], function($query){
+        $temp_list = $this->hasMany(Team::className(), ['id' => 'organization_id'])->andWhere(['model' => 'common\models\Team'])->viaTable('organization_user_relation', ['user_id' => 'id'], function($query){
             $query->andWhere(['status' => 'accepted']);
         })->asArray()->all();
         return ArrayHelper::map($temp_list, 'id', 'name');
         //return $temp_list;
     }
     public function getAssocList() {
-        $temp_list = $this->hasMany(Organization::className(), ['id' => 'organization_id'])->andWhere(['model' => 'common\models\Association'])->viaTable('organization_user_relation', ['user_id' => 'id'], function($query){
+        $temp_list = $this->hasMany(Association::className(), ['id' => 'organization_id'])->andWhere(['model' => 'common\models\Association'])->viaTable('organization_user_relation', ['user_id' => 'id'], function($query){
             $query->andWhere(['status' => 'accepted']);
         })->asArray()->all();
         return ArrayHelper::map($temp_list, 'id', 'name');
         //return $temp_list;
+    }
+    public function getAthletes()
+    {
+        return $this->hasMany(Athlete::className(), ['id' => 'object'])->andWhere(['model' => 'common\models\Athlete'])->viaTable('object_participant', ['model_id' => 'id'], function($query) {
+            $query->andWhere(['object_participant.model' => 'common\models\User']);
+        });
+    }
+    public function athletesByTeam($teamID)
+    {
+        return Athlete::find()->alias('a')->leftJoin('object_participant b', 'b.object = a.id')->leftJoin('object_participant c', 'c.object = a.id')->where(['a.model' => 'common\models\Athlete'])->andWhere(['b.model' => 'common\models\User'])->andWhere(['b.model_id' => $this->id])->andWhere(['c.model' => 'common\models\Team'])->andWhere(['c.model_id' => $teamID])->all();
     }
 }

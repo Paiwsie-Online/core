@@ -11,8 +11,8 @@ use common\models\core\Language;
 use backend\widgets\Alert;
 use common\models\core\UserSetting;
 use Imagine\Image\ManipulatorInterface;
-use yii\bootstrap4\Breadcrumbs;
-use yii\bootstrap4\Modal;
+use yii\bootstrap5\Breadcrumbs;
+use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 

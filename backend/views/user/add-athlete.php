@@ -5,7 +5,7 @@ Do not change this file unless you know what you are doing.
 */
 /* @var $model common\models\Athlete */
 
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 
 foreach ($model->participantLevels() as $participantLevel) {

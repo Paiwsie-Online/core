@@ -2,7 +2,7 @@
 
 use common\models\Association;
 use common\models\Team;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url; ?>
 
 <div style="display: flex; justify-content: space-evenly">

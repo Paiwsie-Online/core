@@ -31,4 +31,7 @@ class OrganizationUserRelation extends core\OrganizationUserRelation
             [['selected_organization'], 'integer'],
         ];
     }
+    public function getUser() {
+        return $this->hasOne(\common\models\User::className(), ['id' => 'user_id']);
+    }
 }

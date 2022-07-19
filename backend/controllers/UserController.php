@@ -5,11 +5,12 @@ namespace backend\controllers;
 use common\models\Athlete;
 use common\models\core\ObjectParticipant;
 use common\models\core\SystemLog;
-use common\models\core\User;
+use common\models\User;
 use common\models\core\UserSearch;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -60,4 +61,48 @@ class UserController extends core\UserController
             'model' => $model,
         ]);
     }
+    protected function findModel($id) {
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException(Yii::t('core_system', 'The requested page does not exist'));
+    }
+    // CHANGE NAME PAGE
+    public function actionNameChange($id = null) {
+        $model = $this->findModel(Yii::$app->user->identity->id);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        if ($model->load(Yii::$app->request->post())) {
+            $model->first_name = $_POST['User']['first_name'];
+            $model->last_name = $_POST['User']['last_name'];
+
+                $model->first_name = ucfirst($model->first_name);
+                $model->last_name = ucfirst($model->last_name);
+                if ($model->save()) {
+
+                    $systemLog = new SystemLog();
+                    $systemLog->user_id = $model->id;
+                    $systemLog->instance = $model->instance;
+                    $systemLog->message_short = ($model->first_name ?? '') . ' ' . ($model->last_name ?? '') . ' changed name';
+                    $systemLog->message = ($model->first_name ?? '') . ' ' . ($model->last_name ?? '') . ' changed name: ' . $model->first_name . $model->last_name . ' from ip: ' . Yii::$app->request->getUserIP();
+                    $dataFormat = [
+                        'event' => 'changeName',
+                        'user' => $model->id,
+                        'first_name' => $model->first_name,
+                        'last_name' => $model->last_name,
+                        'ip' => Yii::$app->request->getUserIP(),
+                    ];
+                    $systemLog->data_format = json_encode($dataFormat);
+                    $systemLog->save();
+                    Yii::$app->session->setFlash('success', Yii::t('core_user', 'Name has been changed successfully'));
+                    return $this->redirect(['profile']);
+                }
+            }
+        return $this->render('name-change', [
+            'model' => $model,
+        ]);
+    }
+
 }

@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 class OrganizationUserRelationController extends core\OrganizationUserRelationController
 {
-
+/*
    /* public function actionInvite($id = null) {
         if (!isset($id)) {
             $id = Yii::$app->user->identity->selectedOrganization->id;
@@ -72,8 +72,8 @@ class OrganizationUserRelationController extends core\OrganizationUserRelationCo
             'parentModel' => $parentModel,
             'organizationModel' => $organizationModel
         ]);
-    }
-
+    }*/
+/*
     private function sendInvitationSms(OrganizationUserRelation $model, OrganizationUserRelationInvitation $parentModel) {
         $organizationSettings = OrganizationSetting::findOne(['organization_id' => Yii::$app->user->identity->selectedOrganization->id, 'setting' => 'content_email_inviteUser']);
         if (isset($organizationSettings)) {
