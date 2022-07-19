@@ -19,6 +19,7 @@ use Yii;
  * @property Enumeration $level0
  * @property Objects $object0
  * @property Objects[] $objects
+ * @property Objects[] $multiParticipantObject
  */
 class ObjectParticipant extends \yii\db\ActiveRecord
 {

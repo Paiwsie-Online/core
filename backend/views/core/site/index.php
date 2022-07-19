@@ -24,6 +24,7 @@ if (class_exists($testClass)) {
 $this->title = Yii::t('core_system', 'Home');
 
 $this->registerJsFile('@web/js/pageScripts/index.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 if (isset(Yii::$app->user->identity->selectedOrganization->id)) {
     $organizationModulesCount = (int)OrganizationModuleRelation::find()->where(['organization_id' => Yii::$app->user->identity->selectedOrganization->id])->count();
 }
