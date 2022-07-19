@@ -3,7 +3,7 @@
 This file is part of Trust Anchor Groups Smartadmin core
 Do not change this file unless you know what you are doing.
 */
-class m220705_092525_DatabaseStructure extends \yii\db\Migration
+class m220719_082525_DatabaseStructure extends \yii\db\Migration
 {
 
     public function init()
