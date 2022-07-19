@@ -237,7 +237,7 @@ class SiteController extends BaseController {
                             $timeNow = new \DateTime('now', new \DateTimeZone(Yii::$app->params['defaults']['systemTimeZone']));
                             $timeNowUTC =  $timeNow->getTimestamp();
                             $userLogin->expire = $timeNowUTC + Yii::$app->params['systemTimeout']['authTimeout'];
-                            $userLogin->session_logged = $timeNowUTC;
+                            //$userLogin->created_at = $timeNowUTC;
                             $userLogin->session_id = Yii::$app->session->id;
                             $userLogin->save();
                             if (isset(Yii::$app->request->cookies['userSession'])) {

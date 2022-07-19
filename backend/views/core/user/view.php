@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ?>
                                     <tr>
                                         <td><?=$sL['message_short']?></td>
-                                        <td><?=Yii::$app->formatter->asDatetime($sL->log_time, 'php:Y-m-d H:i')?></td>
+                                        <td><?=Yii::$app->formatter->asDatetime($sL->created_at, 'php:Y-m-d H:i')?></td>
                                     </tr>
                                 <?php
                                     if ($limitLoop++ == 10) {
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="card border-info mb-4">
                                 <div class="card-header cardHeader">
                                     <span class="float-right mt-2">
-                                        <?=Yii::t('core_user', 'Registered') . ': ' . Yii::$app->formatter->asDatetime($organizationRelation->added, 'php:Y-m-d H:i')?>
+                                        <?=Yii::t('core_user', 'Registered') . ': ' . Yii::$app->formatter->asDatetime($organizationRelation->created_at, 'php:Y-m-d H:i')?>
                                     </span>
                                     <h5><?=$organization->name?> - <span class="badge badge-warning badge-pill"><?=Yii::t('organization_user_relation', ucfirst($organizationRelation->title))?></span></h5>
                                 </div>

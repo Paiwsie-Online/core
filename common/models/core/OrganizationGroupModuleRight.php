@@ -19,8 +19,8 @@ use yii\db\ActiveRecord;
  * @property int $right_read
  * @property int $right_update
  * @property int $right_delete
- * @property string $rights_given
- * @property int|null $rights_given_by
+ * @property int $created_at
+ * @property int|null $created_by
 
  * @property OrganizationUsergroup $group
  * @property OrganizationModuleRelation $module
@@ -36,30 +36,18 @@ class OrganizationGroupModuleRight extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['group_id', 'cmr_id'], 'required'],
-            [['group_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'rights_given_by', 'cmr_id'], 'integer'],
-            [['rights_given'], 'safe'],
+            [['group_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'created_by', 'cmr_id'], 'integer'],
+            [['created_at', 'updated_by', 'update_at'], 'safe'],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationUsergroup::className(), 'targetAttribute' => ['group_id' => 'id']],
             [['cmr_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationModuleRelation::className(), 'targetAttribute' => ['cmr_id' => 'id']],
-            [['rights_given_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['rights_given_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['rights_given_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['rights_given'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
@@ -72,8 +60,8 @@ class OrganizationGroupModuleRight extends \yii\db\ActiveRecord {
             'right_read' => Yii::t('core_model', 'Right Read'),
             'right_update' => Yii::t('core_model', 'Right Update'),
             'right_delete' => Yii::t('core_model', 'Right Delete'),
-            'rights_given' => Yii::t('core_model', 'Rights Given'),
-            'rights_given_by' => Yii::t('core_model', 'Rights Given By'),
+            'created_at' => Yii::t('core_model', 'Rights Given'),
+            'created_by' => Yii::t('core_model', 'Rights Given By'),
         ];
     }
 
@@ -85,8 +73,8 @@ class OrganizationGroupModuleRight extends \yii\db\ActiveRecord {
         return $this->hasOne(OrganizationModuleRelation::className(), ['id' => 'cmr_id']);
     }
 
-    public function getRightsGivenBy() {
-        return $this->hasOne(User::className(), ['id' => 'rights_given_by']);
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
 }

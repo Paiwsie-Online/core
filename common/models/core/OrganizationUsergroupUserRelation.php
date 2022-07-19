@@ -14,8 +14,8 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $ou_relation_id
  * @property int $group_id
- * @property int|null $added_by
- * @property string $added
+ * @property int|null $created_by
+ * @property int $created_at
 
  * @property OrganizationUserRelation $ouRelation
  * @property OrganizationUsergroup $group
@@ -30,29 +30,17 @@ class OrganizationUsergroupUserRelation extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['added'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
     public function rules() {
         return [
-            [['ou_relation_id', 'group_id', 'added_by'], 'integer'],
-            [['added'], 'safe'],
+            [['ou_relation_id', 'group_id', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
             [['ou_relation_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationUserRelation::className(), 'targetAttribute' => ['ou_relation_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrganizationUsergroup::className(), 'targetAttribute' => ['group_id' => 'id']],
-            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -61,8 +49,8 @@ class OrganizationUsergroupUserRelation extends \yii\db\ActiveRecord {
             'id' => Yii::t('core_model', 'ID'),
             'ou_relation_id' => Yii::t('core_model', 'User'),
             'group_id' => Yii::t('core_model', 'Group'),
-            'added_by' => Yii::t('core_model', 'Added By'),
-            'added' => Yii::t('core_model', 'Added Time'),
+            'created_by' => Yii::t('core_model', 'Added By'),
+            'created_at' => Yii::t('core_model', 'Added Time'),
         ];
     }
 
@@ -74,8 +62,8 @@ class OrganizationUsergroupUserRelation extends \yii\db\ActiveRecord {
         return $this->hasOne(OrganizationUsergroup::className(), ['id' => 'group_id']);
     }
 
-    public function getAddedBy() {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
 }

@@ -18,7 +18,7 @@ use yii\jui\DatePicker;
  * @property string $key
  * @property string|null $instance
  * @property int|null $organization_id
- * @property string $created
+ * @property int $created_at
  * @property int|null $created_by
  * @property string|null $key_config
  * @property string|null $expiry_date
@@ -42,20 +42,8 @@ class ApiKey extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_by'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
@@ -64,7 +52,7 @@ class ApiKey extends \yii\db\ActiveRecord {
             [['key_type', 'key', 'type'], 'required'],
             [['key_type', 'key_config', 'status', 'type'], 'string'],
             [['organization_id', 'created_by'], 'integer'],
-            [['created', 'expiry_date'], 'safe'],
+            [['created_at', 'updated_by', 'updated_at', 'expiry_date'], 'safe'],
             [['key'], 'string', 'max' => 128],
             [['instance'], 'string', 'max' => 64],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
@@ -79,8 +67,10 @@ class ApiKey extends \yii\db\ActiveRecord {
             'key' => Yii::t('core_model', 'Key') . '*',
             'instance' => Yii::t('core_model', 'Instance'),
             'organization_id' => Yii::t('core_model', 'Organization ID'),
-            'created' => Yii::t('core_model', 'Created'),
+            'created_at' => Yii::t('core_model', 'Created'),
             'created_by' => Yii::t('core_model', 'Created By'),
+            'updated_at' => Yii::t('core_model', 'Updated'),
+            'updated_by' => Yii::t('core_model', 'Updated By'),
             'key_config' => Yii::t('core_model', 'Key Config'),
             'expiry_date' => Yii::t('core_model', 'Expiry Date'),
             'status' => Yii::t('core_model', 'Status'),
@@ -167,7 +157,7 @@ class ApiKey extends \yii\db\ActiveRecord {
                 }
             ],
             [
-                'attribute' =>  'created',
+                'attribute' =>  'created_at',
                 'filter' => '<div class="row" style="width: 330px">
                             <div class="col-md-5">' . DatePicker::widget([
                         'name'  => 'ApiKeySearch[createdStart]',
@@ -190,7 +180,7 @@ class ApiKey extends \yii\db\ActiveRecord {
                     ]) . '</div>
                             </div>',
                 'value' =>  function($data) {
-                    return ($data->created ? Yii::$app->formatter->asDatetime($data->created, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
+                    return ($data->created_at ? Yii::$app->formatter->asDatetime($data->created_at, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
                 }
             ],
             'created_by_full_name',
@@ -253,7 +243,7 @@ class ApiKey extends \yii\db\ActiveRecord {
                 }
             ],
             [
-                'attribute' =>  'created',
+                'attribute' =>  'created_at',
                 'filter' => '<div class="row" style="width: 330px">
                             <div class="col-md-5">' . DatePicker::widget([
                         'name'  => 'ApiKeySearch[createdStart]',
@@ -276,7 +266,7 @@ class ApiKey extends \yii\db\ActiveRecord {
                     ]) . '</div>
                             </div>',
                 'value' =>  function($data) {
-                    return ($data->created ? Yii::$app->formatter->asDatetime($data->created, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
+                    return ($data->created_at ? Yii::$app->formatter->asDatetime($data->created_at, 'php:Y-m-d H:i') : Yii::t('core_system', 'Not Set'));
                 }
             ],
             'created_by_full_name',

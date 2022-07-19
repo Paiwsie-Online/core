@@ -175,7 +175,7 @@ class ApiKeyController extends BaseController {
                         $siteAdminApiKey->right_update = 1;
                         $siteAdminApiKey->right_delete = 1;
                     }
-                    //$siteAdminApiKey->rights_given_by = Yii::$app->user->identity->id;
+                    //$siteAdminApiKey->created_by = Yii::$app->user->identity->id;
                     $siteAdminApiKey->save();
                 }
                 $systemLog = new SystemLog();
@@ -347,8 +347,8 @@ class ApiKeyController extends BaseController {
             $systemLog->save();
 
         }
-        $module->rights_given = $this->systemTime;
-        $module->rights_given_by = Yii::$app->user->identity->id;
+        //$module->created_at = $this->systemTime;
+        //$module->created_by = Yii::$app->user->identity->id;
         
         if (!$module->save()) {
             Yii::$app->session->setFlash('danger', Yii::t('core_system', 'Something went wrong, please try again!'));
@@ -379,7 +379,7 @@ class ApiKeyController extends BaseController {
                     $organizationApiKey->right_read = 0;
                     $organizationApiKey->right_update = 0;
                     $organizationApiKey->right_delete = 0;
-                    //$organizationApiKey->rights_given_by = Yii::$app->user->identity->id;
+                    //$organizationApiKey->created_by = Yii::$app->user->identity->id;
                     $organizationApiKey->save();
                 }
                 $systemLog = new SystemLog();

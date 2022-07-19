@@ -15,8 +15,8 @@ use yii\web\ServerErrorHttpException;
 /**
  * @property int $id
  * @property string $uri
- * @property int|null $uploaded_by
- * @property string $uploaded
+ * @property int|null $created_by
+ * @property int $created_at
 
  * @property User $uploadedBy
  */
@@ -32,15 +32,11 @@ class File extends \yii\db\ActiveRecord {
         return [
             [
                 'class' => BlameableBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded_by'],
-                ],
+                'updatedByAttribute' => false,
             ],
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['uploaded'],
-                ],
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -48,10 +44,10 @@ class File extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['uri'], 'required'],
-            [['id', 'uploaded_by'], 'integer'],
-            [['uploaded'], 'safe'],
+            [['id', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
             [['uri'], 'string', 'max' => 512],
-            [['uploaded_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uploaded_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -59,13 +55,13 @@ class File extends \yii\db\ActiveRecord {
         return [
             'id' => Yii::t('core_model', 'ID'),
             'uri' => Yii::t('core_model', 'Uri') . '*',
-            'uploaded_by' => Yii::t('core_model', 'Uploaded By'),
-            'uploaded' => Yii::t('core_model', 'Uploaded'),
+            'created_by' => Yii::t('core_model', 'Uploaded By'),
+            'created_at' => Yii::t('core_model', 'Uploaded'),
         ];
     }
 
     // RETURNS THE USER THAT UPLOADED THE FILE
-    public function getUploadedBy() {
+    public function getCreatedBy() {
         return $this->hasOne(User::className(), ['id' => 'uploaded_by']);
     }
 
@@ -81,7 +77,7 @@ class File extends \yii\db\ActiveRecord {
             }
         }
         if ($user_id) {
-            $fileExists = File::find()->where(['uploaded_by' => $user_id, 'id' => $file_id])->one();
+            $fileExists = File::find()->where(['created_by' => $user_id, 'id' => $file_id])->one();
             if (!$fileExists) {
                 throw new NotAcceptableHttpException(Yii::t('core_system', 'This file does not belong to this user'));
             }

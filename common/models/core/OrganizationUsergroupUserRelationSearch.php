@@ -12,8 +12,8 @@ class OrganizationUsergroupUserRelationSearch extends OrganizationUsergroupUserR
 
     public function rules() {
         return [
-            [['id', 'ou_relation_id', 'group_id', 'added_by'], 'integer'],
-            [['added'], 'safe'],
+            [['id', 'ou_relation_id', 'group_id', 'created_by'], 'integer'],
+            [['created_at'], 'safe'],
         ];
     }
 
@@ -39,8 +39,8 @@ class OrganizationUsergroupUserRelationSearch extends OrganizationUsergroupUserR
             'id' => $this->id,
             'ou_relation_id' => $this->ou_relation_id,
             'group_id' => $this->group_id,
-            'added_by' => $this->added_by,
-            'added' => $this->added,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
         ]);
         return $dataProvider;
     }

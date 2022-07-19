@@ -24,6 +24,7 @@ if (class_exists($testClass)) {
 $this->title = Yii::t('core_system', 'Home');
 
 $this->registerJsFile('@web/js/pageScripts/index.js',['depends' => [\yii\web\JqueryAsset::className()]]);
+
 if (isset(Yii::$app->user->identity->selectedOrganization->id)) {
     $organizationModulesCount = (int)OrganizationModuleRelation::find()->where(['organization_id' => Yii::$app->user->identity->selectedOrganization->id])->count();
 }
@@ -37,7 +38,7 @@ if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isse
         </div>
         <div class="d-inline-flex">
             <div class="mt-4 mb-4 ml-2">
-                <h1><?= Yii::t('core_system', 'Welcome to') . ' index.php' . Yii::$app->params['default_site_settings']['site_name']?></h1>
+                <h1><?= Yii::t('core_system', 'Welcome to') . ' ' . Yii::$app->params['default_site_settings']['site_name']?></h1>
                 <span class="mt-2"><?=Yii::t('core_system', 'Smart payments as a service')?></span>
             </div>
         </div>

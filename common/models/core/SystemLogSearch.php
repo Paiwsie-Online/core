@@ -17,7 +17,7 @@ class SystemLogSearch extends SystemLog {
     public function rules() {
         return [
             [['id', 'user_id', 'organization_id'], 'integer'],
-            [['message_short', 'message', 'data_format', 'log_time', 'instance', 'organization_name', 'user_name'], 'safe'],
+            [['message_short', 'message', 'data_format', 'created_at', 'instance', 'organization_name', 'user_name'], 'safe'],
         ];
     }
 
@@ -42,7 +42,7 @@ class SystemLogSearch extends SystemLog {
                 'message_short',
                 'message',
                 'data_format',
-                'log_time',
+                'created_at',
                 'instance',
                 'organization_name',
                 'user_name',
@@ -66,7 +66,7 @@ class SystemLogSearch extends SystemLog {
         $query->andFilterWhere(['like', 'message_short', $this->message_short])
             ->andFilterWhere(['like', 'message', $this->message])
             ->andFilterWhere(['like', 'data_format', $this->data_format])
-            ->andFilterWhere(['like', 'log_time', $this->log_time])
+            ->andFilterWhere(['like', 'created_at', $this->created_at])
             ->andFilterWhere(['like', 'organization_id', $this->organization_id])
             ->andFilterWhere(['like', 'organization.name', $this->organization_name])
             ->andFilterWhere(['like', 'concat(u.first_name,SPACE(1),u.last_name)', $this->user_name]);

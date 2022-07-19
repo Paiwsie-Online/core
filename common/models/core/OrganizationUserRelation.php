@@ -15,9 +15,9 @@ use yii\db\ActiveRecord;
  * @property int $organization_id
  * @property int|null $user_id
  * @property string|null $title
- * @property int|null $added_by
+ * @property int|null $created_by
  * @property string $user_level
- * @property string $added
+ * @property int $created_at
  * @property string $status
  * @property string|null $status_changed
  * @property int|null $selected_organization
@@ -42,29 +42,21 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
 
     public function behaviors() {
         return [
-            [
-                'class' => BlameableBehavior::class,
-                'createdByAttribute' => 'added_by',
-                'updatedByAttribute' => false,
-            ],
-            [
-                'class' => TimestampBehavior::class,
-                'createdAtAttribute' => 'added',
-                'updatedAtAttribute' => false,
-            ],
+            BlameableBehavior::class,
+            TimestampBehavior::class,
         ];
     }
     public function rules() {
         return [
             [['organization_id', 'user_level', 'title'], 'required'],
-            [['organization_id', 'user_id', 'added_by'], 'integer'],
+            [['organization_id', 'user_id', 'created_by'], 'integer'],
             [['user_level', 'status'], 'string'],
-            [['added', 'status_changed'], 'safe'],
+            [['created_at', 'status_changed'], 'safe'],
             [['title'], 'string', 'max' => 128],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
             [['user_id'], 'default', 'value' => null],
             [['user_id'], 'exist', 'skipOnEmpty'  => true, 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['selected_organization'], 'integer'],
         ];
     }
@@ -75,9 +67,9 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
             'organization_id' => Yii::t('core_model', 'Organization ID') . '*',
             'user_id' => Yii::t('core_model', 'User'),
             'title' => Yii::t('core_model', 'Title'),
-            'added_by' => Yii::t('core_model', 'Added By'),
+            'created_by' => Yii::t('core_model', 'Added By'),
             'user_level' => Yii::t('core_model', 'User Level') . '*',
-            'added' => Yii::t('core_model', 'Added Time'),
+            'created_at' => Yii::t('core_model', 'Added Time'),
             'status' => Yii::t('core_model', 'Status'),
             'status_changed' => Yii::t('core_model', 'Status Changed'),
             'user_full_name'  =>  Yii::t('core_model', 'Name'),
@@ -101,8 +93,8 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function getAddedBy() {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
+    public function getCreatedBy() {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     public function getOrganizationUsergroupUserRelations() {
@@ -146,10 +138,10 @@ class OrganizationUserRelation extends \yii\db\ActiveRecord {
     }
 
     public static function getAddedByUser() {
-        $temp_list = self::find()->indexBy('added_by')->where(['organization_id' => Yii::$app->user->identity->selectedOrganization['id']])->all();
+        $temp_list = self::find()->indexBy('created_by')->where(['organization_id' => Yii::$app->user->identity->selectedOrganization['id']])->all();
         $users = [];
         foreach ($temp_list as $item) {
-            $user = User::findIdentity($item->added_by);
+            $user = User::findIdentity($item->created_by);
             if ($user) {
                 $users[$user->id] = $user->first_name . ' ' . $user->last_name;
             }

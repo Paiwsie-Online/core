@@ -12,8 +12,8 @@ class PictureSearch extends Picture {
 
     public function rules() {
         return [
-            [['id', 'uploaded_by'], 'integer'],
-            [['uri', 'uploaded'], 'safe'],
+            [['id', 'created_by'], 'integer'],
+            [['uri', 'created_at'], 'safe'],
         ];
     }
 
@@ -37,8 +37,8 @@ class PictureSearch extends Picture {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'uploaded_by' => $this->uploaded_by,
-            'uploaded' => $this->uploaded,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
         ]);
         $query->andFilterWhere(['like', 'uri', $this->uri]);
         return $dataProvider;

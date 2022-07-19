@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]) ?>
             </span>
-            <h4><?=Yii::t('core_organization', 'Group Access')?> <small><small class="text-muted"><?= Yii::t('core_system', 'Created By') . ' view.php' . (isset($model->created_by) ? User::getUserName($model->created_by) : Yii::t('core_system', 'Not Set')) . ' ' . $model->created ?></small></small></h4>
+            <h4><?=Yii::t('core_organization', 'Group Access')?> <small><small class="text-muted"><?= Yii::t('core_system', 'Created By') . ' ' . (isset($model->created_by) ? User::getUserName($model->created_by) : Yii::t('core_system', 'Not Set')) . ' ' . $model->created_at ?></small></small></h4>
         </div>
         <div class="card-body indexView">
             <table class="table table-striped">
@@ -108,12 +108,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     </thead>
                     <?php
                     foreach (array_reverse($model->organizationUsergroupUserRelations) as $user) {
-                        $added_byOu_relation_id = OrganizationUserRelation::find()->where(['organization_id' => $model->organization_id, 'user_id' => $user->added_by])->one();
+                        $added_byOu_relation_id = OrganizationUserRelation::find()->where(['organization_id' => $model->organization_id, 'user_id' => $user->created_by])->one();
                         ?>
                         <tr>
                             <td><a href="/organization-user-relation/view?id=<?=$user->ou_relation_id?>"><?= User::getUserName($user->ouRelation->user->id) ?></a></td>
-                            <td><?=($added_byOu_relation_id ? /*'<a href="/organization-user-relation/view?id=' . $added_byOu_relation_id->id . '">' .*/ User::getUserName($user->added_by) /*. '</a>'*/ : User::getUserName($user->added_by)) ?></td>
-                            <td><?= Yii::$app->formatter->asDatetime($user->added, 'php:Y-m-d H:i') ?></td>
+                            <td><?=($added_byOu_relation_id ? /*'<a href="/organization-user-relation/view?id=' . $added_byOu_relation_id->id . '">' .*/ User::getUserName($user->created_by) /*. '</a>'*/ : User::getUserName($user->created_by)) ?></td>
+                            <td><?= Yii::$app->formatter->asDatetime($user->created_at, 'php:Y-m-d H:i') ?></td>
                             <td class="text-right"><?= Html::a(Yii::t('core_system', 'Delete'), ['/organization-usergroup-user-relation/delete', 'id' => $user->id], [
                                     'class' => 'btn btn-outline-danger',
                                     'data' => [

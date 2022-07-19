@@ -13,8 +13,8 @@ class SiteadminApiKeySearch extends SiteadminApiKey {
 
     public function rules() {
         return [
-            [['id', 'key_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'rights_given_by'], 'integer'],
-            [['module_id', 'rights_given'], 'safe'],
+            [['id', 'key_id', 'right_create', 'right_read', 'right_update', 'right_delete', 'created_by'], 'integer'],
+            [['module_id', 'created_at'], 'safe'],
         ];
     }
 
@@ -48,8 +48,8 @@ class SiteadminApiKeySearch extends SiteadminApiKey {
             'right_read' => $this->right_read,
             'right_update' => $this->right_update,
             'right_delete' => $this->right_delete,
-            'rights_given' => $this->rights_given,
-            'rights_given_by' => $this->rights_given_by,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
         ]);
 
         $query->andFilterWhere(['like', 'module_id', $this->module_id]);

@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $loginID
  * @property string $sessionID
  * @property int $uID
- * @property string $sessionTime
+ * @property int $created_at
 
  * @property User $u
  */
@@ -29,7 +29,7 @@ class UserSession extends \yii\db\ActiveRecord {
         return [
             [['sessionID', 'uID'], 'required'],
             [['uID'], 'integer'],
-            [['sessionTime'], 'safe'],
+            [['created_at', 'created_by'], 'safe'],
             [['sessionID'], 'string', 'max' => 255],
             [['uID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['uID' => 'id']],
         ];
@@ -38,11 +38,12 @@ class UserSession extends \yii\db\ActiveRecord {
     public function behaviors() {
         return [
             [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+            [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['sessionTime'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
-                ],
+                'updatedAtAttribute' => false,
             ],
         ];
     }
@@ -51,7 +52,7 @@ class UserSession extends \yii\db\ActiveRecord {
             'loginID' => Yii::t('core_model', 'Login ID'),
             'sessionID' => Yii::t('core_model', 'Session ID') . '*',
             'uID' => Yii::t('core_model', 'User ID') . '*',
-            'sessionTime' => Yii::t('core_model', 'Session Time'),
+            'created_at' => Yii::t('core_model', 'Session Time'),
         ];
     }
 
