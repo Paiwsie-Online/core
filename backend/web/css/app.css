@@ -229,6 +229,18 @@ File: Main Css File
 body {
   background-color: var(--vz-body-bg) !important;
 }
+.btn.btn-topbar:hover {
+  border: none transparent !important;
+  border-color: transparent !important;
+}
+.btn.btn-topbar:active {
+  border: none transparent !important;
+  border-color: transparent !important;
+}
+.btn.btn-topbar:focus {
+  border: none transparent !important;
+  border-color: transparent !important;
+}
 
 #page-topbar {
   position: fixed;
@@ -413,11 +425,11 @@ body {
   border-color: var(--vz-header-bg-dark);
 }
 [data-topbar=dark] .navbar-header .btn-topbar {
-  color: var(--vz-header-item-color-dark);
+  color: var(--vz-header-item-color-dark) !important;
 }
 [data-topbar=dark] .navbar-header .btn-topbar:hover, [data-topbar=dark] .navbar-header .btn-topbar:focus {
-  background-color: rgba(255, 255, 255, 0.07);
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  color: #fff !important;
 }
 @media (min-width: 767.99px) {
   [data-topbar=dark] .topbar-user {

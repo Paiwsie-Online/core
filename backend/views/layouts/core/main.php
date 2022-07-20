@@ -34,7 +34,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/app.js', ['depends' => 
 //$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/css/jsvectormap.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/icons.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.min.css');
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/custom.min.css');
 
 AppAsset::register($this);
@@ -230,22 +230,12 @@ $user = Yii::$app->user;
                     <?php
                     // Flags
                     ?>
+
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img id="header-lang-img" src="/img/flags/us.png" alt="Header Language" height="25">
+                            <img src="/img/flags/<?= $currentLanguage->country ?>.png" alt="user-image" class="me-2 rounded" height="25">
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end">
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
-                                <img src="/img/flags/us.png" alt="user-image" class="me-2 rounded" height="18">
-                                <span class="align-middle">English</span>
-                            </a>
-
-                        </div>
-                    </div>
-                    <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0 textColor"><?= $currentLanguage->name . ($currentLanguage->status === 2 ? ' <span class="text-warning">' . Yii::t('core_system', 'Beta') . '</span>' : '') ?></span>
                         <div class="dropdown-menu dropdown-menu-end">
                             <?php
                             foreach ($languageMenu as $language) {
