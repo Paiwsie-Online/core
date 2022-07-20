@@ -4,7 +4,7 @@ This file is part of Trust Anchor Groups Smartadmin core
 Do not change this file unless you know what you are doing.
 */
 use lajax\translatemanager\models\ImportForm;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */

@@ -1,9 +1,9 @@
-(function () {
+/*(function () {
     window.layoutHelpers.setAutoUpdate(true);
-})();
+})();*/
 
 // Collapse menu
-(function () {
+/*(function () {
     if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
         return;
     }
@@ -40,7 +40,7 @@ $(function () {
     if ($('html').attr('dir') === 'rtl') {
         $('#layout-navbar .dropdown-menu').toggleClass('dropdown-menu-right');
     }
-});
+});*/
 
 // QR scan received from TAGid
 function qrScanReceived() {

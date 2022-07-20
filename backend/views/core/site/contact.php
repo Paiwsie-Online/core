@@ -4,11 +4,11 @@ This file is part of Trust Anchor Groups Smartadmin core
 Do not change this file unless you know what you are doing.
 */
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $form yii\bootstrap5\ActiveForm */
 /* @var $model common\models\core\ContactForm */
 
 use yii\helpers\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 
 $this->title = Yii::t('core_system', 'Contact');
 $form = ActiveForm::begin(['id' => 'contact-form']);

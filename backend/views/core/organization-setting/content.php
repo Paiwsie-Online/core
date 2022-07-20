@@ -7,8 +7,8 @@ Do not change this file unless you know what you are doing.
 /* @var $model common\models\core\OrganizationSetting */
 
 use dosamigos\ckeditor\CKEditor;
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('core_organization', 'Organization Settings')];
 \yii\web\YiiAsset::register($this);

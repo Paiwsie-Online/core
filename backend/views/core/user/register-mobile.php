@@ -6,7 +6,7 @@ Do not change this file unless you know what you are doing.
 /* @var $model common\models\core\User */
 
 use borales\extensions\phoneInput\PhoneInput;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 
 ?>
@@ -36,7 +36,7 @@ $form = ActiveForm::begin([
     <?= $form->field($model, 'retype_password', ['options' => ['class' => 'form-group col-12']])->passwordInput(['maxlength' => true])->label(Yii::t('core_user', 'Retype Password') . '*') ?>
 </div>
 <div class="form-group mb-5">
-    <?= Html::submitButton(Yii::t('core_system', 'Register'), ['id' => 'submitButton', 'class' => 'btn btn-block btn-success']) ?>
+    <?= Html::submitButton(Yii::t('core_system', 'Register'), ['id' => 'submitButton', 'class' => 'btn w-100 btn-success']) ?>
 </div>
 <?php ActiveForm::end(); ?>
 <div class="col-md-12 text-center">

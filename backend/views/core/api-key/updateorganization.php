@@ -3,7 +3,7 @@
 This file is part of Trust Anchor Groups Smartadmin core
 Do not change this file unless you know what you are doing.
 */
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 

@@ -7,7 +7,7 @@ Do not change this file unless you know what you are doing.
 
 use borales\extensions\phoneInput\PhoneInput;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 
 ?>
 
@@ -30,7 +30,7 @@ $form = ActiveForm::begin([
     ])?>
     <br>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('core_system','Send sms'), ['id' => 'submitButton', 'class' => 'btn btn-block btn-success']); ?>
+        <?= Html::submitButton(Yii::t('core_system','Send sms'), ['id' => 'submitButton', 'class' => 'btn w-100 btn-success']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

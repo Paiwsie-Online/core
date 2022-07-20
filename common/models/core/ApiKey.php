@@ -8,7 +8,7 @@ namespace common\models\core;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\db\ActiveRecord;
 use yii\jui\DatePicker;
 

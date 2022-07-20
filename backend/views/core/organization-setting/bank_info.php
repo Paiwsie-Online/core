@@ -6,8 +6,8 @@ Do not change this file unless you know what you are doing.
 /* @var $this yii\web\View */
 /* @var $model common\models\core\OrganizationSetting */
 
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('core_organization', 'Organization Settings')];
 \yii\web\YiiAsset::register($this);
@@ -35,7 +35,7 @@ if (isset($model)) {
             <div class="card mb-4">
                 <div class="card-header">
                     <span class="float-right mt-1">
-                        <?= Html::submitButton(Yii::t('core_system','Save'), ['id' => 'submitButton', 'class' => 'btn btn-block btn-warning']); ?>
+                        <?= Html::submitButton(Yii::t('core_system','Save'), ['id' => 'submitButton', 'class' => 'btn w-100 btn-warning']); ?>
                     </span>
                     <h4><?=Yii::t('core_system', 'Bank Info')?></h4>
                 </div>

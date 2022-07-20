@@ -44,7 +44,7 @@ class BaseController extends Controller {
             }
         }
         Yii::$app->language = $preferredLanguage;
-        \lajax\translatemanager\helpers\Language::registerAssets();
+        //\lajax\translatemanager\helpers\Language::registerAssets();
 
         $preferredTimeZone = (Yii::$app->timeZone ?? 'Europe/Stockholm');
         if (!Yii::$app->user->isGuest && isset(Yii::$app->user->identity->settingsList['timezone']) && Yii::$app->user->identity->settingsList['timezone'] !== $preferredTimeZone) {

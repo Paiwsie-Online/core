@@ -96,7 +96,7 @@ $this->title = Yii::t('core_user', 'Merge accounts');
                         ?>
                         <div class="mt-5 mt-5 pt-5">
                             <?=Html::a('<span class="float-left"><i class="fas fa-trash-alt"></i> ' . Yii::t('core_system', 'Delete') . '</span><i class="fas fa-arrow-right"></i><span class="float-right">' . Yii::t('core_clipcard', 'Use') . ' <i class="fas fa-check"></i></span>', ['merge-accounts-confirm', 'mergeInto' => 1], [
-                                'class' => 'btn btn-warning btn-block',
+                                'class' => 'btn btn-warning w-100',
                                 'data' => [
                                     'confirm' => Yii::t('core_system', 'Are you sure you want to merge to this account?'),
                                     'method' => 'post',
@@ -105,7 +105,7 @@ $this->title = Yii::t('core_user', 'Merge accounts');
                         </div>
                         <div class="mt-5 mt-5 pt-5">
                             <?=Html::a('<span class="float-left"><i class="fas fa-check"></i> ' . Yii::t('core_clipcard', 'Use') . '</span><i class="fas fa-arrow-left"></i><span class="float-right">' . Yii::t('core_system', 'Delete') . ' <i class="fas fa-trash-alt"></i></span>', ['merge-accounts-confirm', 'mergeInto' => 2], [
-                                'class' => 'btn btn-warning btn-block',
+                                'class' => 'btn btn-warning w-100',
                                 'data' => [
                                     'confirm' => Yii::t('core_system', 'Are you sure you want to merge from this account?'),
                                     'method' => 'post',
@@ -134,7 +134,7 @@ $this->title = Yii::t('core_user', 'Merge accounts');
                                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
                                 <?= $form->field($secondAccountLogin, 'email')->textInput(['autofocus' => false]) ?>
                                 <?= $form->field($secondAccountLogin, 'password')->passwordInput() ?>
-                                <?= Html::submitButton(Yii::t('core_system', 'Login'), ['class' => 'btn btn-block btn-warning', 'name' => 'login-button']) ?>
+                                <?= Html::submitButton(Yii::t('core_system', 'Login'), ['class' => 'btn w-100 btn-warning', 'name' => 'login-button']) ?>
                                 <?php ActiveForm::end(); ?>
                                 <br><button type="button" class="btn btn-secondary" onclick="blockSwitch('#buttonsLogin', '#emailLogin')"><?=Yii::t('core_system', 'Back')?></button>
                             </div>

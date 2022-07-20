@@ -7,7 +7,7 @@ Do not change this file unless you know what you are doing.
 /* @var $model common\models\core\LoginForm */
 
 use borales\extensions\phoneInput\PhoneInput;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
@@ -31,7 +31,7 @@ $form = ActiveForm::begin([
 <?= $form->field($model, 'password2')->passwordInput() ?>
 <div class="form-group row">
     <div class="col-md-12">
-        <?= Html::submitButton(Yii::t('core_system', 'Login'), ['class' => 'btn btn-block btn-success', 'name' => 'login-button']) ?>
+        <?= Html::submitButton(Yii::t('core_system', 'Login'), ['class' => 'btn w-100 btn-success', 'name' => 'login-button']) ?>
     </div>
 </div>
 <div class="row mb-5">
@@ -42,13 +42,13 @@ $form = ActiveForm::begin([
             <?php
             if (Yii::$app->params['loginOptions']['allowEmail']) {
                 ?>
-                <a href="<?=Url::to(['user/register'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'mr-4' : 'btn-block')?>">
+                <a href="<?=Url::to(['user/register'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'mr-4' : 'w-100')?>">
                     <?=Yii::t('core_system', 'Register with email')?></a>
                 <?php
             }
             if (Yii::$app->params['loginOptions']['allowPhone']) {
                 ?>
-                <a href="<?=Url::to(['user/register-mobile'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'ml-3' : 'btn-block')?>">
+                <a href="<?=Url::to(['user/register-mobile'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'ml-3' : 'w-100')?>">
                     <?=Yii::t('core_system', 'Register with phone')?></a>
                 <?php
             }
@@ -59,7 +59,7 @@ $form = ActiveForm::begin([
     }
 
     ?>
-        <a href="<?=Url::to(['user/forgotpw-mobile'])?>" role="button" class="btn btn-block btn-warning">
+        <a href="<?=Url::to(['user/forgotpw-mobile'])?>" role="button" class="btn w-100 btn-warning">
             <?=Yii::t('core_system', 'Forgot my password')?></a>
     </div>
 </div>

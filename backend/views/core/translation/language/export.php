@@ -5,7 +5,7 @@ Do not change this file unless you know what you are doing.
 */
 use lajax\translatemanager\models\ExportForm;
 use lajax\translatemanager\models\Language;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;

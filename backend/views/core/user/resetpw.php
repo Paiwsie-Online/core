@@ -4,7 +4,7 @@ This file is part of Trust Anchor Groups Smartadmin core
 Do not change this file unless you know what you are doing.
 */
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 
 ?>
 
@@ -19,7 +19,7 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'retype_password', ['options' => ['class' => 'form-group']])->passwordInput(['maxlength' => true])->label(Yii::t('core_user', 'Retype Password') . '*') ?>
     <br>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('core_system','Save'), ['id' => 'submitButton', 'class' => 'btn btn-block btn-success']); ?>
+        <?= Html::submitButton(Yii::t('core_system','Save'), ['id' => 'submitButton', 'class' => 'btn w-100 btn-success']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

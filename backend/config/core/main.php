@@ -25,15 +25,16 @@ $params = array_replace_recursive(
     $domainParamsLocal
 );
 
+
 return [
     'id' => 'app-backend',
     'name'  =>  $params['default_site_settings']['site_name'],
     'bootstrap' => [
         'log',
         'timezone',
-        'translatemanager' => [
+/*        'translatemanager' => [
             'class' => 'lajax\translatemanager\Component'
-        ],
+        ],*/
     ],
     'controllerMap' => [
         'api' => 'backend\controllers\core\ApiController',
@@ -58,7 +59,7 @@ return [
     ],
     'controllerNamespace' => 'backend\controllers\core',
     'modules' => [
-        'translatemanager' => [
+/*        'translatemanager' => [
             'class' => 'lajax\translatemanager\Module',
             'root'  => [__DIR__ . '/../../../backend', __DIR__ . '/../../../common'],             //'@app',
             'scanRootParentDirectory' => false,
@@ -85,7 +86,7 @@ return [
             ],
             'allowedIPs' => ['127.0.0.1' , '45.85.180.8', '*'],
             'viewPath' => '@app/views/core/translation'
-        ],
+        ],*/
     ],
     'language' => 'en-US',
     'aliases' => [
@@ -99,9 +100,9 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
-        'translatemanager' => [
+/*        'translatemanager' => [
             'class' => 'lajax\translatemanager\Component'
-        ],
+        ],*/
         'request' => [
             'cookieValidationKey' => 'change_now_your_validation_key',
             'csrfParam' => '_csrf-backend',

@@ -34,4 +34,12 @@ return [
         'authentication' => 'core/authentication',
         'systemMessage' => 'core/system_message',
     ],
+    'navigations' => [
+        'main' => '/core/main',
+        'footer' => '/core/footer',
+        'user' => '/core/user'
+    ]
+    /*    'navigationMenu' => $navMenu,
+        'userMenu' => $userMenu,
+        'footerMenu' => $footMenu,*/
 ];

@@ -16,8 +16,7 @@
     "require": {
         "php": ">=8.0",
         "yiisoft/yii2": "~2.0.42",
-        "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-bootstrap4": "~2.0.6",
+        "yiisoft/yii2-bootstrap5": "*",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "ext-json": "*",
         "kartik-v/yii2-widgets": "*",
@@ -28,7 +27,6 @@
         "daxslab/yii2-thumbnailer": "*",
         "ext-exif": "*",
         "ext-gd": "*",
-        "lajax/yii2-translate-manager": "^1.8",
         "borales/yii2-phone-input": "*",
         "yii2mod/yii2-timezone": "*",
         "stripe/stripe-php": "^7.95",

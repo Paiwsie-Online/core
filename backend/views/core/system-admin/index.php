@@ -5,7 +5,7 @@ Do not change this file unless you know what you are doing.
 */
 /* @var $this yii\web\View */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 

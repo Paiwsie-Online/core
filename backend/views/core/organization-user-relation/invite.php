@@ -6,7 +6,7 @@ Do not change this file unless you know what you are doing.
 
 use borales\extensions\phoneInput\PhoneInput;
 use common\models\core\OrganizationUserRelation;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */

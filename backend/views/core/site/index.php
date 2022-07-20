@@ -13,7 +13,7 @@ Do not change this file unless you know what you are doing.
 use common\models\core\OrganizationModuleRelation;
 use common\models\core\OrganizationUserRelation;
 use Imagine\Image\ManipulatorInterface;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 
 $testClass = 'common\models\User';
@@ -112,7 +112,7 @@ if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isse
                     </div>
                     <div class="card-body borderTop">
                         <?=Yii::t('core_system', '<p>Thank you for registering an account!</p><p>In order for you to get started on the right track we have prepared a startup guide for you.</p>')?>
-                        <button type="button" onclick="getstartednewuser();" class="btn btn-success btn-block"><?=Yii::t('core_system', 'Get started')?></button>
+                        <button type="button" onclick="getstartednewuser();" class="btn btn-success w-100"><?=Yii::t('core_system', 'Get started')?></button>
                     </div>
                 </div>
             </div>

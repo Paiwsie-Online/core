@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /* @var $model common\models\core\Organization */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = $this->title . ' ' . Yii::t('core_system', 'Modules');
+$this->params['breadcrumbs'][] = Yii::t('core_system', 'Modules');
 
 
 $checkOrganizationSystemAdmin = OrganizationModuleRelation::findOne(['organization_id' => Yii::$app->user->identity->selectedOrganization->id, 'module_id' => 'systemAdmin']);
