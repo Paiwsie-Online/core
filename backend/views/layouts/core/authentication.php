@@ -22,15 +22,15 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/pages/particles.app.js',[
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/pages/password-addon.init.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/layout.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$this->registerCssFile(Yii::$app->request->baseUrl.'/css/icons.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl.'/css/app.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl.'/css/custom.min.css');
+$this->registerCssFile(Yii::$app->request->baseUrl.'/css/icons.min.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl.'/css/app.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl.'/css/custom.min.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
 
 $this->title = Yii::$app->params['default_site_settings']['site_name'];
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-    <html lang="<?= Yii::$app->language ?>" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+    <html lang="<?= Yii::$app->language ?>" data-theme="light" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
         <head>
 
             <meta charset="<?= Yii::$app->charset ?>" />
@@ -71,35 +71,36 @@ $this->title = Yii::$app->params['default_site_settings']['site_name'];
                                 </div>
                             </div>
                         </div>
-                    </div>
-                        <!-- end row -->
-                    <div class="row justify-content-center">
-                        <div class="col-md-8 col-lg-6 col-xl-5">
-                            <div class="card mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 col-lg-6 col-xl-5">
+                                <div class="card mt-4">
 
-                                <div class="card-body p-4">
-                                    <?php echo $content ?>
+                                    <div class="card-body p-4">
+                                        <?php echo $content ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                        <!-- end row -->
 
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0 text-muted">&copy;
-                                <script>document.write(new Date().getFullYear())</script> Trust Anchor Group.
-                            </p>
+                </div>
+                <footer class="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="text-center">
+                                    <p class="mb-0 text-muted">&copy;
+                                        <script>document.write(new Date().getFullYear())</script> Trust Anchor Group.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </footer>
             </div>
-        </footer>
+
+
     <?php $this->endBody() ?>
     </body>
     </html>

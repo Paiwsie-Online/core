@@ -226,6 +226,10 @@ File: Main Css File
   --vz-twocolumn-menu-bg-dark: var(--vz-primary);
 }
 
+body {
+  background-color: var(--vz-body-bg) !important;
+}
+
 #page-topbar {
   position: fixed;
   top: 0;
@@ -2122,7 +2126,7 @@ File: Main Css File
   }
 }
 [data-layout-width=boxed][data-layout=vertical][data-layout-style=detached] body {
-  background-color: var(--vz-body-bg);
+  background-color: var(--vz-body-bg) !important;
 }
 @media (min-width: 1024.1px) {
   [data-layout-width=boxed][data-layout=vertical][data-layout-style=detached] #layout-wrapper {

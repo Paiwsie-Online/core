@@ -483,11 +483,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
     // RETURN ORGANIZATION USER LEVEL
     public function getOrganizationUserLevel($organization_id = null){
         if ($organization_id === null) {
-            $organization_id = $this->selectedOrganization['id'];
+            if (isset($this->selectedOrganization['id'])) {
+                $organization_id = $this->selectedOrganization['id'];
+            }
         }
-        $organizationUserRelation = OrganizationUserRelation::find()->where(['organization_id' => $organization_id, 'user_id' => $this->id, 'status' => 'accepted'])->one();
-        if ($organizationUserRelation) {
-            return $organizationUserRelation->user_level;
+        if (isset($organization_id)) {
+            $organizationUserRelation = OrganizationUserRelation::find()->where(['organization_id' => $organization_id, 'user_id' => $this->id, 'status' => 'accepted'])->one();
+            if ($organizationUserRelation) {
+                return $organizationUserRelation->user_level;
+            }
         }
         return 'Guest';
     }

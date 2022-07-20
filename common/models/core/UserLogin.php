@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $user_id
  * @property string|null $ip
- * @property string $logged
+ * @property integer $logged
  * @property integer|null $expire
  * @property string $status
  * @property string $session_id
@@ -45,9 +45,9 @@ class UserLogin extends \yii\db\ActiveRecord {
         return [
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
-            [['logged', 'created_by'], 'safe'],
+            [['created_by'], 'safe'],
             [['expire'], 'integer'],
-            [['created_at'], 'integer'],
+            [['logged', 'created_at'], 'integer'],
             [['session_id'], 'string', 'max' => 64],
             [['ip'], 'string', 'max' => 64],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

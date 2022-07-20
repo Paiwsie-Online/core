@@ -101,7 +101,7 @@ class m220719_082525_DatabaseStructure extends \yii\db\Migration
             'value'=> $this->text()->notNull(),
         ], $tableOptions);
 
-        $this->createIndex('value','{{%language_force_translation}}',['value'],true);
+        //$this->createIndex('value','{{%language_force_translation}}',['value'],true);
 
         $this->createTable('{{%language_source}}',[
             'id'=> $this->primaryKey(11),

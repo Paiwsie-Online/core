@@ -19,19 +19,19 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/custom.js', ['depends' 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/timeout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/layout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 //$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/bootstrap/js/bootstrap.bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/simplebar/simplebar.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/simplebar/simplebar.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/node-waves/waves.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/feather-icons/feather.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/plugins/lord-icon-2.1.0.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/plugins/lord-icon-2.1.0.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/plugins.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/apexcharts/apexcharts.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/js/jsvectormap.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/maps/world-merc.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/apexcharts/apexcharts.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/js/jsvectormap.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/maps/world-merc.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/dashboard-ecommerce.init.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/dashboard-ecommerce.init.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/app.js', ['depends' => [\yii\bootstrap5\BootstrapAsset::class]]);
 
-$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/css/jsvectormap.min.css');
+//$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/css/jsvectormap.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/icons.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.min.css');
@@ -44,43 +44,6 @@ $navigation = require Yii::$app->basePath . '/config/navigations'.Yii::$app->par
 $userMenu = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['user'].'.php';
 $footerMenu = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['footer'].'.php';
 
-/*$userMenu = [
-    [
-        'icon' => 'mdi mdi-account-circle text-muted fs-16 align-middle me-1',
-        'title' => Yii::t('core_system', 'My profile'),
-        'href' => '/user/profile'
-    ],
-    [
-        'title' => Yii::t('core_system', 'New organization'),
-        'href' => '/organization/register-organization',
-        'icon' => 'mdi mdi-account-circle text-muted fs-16 align-middle me-1',
-    ],
-];
-
-$footerMenu = [
-    [
-        'title' => Yii::t('core_system', 'About'),
-        'href' => 'https://www.paiwise.com/about'                        //'/site/about'
-    ],
-    [
-        'title' => Yii::t('core_system', 'Help'),
-        'href' => 'https://www.paiwise.com/about'                        //'/site/help'
-    ],
-    [
-        'title' => Yii::t('core_system', 'Contact'),
-        'href' => '/site/contact'
-    ],
-    [
-
-        'title' => Yii::t('core_system', 'Terms &amp; Conditions'),
-        'href' => '/site/termsandconditions'
-    ],
-    [
-        'title' => Yii::t('core_system', 'System info'),
-        'href' => '/site/systeminfo',
-        'visible' => (isset(Yii::$app->user->identity) && Yii::$app->user->identity->hasAccess('systemAdmin', 'read')),
-    ]
-];*/
 
 $languageMenu = Language::getLanguages();
 $currentLanguage = Language::findOne(Yii::$app->language);
@@ -817,7 +780,7 @@ $user = Yii::$app->user;
                                     <img src="<?= (isset(Yii::$app->user->identity->picture['uri']) ? Yii::$app->thumbnailer->get(Yii::$app->user->identity->picture['uri'], 30, 30, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true) : Yii::$app->thumbnailer->get('/img/avatars/1.png', 30, 30, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true)) ?>" alt class="d-block w-25 rounded-circle">
                                     <span class="text-start ms-xl-2">
                                         <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"><?= ucfirst(Yii::$app->user->identity->organizationUserLevel) ?></span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"><?= (Yii::$app->user->identity->organizationUserLevel ? ucfirst(Yii::$app->user->identity->organizationUserLevel) : '') ?></span>
                                     </span>
 
                                 </span>
