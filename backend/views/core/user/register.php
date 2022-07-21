@@ -35,9 +35,9 @@ $form = ActiveForm::begin([
     </div>
     <div>
         <?= (Yii::$app->params['loginOptions']['allowPhone'] ? '
-                <a href="login-mobile" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-phone-fill fs-16"></i></a>': '') ?>
+                <a href="/site/login-mobile" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-phone-fill fs-16"></i></a>': '') ?>
         <?= (Yii::$app->params['loginOptions']['allowQR'] ? '
-                <a href="loginqr" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-qr-code-line fs-16"></i></a>': '') ?>
+                <a href="/site/loginqr" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-qr-code-line fs-16"></i></a>': '') ?>
     </div>
 </div>
 <div class="col-md-12 text-center mt-4">
