@@ -16,6 +16,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/libs/popper/popper.js',['dep
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/bootstrap.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl.'/js/sidenav.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl.'/css/pages/authentication.css');
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css');
 
 $this->title = Yii::$app->params['default_site_settings']['site_name'];
 $this->beginPage() ?>
