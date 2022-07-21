@@ -28,13 +28,13 @@ return [
         ]
     ],
     'branding' => [
-        'lightLogo' => '/branding/paiwise/img/Paiwise_yellow_black.png',
+        'lightLogo' => '/branding/default/img/logo.png',
         //'emailHeader' => '/branding/paiwise/img/emailheader.png',
-        'roundedLogo' => '/branding/paiwise/img/Paiwise_yellow_black.png',
-        'darkLogo' => '/branding/paiwise/img/Paiwise_yellow_black.png',
-        'pdflogo' => 'branding/paiwise/img/Paiwise_yellow_black.png',    //same without first '/'
-        'backgroundImage' => '/branding/paiwise/img/Paiwise_background.jpg',
-        'cardImage' => '/branding/paiwise/img/Paiwise_card.png',
+        'roundedLogo' => '/branding/default/img/logo.png',
+        'darkLogo' => '/branding/default/img/logo.png',
+        'pdflogo' => 'branding/default/img/logo.png',    //same without first '/'
+        'backgroundImage' => '',
+        'cardImage' => '',
         'themeCss' => 'dark'
     ],
     'modules' => [
