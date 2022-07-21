@@ -98,10 +98,9 @@ class m220719_082525_DatabaseStructure extends \yii\db\Migration
         $this->addPrimaryKey('pk_on_language','{{%language}}',['language_id']);
 
         $this->createTable('{{%language_force_translation}}',[
+            'id'=> $this->primaryKey(11),
             'value'=> $this->text()->notNull(),
         ], $tableOptions);
-
-        //$this->createIndex('value','{{%language_force_translation}}',['value'],true);
 
         $this->createTable('{{%language_source}}',[
             'id'=> $this->primaryKey(11),
@@ -481,15 +480,12 @@ class m220719_082525_DatabaseStructure extends \yii\db\Migration
             'id'=> $this->primaryKey(11),
             'user_id'=> $this->integer(11)->notNull(),
             'ip'=> $this->string(64)->null()->defaultValue(null),
-            'logged'=> $this->integer(11)->notNull(),
+            'logged'=> $this->integer(11)->null()->defaultValue(null),
             'expire'=> $this->integer(11)->null()->defaultValue(null),
             'session_id'=> $this->string(64)->null()->defaultValue(null),
-            'created_by'=> $this->integer(11)->null()->defaultValue(null),
-            'created_at'=> $this->integer(11)->null()->defaultValue(null),
         ], $tableOptions);
 
         $this->createIndex('user_id','{{%user_login}}',['user_id'],false);
-        $this->createIndex('created_by','{{%user_login}}',['created_by'],false);
 
         $this->createTable('{{%user_session}}',[
             'loginID'=> $this->primaryKey(11),
@@ -926,12 +922,6 @@ class m220719_082525_DatabaseStructure extends \yii\db\Migration
             '{{%user_login}}', 'user_id',
             '{{%user}}', 'id',
             'CASCADE', 'CASCADE'
-        );
-        $this->addForeignKey(
-            'fk_user_login_created_by',
-            '{{%user_login}}', 'created_by',
-            '{{%user}}', 'id',
-            'SET NULL', 'CASCADE'
         );
         $this->addForeignKey(
             'fk_user_session_uID',

@@ -18,8 +18,6 @@ use yii\db\ActiveRecord;
  * @property integer|null $expire
  * @property string $status
  * @property string $session_id
- * @property integer $created_at
- * @property integer $created_by
  * @property User $user
  */
 
@@ -32,11 +30,8 @@ class UserLogin extends \yii\db\ActiveRecord {
     public function behaviors() {
         return [
             [
-                'class' => BlameableBehavior::class,
-                'updatedByAttribute' => false,
-            ],
-            [
                 'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'logged',
                 'updatedAtAttribute' => false,
             ],
         ];
@@ -45,9 +40,8 @@ class UserLogin extends \yii\db\ActiveRecord {
         return [
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
-            [['created_by'], 'safe'],
             [['expire'], 'integer'],
-            [['logged', 'created_at'], 'integer'],
+            [['logged'], 'integer'],
             [['session_id'], 'string', 'max' => 64],
             [['ip'], 'string', 'max' => 64],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -62,7 +56,6 @@ class UserLogin extends \yii\db\ActiveRecord {
             'logged' => Yii::t('core_model', 'Logged'),
             'expire' => Yii::t('core_model', 'Expire'),
             'session_id' => Yii::t('core_model', 'Session ID'),
-            'created_at' => Yii::t('core_model', 'Session Logged'),
         ];
     }
 
