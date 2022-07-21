@@ -36,6 +36,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/icons.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/custom.min.css');
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css');
 
 AppAsset::register($this);
 $last30Day = date('Y-m-d', strtotime(date('Y-m-d') . "- 30 days"));
