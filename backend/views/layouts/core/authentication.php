@@ -25,7 +25,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/layout.js',['depends' => 
 $this->registerCssFile(Yii::$app->request->baseUrl.'/css/icons.min.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl.'/css/app.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl.'/css/custom.min.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css');
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
 
 $this->title = Yii::$app->params['default_site_settings']['site_name'];
 ?>
