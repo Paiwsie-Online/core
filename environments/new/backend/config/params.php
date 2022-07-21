@@ -28,14 +28,12 @@ return [
         ]
     ],
     'branding' => [
-        'lightLogo' => '/branding/default/img/logo.png',
-        //'emailHeader' => '/branding/paiwise/img/emailheader.png',
-        'roundedLogo' => '/branding/default/img/logo.png',
-        'darkLogo' => '/branding/default/img/logo.png',
-        'pdflogo' => 'branding/default/img/logo.png',    //same without first '/'
-        'backgroundImage' => '',
-        'cardImage' => '',
-        'themeCss' => 'dark'
+        'lightLogo' => '/img/logo-light.png',
+        'darkLogo' => '/img/logo-dark.png',
+        'pdflogo' => 'img/logo-dark.png',    //same without first '/'
+        'themeCss' => 'dark',
+        'slogan'    =>  'Trust Anchor Group\'s Smart Admin Core',
+        'copyright' => 'Trust Anchor Group'
     ],
     'modules' => [
         'all' => [

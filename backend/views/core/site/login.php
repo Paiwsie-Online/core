@@ -46,13 +46,13 @@ use yii\helpers\Url;
 
         <div class="mt-3 text-center">
             <div class="signin-other-title">
-                <h5 class="fs-13 mb-2 title"><?= Yii::t('core_system', 'Sign In with') ?></h5>
+                <h5 class="fs-13 mb-2 title"><?= Yii::t('core_system', 'Or sign in with') ?></h5>
             </div>
             <div>
                 <?= (Yii::$app->params['loginOptions']['allowPhone'] ? '
-                <a href="login-mobile" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-phone-fill fs-16"></i></a>': '') ?>
+                <a href="/site/login-mobile" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-phone-fill fs-16"></i></a>': '') ?>
                 <?= (Yii::$app->params['loginOptions']['allowQR'] ? '
-                <a href="loginqr" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-qr-code-line fs-16"></i></a>': '') ?>
+                <a href="/site/loginqr" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-qr-code-line fs-16"></i></a>': '') ?>
             </div>
         </div>
 
@@ -61,5 +61,5 @@ use yii\helpers\Url;
     ?>
 </div>
 <div class="mt-4 text-center">
-    <p class="mb-0">Don't have an account ? <a href="/user/register" class="fw-semibold text-primary text-decoration-underline"> <?= Yii::t('core_system', 'Signup') ?> </a> </p>
+    <p class="mb-0"><?= Yii::t('core_system', 'Don\'t have an account yet?') ?>  <a href="/user/register" class="fw-semibold text-primary text-decoration-underline"> <?= Yii::t('core_system', 'Sign up') ?> </a> </p>
 </div>

@@ -12,12 +12,17 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 
-<h4 class="text-center text-lighter font-weight-normal mt-5 mb-5"><?=Yii::t('core_system', 'Sign in to Your Account')?></h4>
+    <div class="text-center mt-2">
+        <h5 class="text-primary"><?= Yii::t('core_system', 'Welcome Back !') ?></h5>
+        <p class="text-muted"><?= Yii::t('core_system', 'Sign in to continue to '). Yii::$app->params['default_site_settings']['site_name']?></p>
+    </div>
+<div class="p-2 mt-4">
 <?php
 $form = ActiveForm::begin([
     'enableAjaxValidation' => true,
     'enableClientValidation' => true,
 ]);
+/*TODO: look over the design of phone input see if we can make it match other inputs*/
 ?>
 <?=$form->field($model, 'phone')->widget(PhoneInput::className(), [
     'options'   =>  [
@@ -34,65 +39,22 @@ $form = ActiveForm::begin([
         <?= Html::submitButton(Yii::t('core_system', 'Login'), ['class' => 'btn w-100 btn-success', 'name' => 'login-button']) ?>
     </div>
 </div>
-<div class="row mb-5">
-    <?php
-    if (Yii::$app->params['loginOptions']['allowEmail'] || Yii::$app->params['loginOptions']['allowPhone']) {
-        ?>
-        <div class="<?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'col-md-8' : 'col-md-6')?>">
-            <?php
-            if (Yii::$app->params['loginOptions']['allowEmail']) {
-                ?>
-                <a href="<?=Url::to(['user/register'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'mr-4' : 'w-100')?>">
-                    <?=Yii::t('core_system', 'Register with email')?></a>
-                <?php
-            }
-            if (Yii::$app->params['loginOptions']['allowPhone']) {
-                ?>
-                <a href="<?=Url::to(['user/register-mobile'])?>" role="button" class="btn btn-primary <?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'ml-3' : 'w-100')?>">
-                    <?=Yii::t('core_system', 'Register with phone')?></a>
-                <?php
-            }
-            ?>
+    <div class="mt-3 text-center">
+        <div class="signin-other-title">
+            <h5 class="fs-13 mb-2 title"><?= Yii::t('core_system', 'Or sign in with') ?></h5>
         </div>
-        <div class="<?=(Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone'] ? 'col-md-4' : 'col-md-6')?>">
-        <?php
-    }
-
-    ?>
-        <a href="<?=Url::to(['user/forgotpw-mobile'])?>" role="button" class="btn w-100 btn-warning">
-            <?=Yii::t('core_system', 'Forgot my password')?></a>
+        <div>
+            <?= (Yii::$app->params['loginOptions']['allowEmail'] ? '
+                <a href="/site/loginemail" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-mail-fill fs-16"></i></a>': '') ?>
+            <?= (Yii::$app->params['loginOptions']['allowQR'] ? '
+                <a href="/site/loginqr" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-qr-code-line fs-16"></i></a>': '') ?>
+        </div>
     </div>
-</div>
+
 <?php
 ActiveForm::end();
-
-if (Yii::$app->params['loginOptions']['allowQR'] || Yii::$app->params['loginOptions']['allowEmail']) {
 ?>
-    <div class="row">
-        <div class="col-md-12 text-center mb-4">
-            <p class="text_white">
-                <?php
-                if (Yii::$app->params['loginOptions']['allowQR'] && Yii::$app->params['loginOptions']['allowEmail']) {
-                    echo Yii::t('core_system', 'Or you can login scanning QRCode with TagID app or Email.');
-                } elseif (Yii::$app->params['loginOptions']['allowQR']) {
-                    echo Yii::t('core_system', 'Or you can login scanning QRCode with TagID app.');
-                } elseif (Yii::$app->params['loginOptions']['allowEmail']) {
-                    echo Yii::t('core_system', 'Or you can login scanning QRCode with Email.');
-                }
-                ?>
-            </p>
-        </div>
-        <div class="col-md-12 text-center">
-            <?php
-            if (Yii::$app->params['loginOptions']['allowQR']) {
-                echo Html::a(Yii::t('core_system', 'QR Login'), 'loginqr', ['class' => 'btn btn-primary mr-3']);
-            }
-            if (Yii::$app->params['loginOptions']['allowEmail']) {
-                echo Html::a(Yii::t('core_system', 'Email Login'), 'loginemail', ['class' => 'btn btn-primary']);
-            }
-            ?>
-        </div>
-    </div>
-<?php
-}
-?>
+</div>
+<div class="mt-4 text-center">
+    <p class="mb-0"><?= Yii::t('core_system', 'Don\'t have an account yet?') ?>  <a href="/user/register-mobile" class="fw-semibold text-primary text-decoration-underline"> <?= Yii::t('core_system', 'Sign up') ?> </a> </p>
+</div>

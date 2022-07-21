@@ -39,7 +39,4 @@ return [
         'footer' => '/core/footer',
         'user' => '/core/user'
     ]
-    /*    'navigationMenu' => $navMenu,
-        'userMenu' => $userMenu,
-        'footerMenu' => $footMenu,*/
 ];

@@ -42,29 +42,15 @@ $responseDecoded = json_decode($response, true);
 <?php
 if (Yii::$app->params['loginOptions']['allowEmail'] || Yii::$app->params['loginOptions']['allowPhone']) {
 ?>
-    <div class="row">
-        <div class="col-md-12 text-center mb-3 mt-4">
-            <p class="text_white">
-                <?php
-                if (Yii::$app->params['loginOptions']['allowEmail'] && Yii::$app->params['loginOptions']['allowPhone']) {
-                    echo Yii::t('core_system', 'Or you can login with Email or Phone.');
-                } elseif (Yii::$app->params['loginOptions']['allowEmail']) {
-                    echo Yii::t('core_system', 'Or you can login with Email.');
-                } elseif (Yii::$app->params['loginOptions']['allowPhone']) {
-                    echo Yii::t('core_system', 'Or you can login with Phone.');
-                }
-                ?>
-            </p>
+    <div class="mt-3 text-center">
+        <div class="signin-other-title">
+            <h5 class="fs-13 mb-2 title"><?= Yii::t('core_system', 'Or sign in with') ?></h5>
         </div>
-        <div class="col-md-12 text-center">
-            <?php
-            if (Yii::$app->params['loginOptions']['allowEmail']) {
-                echo Html::a(Yii::t('core_system', 'Email Login'), 'loginemail', ['class' => 'btn btn-primary mr-3']);
-            }
-            if (Yii::$app->params['loginOptions']['allowPhone']) {
-                echo Html::a(Yii::t('core_system', 'Phone Login'), 'login-mobile', ['class' => 'btn btn-primary']);
-            }
-            ?>
+        <div>
+            <?= (Yii::$app->params['loginOptions']['allowPhone'] ? '
+                <a href="/site/login-mobile" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-phone-fill fs-16"></i></a>': '') ?>
+            <?= (Yii::$app->params['loginOptions']['allowEmail'] ? '
+                <a href="/site/loginemail" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-mail-fill fs-16"></i></a>': '') ?>
         </div>
     </div>
 <?php

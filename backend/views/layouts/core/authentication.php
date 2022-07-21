@@ -65,10 +65,10 @@ $this->title = Yii::$app->params['default_site_settings']['site_name'];
                                 <div class="text-center mt-sm-5 mb-4 text-white-50">
                                     <div>
                                         <a href="/site/index" class="d-inline-block auth-logo">
-                                            <img src="/img/logo-light.png" alt="" height="20">
+                                            <img src="<?= Yii::$app->params['branding']['lightLogo'] ?>" alt="" height="20">
                                         </a>
                                     </div>
-                                    <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                                    <p class="mt-3 fs-15 fw-medium"><?= Yii::$app->params['branding']['slogan'] ?></p>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ $this->title = Yii::$app->params['default_site_settings']['site_name'];
                             <div class="col-lg-12">
                                 <div class="text-center">
                                     <p class="mb-0 text-muted">&copy;
-                                        <script>document.write(new Date().getFullYear())</script> Trust Anchor Group.
+                                        <?= date('Y').' '.Yii::$app->params['branding']['copyright'] ?>
                                     </p>
                                 </div>
                             </div>
