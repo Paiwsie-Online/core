@@ -15,11 +15,12 @@ use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 
+AppAsset::register($this);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/custom.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/timeout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/layout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 //$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/bootstrap/js/bootstrap.bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/simplebar/simplebar.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/simplebar/simplebar.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/node-waves/waves.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/feather-icons/feather.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 //$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/plugins/lord-icon-2.1.0.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -29,7 +30,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/plugins.js', ['depends'
 //$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/maps/world-merc.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 //$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/dashboard-ecommerce.init.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/app.js', ['depends' => [\yii\bootstrap5\BootstrapAsset::class]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/app.js', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
 
 //$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/css/jsvectormap.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.css');
@@ -38,7 +39,6 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/custom.min.css');
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
 
-AppAsset::register($this);
 $last30Day = date('Y-m-d', strtotime(date('Y-m-d') . "- 30 days"));
 
 $navigation = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['main'].'.php';

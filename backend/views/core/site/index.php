@@ -16,10 +16,20 @@ use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Html;
 
 
-$testClass = 'common\models\User';
+/*$testClass = 'common\models\User';
 if (class_exists($testClass)) {
     $myClass = $testClass::findOne(60);
-}
+}*/
+$_POST['amount'] = 30;
+$_POST['currency'] = "EUR";
+$_POST['message'] = "Bye";
+$_POST['capture'] = false;
+$_POST['returnUrl'] = "http://google.com";
+$_POST['returnUrlCancel'] = "http://facebook.com/testing";
+$_POST['model'] = "common\models\core\user";
+$_POST['model_id'] = 1;
+$pch = new \common\helpers\core\PaiwiseCheckoutHelper();
+$pch->create();
 
 $this->title = Yii::t('core_system', 'Home');
 

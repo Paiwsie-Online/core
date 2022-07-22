@@ -18,6 +18,8 @@ use yii\behaviors\TimestampBehavior;
  * @property int|null $status_changed
  * @property string|null $checkout_data
  * @property int|null $created_at
+ *
+ *
  */
 class PaiwiseCheckout extends \yii\db\ActiveRecord
 {
@@ -71,12 +73,38 @@ class PaiwiseCheckout extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     * @return PaiwiseCheckoutSearch the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PaiwiseCheckoutSearch(get_called_class());
+    public static function checkoutAPICall($data, $url) {
+        $apiUrl = Yii::$app->params['paiwiseCheckout']['checkoutURL'] . $url;
+        $token = Yii::$app->params['paiwiseCheckout']['bearerToken'];
+
+        $curl = curl_init($apiUrl);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type:application/json', 'Authorization: Bearer ' . $token]);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // Change to 0 if have to test it in local (change even in Smartadmin API CheckoutController)
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // VERBOSE
+        /*
+        curl_setopt($curl, CURLOPT_VERBOSE, true);
+        $verbose = fopen('php://temp', 'w+');
+        curl_setopt($curl, CURLOPT_STDERR, $verbose);
+        */
+        $curlResponse = curl_exec($curl);
+        if ($curlResponse === FALSE) {
+            $info = curl_getinfo($curl);
+            curl_close($curl);
+            die('An error occurred during curl exec');
+        }
+        /*
+        rewind($verbose);
+        $verboseLog = stream_get_contents($verbose);
+        echo $verboseLog;
+        */
+        curl_close($curl);
+
+        //return $curlResponse;
     }
 }
