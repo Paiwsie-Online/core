@@ -20,7 +20,8 @@ use yii\bootstrap5\Html;
 if (class_exists($testClass)) {
     $myClass = $testClass::findOne(60);
 }*/
-$_POST['amount'] = 30;
+// Lines to test checkout
+/*$_POST['amount'] = 30;
 $_POST['currency'] = "EUR";
 $_POST['message'] = "Bye";
 $_POST['capture'] = false;
@@ -29,7 +30,7 @@ $_POST['returnUrlCancel'] = "http://facebook.com/testing";
 $_POST['model'] = "common\models\core\user";
 $_POST['model_id'] = 1;
 $pch = new \common\helpers\core\PaiwiseCheckoutHelper();
-$pch->create();
+$pch->create();*/
 
 $this->title = Yii::t('core_system', 'Home');
 
