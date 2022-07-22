@@ -33,7 +33,7 @@ if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isse
     <div class="col-12 border-rounded mt-4 mb-3">
         <div class="d-inline-flex">
             <div class="mt-4 mb-4 ml-2">
-                <img class="rounded-circle img-fluid" src="<?= Yii::$app->thumbnailer->get(Yii::$app->params['branding']['roundedLogo'], 100, 100, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true) ?>">
+                <img class="rounded-circle img-fluid" src="<?= Yii::$app->thumbnailer->get(Yii::$app->params['branding']['lightLogo'], 100, 100, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true) ?>">
             </div>
         </div>
         <div class="d-inline-flex">
