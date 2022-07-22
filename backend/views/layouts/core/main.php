@@ -9,6 +9,7 @@ Do not change this file unless you know what you are doing.
 
 use backend\widgets\Alert;
 use common\models\core\Language;
+use http\Url;
 use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Modal;
@@ -112,97 +113,6 @@ $user = Yii::$app->user;
                     </span>
                     </button>
 
-                    <!-- App Search-->
-                    <?php
-                    // Search
-                    /*
-                    <form class="app-search d-none d-md-block">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" value="">
-                            <span class="mdi mdi-magnify search-widget-icon"></span>
-                            <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
-                        </div>
-
-                        <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
-                            <div data-simplebar style="max-height: 320px;">
-                                <!-- item-->
-                                <div class="dropdown-header">
-                                    <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
-                                </div>
-
-                                <div class="dropdown-item bg-transparent text-wrap">
-                                    <a href="/site/index" class="btn btn-soft-secondary btn-sm btn-rounded">how to setup <i class="mdi mdi-magnify ms-1"></i></a>
-                                    <a href="/site/index" class="btn btn-soft-secondary btn-sm btn-rounded">buttons <i class="mdi mdi-magnify ms-1"></i></a>
-                                </div>
-                                <!-- item-->
-                                <div class="dropdown-header mt-2">
-                                    <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
-                                </div>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
-                                    <span>Analytics Dashboard</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
-                                    <span>Help Center</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
-                                    <span>My account settings</span>
-                                </a>
-
-                                <!-- item-->
-                                <div class="dropdown-header mt-2">
-                                    <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
-                                </div>
-
-                                <div class="notification-list">
-                                    <!-- item -->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                        <div class="d-flex">
-                                            <img src="/img/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="m-0">Angela Bernier</h6>
-                                                <span class="fs-11 mb-0 text-muted">Manager</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!-- item -->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                        <div class="d-flex">
-                                            <img src="/img/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="m-0">David Grasso</h6>
-                                                <span class="fs-11 mb-0 text-muted">Web Designer</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!-- item -->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                        <div class="d-flex">
-                                            <img src="/img/users/avatar-5.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="m-0">Mike Bunch</h6>
-                                                <span class="fs-11 mb-0 text-muted">React Developer</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="text-center pt-3 pb-1">
-                                <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All Results <i class="ri-arrow-right-line ms-1"></i></a>
-                            </div>
-                        </div>
-                    </form>
-                    */
-                    ?>
                 </div>
 
                 <div class="d-flex align-items-center">
@@ -315,158 +225,6 @@ $user = Yii::$app->user;
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    */
-                    ?>
-
-                    <?php
-                    // Webshop
-                    /*
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                            <i class='bx bx-shopping-bag fs-22'></i>
-                            <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info">5</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart" aria-labelledby="page-header-cart-dropdown">
-                            <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold"> My Cart</h6>
-                                    </div>
-                                    <div class="col-auto">
-                                    <span class="badge badge-soft-warning fs-13"><span class="cartitem-badge">7</span>
-                                        items</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-simplebar style="max-height: 300px;">
-                                <div class="p-2">
-                                    <div class="text-center empty-cart" id="empty-cart">
-                                        <div class="avatar-md mx-auto my-3">
-                                            <div class="avatar-title bg-soft-info text-info fs-36 rounded-circle">
-                                                <i class='bx bx-cart'></i>
-                                            </div>
-                                        </div>
-                                        <h5 class="mb-3">Your Cart is Empty!</h5>
-                                        <a href="apps-ecommerce-products.html" class="btn btn-success w-md mb-3">Shop Now</a>
-                                    </div>
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/img/products/img-1.png" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.html" class="text-reset">Branded
-                                                        T-Shirts</a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Quantity: <span>10 x $32</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$<span class="cart-item-price">320</span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/img/products/img-2.png" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.html" class="text-reset">Bentwood Chair</a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Quantity: <span>5 x $18</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$<span class="cart-item-price">89</span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/img/products/img-3.png" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.html" class="text-reset">
-                                                        Borosil Paper Cup</a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Quantity: <span>3 x $250</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$<span class="cart-item-price">750</span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/img/products/img-6.png" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.html" class="text-reset">Gray
-                                                        Styled T-Shirt</a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Quantity: <span>1 x $1250</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$ <span class="cart-item-price">1250</span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="/img/products/img-5.png" class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
-                                            <div class="flex-1">
-                                                <h6 class="mt-0 mb-1 fs-14">
-                                                    <a href="apps-ecommerce-product-details.html" class="text-reset">Stillbird Helmet</a>
-                                                </h6>
-                                                <p class="mb-0 fs-12 text-muted">
-                                                    Quantity: <span>2 x $495</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2">
-                                                <h5 class="m-0 fw-normal">$<span class="cart-item-price">990</span></h5>
-                                            </div>
-                                            <div class="ps-2">
-                                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i class="ri-close-fill fs-16"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border" id="checkout-elem">
-                                <div class="d-flex justify-content-between align-items-center pb-3">
-                                    <h5 class="m-0 text-muted">Total:</h5>
-                                    <div class="px-2">
-                                        <h5 class="m-0" id="cart-item-total">$1258.58</h5>
-                                    </div>
-                                </div>
-
-                                <a href="apps-ecommerce-checkout.html" class="btn btn-success text-center w-100">
-                                    Checkout
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -833,14 +591,51 @@ $user = Yii::$app->user;
             <a href="" type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
                 <i class="ri-record-circle-line"></i>
             </a>
-            <?php
-            if (!Yii::$app->user->isGuest) {
-            ?>
-                <div class="w-100 pl-4 pr-4" id="organizationSelectDiv">
+
+        </div>
+
+        <div id="scrollbar">
+            <div class="container-fluid">
+
+                <div id="two-column-menu">
+                </div>
+                <ul class="navbar-nav" id="navbar-nav">
                     <?php
-                    $organizationCount = count(Yii::$app->user->identity->organizationList);
-                    if ($organizationCount !== 0) {
-                        ?>
+                    /*TODO: add pluralization to translation*/
+                    echo "<li class='menu-title'><span data-key='t-menu'>" . Yii::t("core", "Organization") . "</span></li>";
+                    if (count(Yii::$app->user->identity->organizationList) !== 0) {
+                        echo "<li class='nav-item'>";
+                        if (!isset(Yii::$app->user->identity->selectedOrganization)) {
+                            echo "<a href='#selectOrgMenu' class='nav-link menu-link' data-bs-toggle='collapse' role='button' aria-expanded='false' aria-controls='selectOrgMenu'><span data-key='t-orgSelectMenu'>".Yii::t('core', 'Select organization')."</span></a>";
+                        } else {
+                            if (count(Yii::$app->user->identity->organizationList) === 1) {
+                                echo "<a href='/site/index' class='nav-link menu-link'>".Yii::$app->user->identity->selectedOrganization['name']."</a>";
+                            }
+                            else {
+                                echo "<a href='#selectOrgMenu' class='nav-link menu-link' data-bs-toggle='collapse' role='button' aria-expanded='false' aria-controls='selectOrgMenu'><span data-key='t-orgSelectMenu'>".Yii::$app->user->identity->selectedOrganization['name']."</span></a>";
+                            }
+                        }
+                        if (!isset(Yii::$app->user->identity->selectedOrganization) || count(Yii::$app->user->identity->organizationList) > 1) {
+                            echo "<div class='collapse menu-dropdown' id='selectOrgMenu'>";
+                            echo "<ul class='nav nav-sm flex-column'>";
+                            foreach (Yii::$app->user->identity->organizationList as $id => $name) {
+                                if (!isset(Yii::$app->user->identity->selectedOrganization) || Yii::$app->user->identity->selectedOrganization['id'] !== $id) {
+                                    echo "<li class='nav-item'>";
+                                    echo Html::a($name, ['organization/change-active'], [
+                                        'data'=>[
+                                            'method' => 'post',
+                                            'params'=>['id'=>$id],
+                                        ],
+                                        'class' => 'nav-link menu-link'
+                                    ]);
+                                    echo "</li>";
+                                }
+                            }
+                            echo "</ul>";
+                            echo "</div>";
+                        }
+                        echo "</li>";
+                        /*?>
                         <label for="organizationselect" class="text-light"><?= Yii::t('core_organization', 'Select organization') ?>:</label>
                         <?= Html::dropDownList('organizationselect', (Yii::$app->user->identity->selectedOrganization['id'] ?? null), Yii::$app->user->identity->organizationList, [
                             'class' => 'form-control',
@@ -851,27 +646,13 @@ $user = Yii::$app->user;
                                                                                     console.log(result);
                                                                                 });'
                         ]) ?>
-                    <?php
+                        <?php*/
                     }
-                    if (!isset(Yii::$app->user->identity->selectedOrganization)) {
-                        ?>
-                        <br><a href="/organization/register-organization" class='sidenav-link sidenav-addOrganization'><i class="fa fa-plus"></i> <?= Yii::t('core_organization', 'Add Organization') ?></a>
-                    <?php
+                    if (!isset(Yii::$app->user->identity->selectedOrganization) && count(Yii::$app->user->identity->organizationList) === 0) {
+
+                            echo "<li class='nav-item'><a href='/organization/register-organization' class='nav-link menu-link".((Yii::$app->controller->id === 'organization' && Yii::$app->controller->action->id === 'register-organization') ? ' open active' : '')."'>" . Yii::t('core', 'Add Organization') . "</a></li>";
                     }
-                    ?>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
 
-        <div id="scrollbar">
-            <div class="container-fluid">
-
-                <div id="two-column-menu">
-                </div>
-                <ul class="navbar-nav" id="navbar-nav">
-                    <?php
                     /*Print out navigation menu*/
                     foreach ($navigation as $nav) {
                         if ((isset($nav['visible']) && $nav['visible'] === true) || (!isset($nav['visible']))) {
@@ -886,7 +667,7 @@ $user = Yii::$app->user;
                                             if (isset($item['icon'])) {
                                                 echo "<i class='{$item['icon']}'></i>";
                                             }
-                                            echo "<span data-key='t-'" . ($item['title'] ?? 'title') . "'>" . ($item['title'] ?? 'title') . "</span></a>";
+                                            echo "<span data-key='t-" . ($item['title'] ?? 'title') . "'>" . ($item['title'] ?? 'title') . "</span></a>";
                                             if (isset($item['items'])) {
                                             ?>
                                                 <div class="collapse menu-dropdown <?= ((isset($item['active']) && $item['active']) ? ' show' : '') ?>" id="<?= str_replace(' ', '', $item['title']) ?>">
@@ -899,7 +680,7 @@ $user = Yii::$app->user;
                                                                         if (isset($navLink['icon'])) {
                                                                             echo "<i class='{$navLink['icon']}'></i>";
                                                                         }
-                                                                        echo "<span data-key='t-'" . ($item['title'] ?? 'title') . "'>" . ($navLink['title'] ?? 'title') . "</span>
+                                                                        echo "<span data-key='t-" . ($item['title'] ?? 'title') . "'>" . ($navLink['title'] ?? 'title') . "</span>
                                                                     </a>
                                                                 </li>";
                                                             }
