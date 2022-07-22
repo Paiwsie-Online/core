@@ -26,6 +26,7 @@ use yii\web\ServerErrorHttpException;
  * @property string $status
  * @property string $registered
  * @property string $auth_key
+ * @property string $cid
  * @property string $access_token
  * @property array $organizationList
  * @property array $settingsList
