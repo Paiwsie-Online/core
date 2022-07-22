@@ -73,38 +73,4 @@ class PaiwiseCheckout extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function checkoutAPICall($data, $url) {
-        $apiUrl = Yii::$app->params['paiwiseCheckout']['checkoutURL'] . $url;
-        $token = Yii::$app->params['paiwiseCheckout']['bearerToken'];
-
-        $curl = curl_init($apiUrl);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type:application/json', 'Authorization: Bearer ' . $token]);
-
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        // Change to 0 if have to test it in local (change even in Smartadmin API CheckoutController)
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // VERBOSE
-        /*
-        curl_setopt($curl, CURLOPT_VERBOSE, true);
-        $verbose = fopen('php://temp', 'w+');
-        curl_setopt($curl, CURLOPT_STDERR, $verbose);
-        */
-        $curlResponse = curl_exec($curl);
-        if ($curlResponse === FALSE) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('An error occurred during curl exec');
-        }
-        /*
-        rewind($verbose);
-        $verboseLog = stream_get_contents($verbose);
-        echo $verboseLog;
-        */
-        curl_close($curl);
-
-        //return $curlResponse;
-    }
 }

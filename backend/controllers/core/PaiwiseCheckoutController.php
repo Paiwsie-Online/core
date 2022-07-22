@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 class PaiwiseCheckoutController extends BaseController {
 
     public function actionWebhook() {
-        // Extends this controller and change this function depends on what to do with the response from the API
+        // TODO: Missing changing the table depends from response
         $checkoutResponse = @file_get_contents('php://input');
         $systemLog = new SystemLog();
         $systemLog->message_short = 'Test message of webhook';
