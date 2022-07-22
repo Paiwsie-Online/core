@@ -48,6 +48,7 @@ return [
         'organization-user-relation' => 'backend\controllers\core\OrganizationUserRelationController',
         'cronjob' => 'backend\controllers\core\CronjobController',
         'enumeration' => 'backend\controllers\core\EnumerationController',
+        'paiwise-checkout' => 'backend\controllers\core\PaiwiseCheckoutController',
         'qr' => 'backend\controllers\core\QrController',
         'site' => 'backend\controllers\core\SiteController',
         'system-admin' => 'backend\controllers\core\SystemAdminController',

@@ -16,10 +16,13 @@ use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Html;
 
 
-$testClass = 'common\models\User';
+/*$testClass = 'common\models\User';
 if (class_exists($testClass)) {
     $myClass = $testClass::findOne(60);
-}
+}*/
+// Lines to test checkout
+/*$pch = new \common\helpers\core\PaiwiseCheckoutHelper();
+$pch->create(75, "EUR", "Bye", "http://google.com", "http://facebook.com/testing", "common\models\core\user", 1, false);*/
 
 $this->title = Yii::t('core_system', 'Home');
 

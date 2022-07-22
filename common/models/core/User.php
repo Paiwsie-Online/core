@@ -6,7 +6,6 @@ Do not change this file unless you know what you are doing.
 namespace common\models\core;
 
 use Yii;
-use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;

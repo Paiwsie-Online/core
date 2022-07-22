@@ -18,6 +18,8 @@ use yii\behaviors\TimestampBehavior;
  * @property int|null $status_changed
  * @property string|null $checkout_data
  * @property int|null $created_at
+ *
+ *
  */
 class PaiwiseCheckout extends \yii\db\ActiveRecord
 {
@@ -71,12 +73,4 @@ class PaiwiseCheckout extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     * @return PaiwiseCheckoutSearch the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PaiwiseCheckoutSearch(get_called_class());
-    }
 }
