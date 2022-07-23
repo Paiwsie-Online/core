@@ -12,6 +12,7 @@ Do not change this file unless you know what you are doing.
 
 use common\models\core\OrganizationModuleRelation;
 use common\models\core\OrganizationUserRelation;
+use common\models\core\UserSetting;
 use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Html;
 
@@ -25,6 +26,12 @@ $this->title = Yii::t('core_system', 'Home');
 
 $this->registerJsFile('@web/js/pageScripts/index.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$theme = UserSetting::findOne(['user_id' => Yii::$app->user->identity->id, 'setting' => 'theme']);
+echo Html::a('setTheme', ['/user-setting/set', 'setting' => 'theme', 'value' => 'light'], [
+    'data' => [
+        'method' => 'post',
+    ],
+]);
 if (isset(Yii::$app->user->identity->selectedOrganization->id)) {
     $organizationModulesCount = (int)OrganizationModuleRelation::find()->where(['organization_id' => Yii::$app->user->identity->selectedOrganization->id])->count();
 }

@@ -26,7 +26,7 @@ return [
     'components' => [
         'request' => [
             'cookieValidationKey' => 'change_now_your_validation_key',
-            'csrfParam' => '_csrf-backend',
+            'csrfParam' => '_csrfapi',
             'enableCsrfValidation' => false,
             'parsers' => [
                 'application/json' => JsonParser::class,

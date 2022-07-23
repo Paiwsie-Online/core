@@ -16,6 +16,9 @@ return [
         'apiInstance' => 'smartadmincore.app',
         'frontendInstance' => 'smartadmincore.frontend',
         'support_email' => 'smartadmin@paiwise.com',
+        'default_theme' => 'light',
+        'allow_theme_switch' => true,
+        'use_notifications' => true,
     ],
     'allowedExtensions' => [
         'images' => ['jpg', 'jpeg', 'gif', 'png'],

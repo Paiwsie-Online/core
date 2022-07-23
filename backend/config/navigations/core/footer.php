@@ -3,18 +3,17 @@
 return [
     [
         'title' => Yii::t('core_system', 'About'),
-        'href' => 'https://www.paiwise.com/about'                        //'/site/about'
+        'href' => 'https://www.paiwise.com/about',
     ],
     [
         'title' => Yii::t('core_system', 'Help'),
-        'href' => 'https://www.paiwise.com/about'                        //'/site/help'
+        'href' => 'https://www.paiwise.com/about'
     ],
     [
         'title' => Yii::t('core_system', 'Contact'),
         'href' => '/site/contact'
     ],
     [
-
         'title' => Yii::t('core_system', 'Terms &amp; Conditions'),
         'href' => '/site/termsandconditions'
     ],

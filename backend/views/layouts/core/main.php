@@ -7,55 +7,58 @@ Do not change this file unless you know what you are doing.
 
 /* @var $content string */
 
+use backend\helpers\core\ContentHelper;
+use backend\helpers\core\NotificationHelper;
+use backend\helpers\core\TemplateHelper;
 use backend\widgets\Alert;
-use common\models\core\Language;
-use http\Url;
-use Imagine\Image\ManipulatorInterface;
+use common\models\core\UserSetting;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 
+$templateHelper = new TemplateHelper();
+$contentHelper = new ContentHelper();
+
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/custom.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/timeout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/layout.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/bootstrap/js/bootstrap.bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/simplebar/simplebar.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/node-waves/waves.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/libs/feather-icons/feather.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/plugins/lord-icon-2.1.0.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/plugins.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/apexcharts/apexcharts.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/js/jsvectormap.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/maps/world-merc.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile(Yii::$app->request->baseUrl . '/js/pages/dashboard-ecommerce.init.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/app.js', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+if (Yii::$app->params['default_site_settings']['use_notifications']) {
+    $notificationHelper = new NotificationHelper();
+    $this->registerJsFile(Yii::$app->request->baseUrl . '/js/notifications.js', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+}
 
-//$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/jsvectormap/css/jsvectormap.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/icons.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/custom.min.css');
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/libs/swiper/swiper-bundle.min.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/icons.min.css', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/app.css', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/custom.min.css', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/project.css', ['depends' => [\yii\bootstrap5\BootstrapPluginAsset::class]]);
+
 
 AppAsset::register($this);
-$last30Day = date('Y-m-d', strtotime(date('Y-m-d') . "- 30 days"));
 
-$navigation = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['main'].'.php';
-$userMenu = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['user'].'.php';
-$footerMenu = require Yii::$app->basePath . '/config/navigations'.Yii::$app->params['navigations']['footer'].'.php';
-
-
-$languageMenu = Language::getLanguages();
-$currentLanguage = Language::findOne(Yii::$app->language);
-$user = Yii::$app->user;
+$theme = Yii::$app->params['default_site_settings']['default_theme'];
+if (Yii::$app->params['default_site_settings']['allow_theme_switch']) {
+    $userTheme = UserSetting::findOne(['user_id' => Yii::$app->user->identity->id, 'setting' => 'theme']);
+    if (isset($userTheme) && in_array($userTheme->value, ['light', 'dark'])) {
+        $theme = $userTheme->value;
+    }
+}
+$sidebarSize = 'lg';
+$sidebarSetting = UserSetting::findOne(['user_id' => Yii::$app->user->identity->id, 'setting' => 'sidebar-size']);
+if (isset($sidebarSetting) && in_array($sidebarSetting->value, ['lg', 'sm'])) {
+    $sidebarSize = $sidebarSetting->value;
+}
 ?>
 
 
 <?php $this->beginPage() ?>
 <!doctype html>
-<html lang="<?= Yii::$app->language ?>" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<html lang="<?= Yii::$app->language ?>" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="<?=$sidebarSize?>" data-sidebar-image="none" data-layout-mode="<?= $theme ?>">
 
 <head>
 
@@ -66,7 +69,7 @@ $user = Yii::$app->user;
     <meta content="" name="author" />
     <meta name='logoutTimer' content='<?=(Yii::$app->session->get('__expire') - time())?>'>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="<?= (Yii::$app->params['branding']['favicon'] ?? '/img/favicon.ico') ?>">
     <title><?= Html::encode(Yii::$app->name) ?> | <?= Html::encode($this->title) ?></title>
     <?php
     $this->registerJsFile(Yii::$app->request->baseUrl . '/js/guides.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -88,19 +91,19 @@ $user = Yii::$app->user;
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="/site/index" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="/img/logo-sm.png" alt="" height="22">
+                            <img src="<?= (Yii::$app->params['branding']['smallLogo'] ?? '/img/logo-sm.png') ?>" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="/img/logo-dark.png" alt="" height="17">
+                            <img src="<?= (Yii::$app->params['branding']['darkLogo'] ?? '/img/logo-dark.png') ?>" alt="" height="17">
                         </span>
                         </a>
 
                         <a href="/site/index" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="/img/logo-sm.png" alt="" height="22">
+                            <img src="<?= (Yii::$app->params['branding']['smallLogo'] ?? '/img/logo-sm.png') ?>" alt="" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="/img/logo-light.png" alt="aaa" height="17">
+                            <img src="<?= (Yii::$app->params['branding']['lightLogo'] ?? '/img/logo-light.png') ?>" alt="aaa" height="17">
                         </span>
                         </a>
                     </div>
@@ -118,448 +121,25 @@ $user = Yii::$app->user;
                 <div class="d-flex align-items-center">
 
                     <?php
-                    // ???
-                    /*
-                    <div class="dropdown d-md-none topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-search fs-22"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-search-dropdown">
-                            <form class="p-3">
-                                <div class="form-group m-0">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    */
-                    ?>
-
-                    <?php
                     // Flags
-                    ?>
+                    $templateHelper->languageSelect();
 
-                    <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="/img/flags/<?= $currentLanguage->country ?>.png" alt="user-image" class="me-2 rounded" height="25">
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <?php
-                            foreach ($languageMenu as $language) {
-                                if ($language->language_id !== Yii::$app->language) {
-                                    echo Html::a($language->name . ($language->status === 2 ? ' <span class="text-warning">' . Yii::t('core_system', 'Beta') . '</span>' : ''), ['/user-setting/set', 'setting' => 'language', 'value' => $language->language_id], [
-                                        'class' => 'dropdown-item notify-item language',
-                                        'data' => [
-                                            'method' => 'post',
-                                        ],
-                                    ]);
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <?php
-                    // Web apps
-                    /*
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='bx bx-category-alt fs-22'></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
-                            <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h6 class="m-0 fw-semibold fs-15"> Web Apps </h6>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="#!" class="btn btn-sm btn-soft-info"> View All Apps
-                                            <i class="ri-arrow-right-s-line align-middle"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="p-2">
-                                <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/github.png" alt="Github">
-                                            <span>GitHub</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/bitbucket.png" alt="bitbucket">
-                                            <span>Bitbucket</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/dribbble.png" alt="dribbble">
-                                            <span>Dribbble</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/dropbox.png" alt="dropbox">
-                                            <span>Dropbox</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/mail_chimp.png" alt="mail_chimp">
-                                            <span>Mail Chimp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#!">
-                                            <img src="/img/brands/slack.png" alt="slack">
-                                            <span>Slack</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    */
-                    ?>
-
-                    <div class="ms-1 header-item d-none d-sm-flex">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
-                            <i class='bx bx-fullscreen fs-22'></i>
-                        </button>
-                    </div>
-
-                    <div class="ms-1 header-item d-none d-sm-flex">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
-                            <i class='bx bx-moon fs-22'></i>
-                        </button>
-                    </div>
-
-                    <?php
-                    // Notifications/Messages
-                    /*
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='bx bx-bell fs-22'></i>
-                            <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span class="visually-hidden">unread messages</span></span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
-
-                            <div class="dropdown-head bg-primary bg-pattern rounded-top">
-                                <div class="p-3">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
-                                        </div>
-                                        <div class="col-auto dropdown-tabs">
-                                            <span class="badge badge-soft-light fs-13"> 4 New</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-2 pt-2">
-                                    <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
-                                        <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">
-                                                All (4)
-                                            </a>
-                                        </li>
-                                        <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
-                                                Messages
-                                            </a>
-                                        </li>
-                                        <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">
-                                                Alerts
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                            <div class="tab-content" id="notificationItemsTabContent">
-                                <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="avatar-xs me-3">
-                                                <span class="avatar-title bg-soft-info text-info rounded-circle fs-16">
-                                                    <i class="bx bx-badge-check"></i>
-                                                </span>
-                                                </div>
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-2 lh-base">Your <b>Elite</b> author Graphic
-                                                            Optimization <span class="text-secondary">reward</span> is
-                                                            ready!
-                                                        </h6>
-                                                    </a>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> Just 30 sec ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check01">
-                                                        <label class="form-check-label" for="all-notification-check01"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item position-relative active">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">Answered to your comment on the cash flow forecast's
-                                                            graph 🔔.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check02" checked>
-                                                        <label class="form-check-label" for="all-notification-check02"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="avatar-xs me-3">
-                                                <span class="avatar-title bg-soft-danger text-danger rounded-circle fs-16">
-                                                    <i class='bx bx-message-square-dots'></i>
-                                                </span>
-                                                </div>
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-2 fs-13 lh-base">You have received <b class="text-success">20</b> new messages in the conversation
-                                                        </h6>
-                                                    </a>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check03">
-                                                        <label class="form-check-label" for="all-notification-check03"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">We talked about a project on linkedin.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 4 hrs ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="all-notification-check04">
-                                                        <label class="form-check-label" for="all-notification-check04"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="my-3 text-center">
-                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">View
-                                                All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
-                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                        <div class="text-reset notification-item d-block dropdown-item">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">We talked about a project on linkedin.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 30 min ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="messages-notification-check01">
-                                                        <label class="form-check-label" for="messages-notification-check01"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">Answered to your comment on the cash flow forecast's
-                                                            graph 🔔.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="messages-notification-check02">
-                                                        <label class="form-check-label" for="messages-notification-check02"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">Mentionned you in his comment on 📃 invoice #12501.
-                                                        </p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 10 hrs ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="messages-notification-check03">
-                                                        <label class="form-check-label" for="messages-notification-check03"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-reset notification-item d-block dropdown-item">
-                                            <div class="d-flex">
-                                                <img src="/img/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                                <div class="flex-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">We talked about a project on linkedin.</p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> 3 days ago</span>
-                                                    </p>
-                                                </div>
-                                                <div class="px-2 fs-15">
-                                                    <div class="form-check notification-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="messages-notification-check04">
-                                                        <label class="form-check-label" for="messages-notification-check04"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="my-3 text-center">
-                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">View
-                                                All Messages <i class="ri-arrow-right-line align-middle"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
-                                    <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="/img/svg/bell.svg" class="img-fluid" alt="user-pic">
-                                    </div>
-                                    <div class="text-center pb-5 mt-2">
-                                        <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    */
+                    if (Yii::$app->params['default_site_settings']['allow_theme_switch']) {
+                        echo '<div class="ms-1 header-item d-none d-sm-flex">';
+                        echo Html::a('<i class="bx bx-'.($theme === 'light'?'moon':'sun').' fs-22"></i>', ['/user-setting/set', 'setting' => 'theme', 'value' => ($theme === 'light'?'dark':'light')], ['data' => ['method' => 'post'], 'class' => 'btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none']);
+                        echo '</div>';
+                    }
+                    if (Yii::$app->params['default_site_settings']['use_notifications']) {
+                        echo '<div id="notificationBell">';
+                        // Notifications/Messages
+                        $notificationHelper->alertBell();
+                        echo '</div>';
+                    }
                     ?>
 
                     <?php
                     // User Profile
-                    if (Yii::$app->user->isGuest) {
-                        echo "<div class='nav-item text-big font-weight-light mr-3 ml-1'><a href='/site/login' title='log in' data-filter-tags='log in'>
-                                    <i class='fas fa-sign-in-alt navbar-icon align-middle'></i> &nbsp;
-                                    <span class='nav-link-text'>" . Yii::t('core_system', 'Sign in') . "</span>
-                                </a></div>";
-                    }
-                    if (!Yii::$app->user->isGuest) {
-                    ?>
-                        <div class="dropdown ms-sm-3 header-item topbar-user">
-                            <a href="/site/index" type="button" class="btn shadow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="d-flex align-items-center">
-                                    <img src="<?= (isset(Yii::$app->user->identity->picture['uri']) ? Yii::$app->thumbnailer->get(Yii::$app->user->identity->picture['uri'], 30, 30, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true) : Yii::$app->thumbnailer->get('/img/avatars/1.png', 30, 30, 100, ManipulatorInterface::THUMBNAIL_OUTBOUND, true)) ?>" alt class="d-block w-25 rounded-circle">
-                                    <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"><?= (Yii::$app->user->identity->organizationUserLevel ? ucfirst(Yii::$app->user->identity->organizationUserLevel) : '') ?></span>
-                                    </span>
-
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item-->
-                                <h6 class="dropdown-header"><?= Yii::t('core_system', 'Welcome') . ' ' . Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></h6>
-                                <div class="dropdown-divider"></div>
-                                <?php
-                                foreach ($userMenu as $uM) {
-                                    if ((isset($uM['visible']) && $uM['visible'] === true) || (!isset($uM['visible']))) {
-                                        echo "<a href='" . ($uM['href'] ?? '#') . "' class='dropdown-item'>";
-                                        if (isset($uM['icon'])) {
-                                            echo "<i class='{$uM['icon']} text-muted'></i>";
-                                        }
-                                        echo "<span class='align-middle'>" . ($uM['title'] ?? 'Title') . "</span></a>";
-                                    }
-                                }
-                                ?>
-                                <div class="dropdown-divider"></div>
-                                <?= Html::beginForm(['/site/logout'], 'post')
-                                . Html::submitButton(
-                                    '<i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">' . Yii::t('core_system', 'Logout') . '</span>',
-                                    ['class' => 'dropdown-item']
-                                )
-                                . Html::endForm() ?>
-                            </div>
-                        </div>
-                    <?php
-                    }
+                    $templateHelper->userMenu($contentHelper->userMenuContent());
                     ?>
                 </div>
             </div>
@@ -573,19 +153,19 @@ $user = Yii::$app->user;
             <!-- Dark Logo-->
             <a href="/site/index" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="/img/logo-sm.png" alt="" height="22">
+                    <img src="<?= (Yii::$app->params['branding']['smallLogo'] ?? '/img/logo-sm.png') ?>" alt="" height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="/img/logo-dark.png" alt="" height="17">
+                    <img src="<?= (Yii::$app->params['branding']['darkLogo'] ?? '/img/logo-dark.png') ?>" alt="" height="17">
                 </span>
             </a>
             <!-- Light Logo-->
             <a href="/site/index" class="logo logo-light">
                 <span class="logo-sm">
-                    <img src="/img/logo-sm.png" alt="" height="22">
+                    <img src="<?= (Yii::$app->params['branding']['smallLogo'] ?? '/img/logo-sm.png') ?>" alt="" height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="/img/logo-light.png" alt="" height="17">
+                    <img src="<?= (Yii::$app->params['branding']['lightLogo'] ?? '/img/logo-dark.png') ?>" alt="" height="17">
                 </span>
             </a>
             <a href="" type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -601,99 +181,10 @@ $user = Yii::$app->user;
                 </div>
                 <ul class="navbar-nav" id="navbar-nav">
                     <?php
-                    /*TODO: add pluralization to translation*/
-                    echo "<li class='menu-title'><span data-key='t-menu'>" . Yii::t("core", "Organization") . "</span></li>";
-                    if (count(Yii::$app->user->identity->organizationList) !== 0) {
-                        echo "<li class='nav-item'>";
-                        if (!isset(Yii::$app->user->identity->selectedOrganization)) {
-                            echo "<a href='#selectOrgMenu' class='nav-link menu-link' data-bs-toggle='collapse' role='button' aria-expanded='false' aria-controls='selectOrgMenu'><span data-key='t-orgSelectMenu'>".Yii::t('core', 'Select organization')."</span></a>";
-                        } else {
-                            if (count(Yii::$app->user->identity->organizationList) === 1) {
-                                echo "<a href='/site/index' class='nav-link menu-link'>".Yii::$app->user->identity->selectedOrganization['name']."</a>";
-                            }
-                            else {
-                                echo "<a href='#selectOrgMenu' class='nav-link menu-link' data-bs-toggle='collapse' role='button' aria-expanded='false' aria-controls='selectOrgMenu'><span data-key='t-orgSelectMenu'>".Yii::$app->user->identity->selectedOrganization['name']."</span></a>";
-                            }
-                        }
-                        if (!isset(Yii::$app->user->identity->selectedOrganization) || count(Yii::$app->user->identity->organizationList) > 1) {
-                            echo "<div class='collapse menu-dropdown' id='selectOrgMenu'>";
-                            echo "<ul class='nav nav-sm flex-column'>";
-                            foreach (Yii::$app->user->identity->organizationList as $id => $name) {
-                                if (!isset(Yii::$app->user->identity->selectedOrganization) || Yii::$app->user->identity->selectedOrganization['id'] !== $id) {
-                                    echo "<li class='nav-item'>";
-                                    echo Html::a($name, ['organization/change-active'], [
-                                        'data'=>[
-                                            'method' => 'post',
-                                            'params'=>['id'=>$id],
-                                        ],
-                                        'class' => 'nav-link menu-link'
-                                    ]);
-                                    echo "</li>";
-                                }
-                            }
-                            echo "</ul>";
-                            echo "</div>";
-                        }
-                        echo "</li>";
-                        /*?>
-                        <label for="organizationselect" class="text-light"><?= Yii::t('core_organization', 'Select organization') ?>:</label>
-                        <?= Html::dropDownList('organizationselect', (Yii::$app->user->identity->selectedOrganization['id'] ?? null), Yii::$app->user->identity->organizationList, [
-                            'class' => 'form-control',
-                            'id' => 'organizationselect',
-                            'prompt' => Yii::t('core_organization', 'No Organization'),
-                            'onchange' => '$.post("' . Yii::$app->urlManager->createUrl("organization/change-active") . '", {id: $(this).val()} ,
-                                                                                function(result) {
-                                                                                    console.log(result);
-                                                                                });'
-                        ]) ?>
-                        <?php*/
-                    }
-                    if (!isset(Yii::$app->user->identity->selectedOrganization) && count(Yii::$app->user->identity->organizationList) === 0) {
-
-                            echo "<li class='nav-item'><a href='/organization/register-organization' class='nav-link menu-link".((Yii::$app->controller->id === 'organization' && Yii::$app->controller->action->id === 'register-organization') ? ' open active' : '')."'>" . Yii::t('core', 'Add Organization') . "</a></li>";
-                    }
+                    $templateHelper->organizationSelection();
 
                     /*Print out navigation menu*/
-                    foreach ($navigation as $nav) {
-                        if ((isset($nav['visible']) && $nav['visible'] === true) || (!isset($nav['visible']))) {
-                            if (isset($nav['title'])) {
-                                echo "<li class='menu-title'><span data-key='t-menu'>" . ($nav['title'] ?? 'title') . "</span></li>";
-                            }
-                            if (isset($nav['items'])) {
-                                foreach ($nav['items'] as $item) {
-                                    if ((isset($item['visible']) && $item['visible'] === true) || (!isset($item['visible']))) {
-                                        echo "<li class='nav-item'>
-                                            <a " . (!isset($item['items']) ? "href='" . ($item['href'] ?? '#') . "'" : "href='#" . str_replace(' ', '', $item['title']) . "'") . " class='nav-link menu-link " . ((isset($item['active']) && $item['active']) ? ' open active' : '') . "' " . (isset($item['items']) ? "data-bs-toggle='collapse' role='button' aria-expanded='false' aria-controls='" . str_replace(' ', '', $item['title']) . "'" : "") . ">";
-                                            if (isset($item['icon'])) {
-                                                echo "<i class='{$item['icon']}'></i>";
-                                            }
-                                            echo "<span data-key='t-" . ($item['title'] ?? 'title') . "'>" . ($item['title'] ?? 'title') . "</span></a>";
-                                            if (isset($item['items'])) {
-                                            ?>
-                                                <div class="collapse menu-dropdown <?= ((isset($item['active']) && $item['active']) ? ' show' : '') ?>" id="<?= str_replace(' ', '', $item['title']) ?>">
-                                                    <ul class="nav nav-sm flex-column">
-                                                        <?php
-                                                        foreach ($item['items'] as $navLink) {
-                                                            if ((isset($navLink['visible']) && $navLink['visible'] === true) || (!isset($navLink['visible']))) {
-                                                                echo "<li class='nav-item'>
-                                                                    <a href='" . ($navLink['href'] ?? '#') . "' class='nav-link " . ((isset($navLink['active']) && $navLink['active']) ? ' active' : '') . "'>";
-                                                                        if (isset($navLink['icon'])) {
-                                                                            echo "<i class='{$navLink['icon']}'></i>";
-                                                                        }
-                                                                        echo "<span data-key='t-" . ($item['title'] ?? 'title') . "'>" . ($navLink['title'] ?? 'title') . "</span>
-                                                                    </a>
-                                                                </li>";
-                                                            }
-                                                        }
-                                                    echo "</ul>
-                                                </div>";
-                                            }
-                                        echo "</li>";
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    $templateHelper->mainNavigation($contentHelper->mainMenuContent());
                     ?>
                 </ul>
             </div>
@@ -725,21 +216,6 @@ $user = Yii::$app->user;
                                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                                 ]) ?>
                             </div>
-                            <?php
-                            /*
-                            if (isset($this->params['breadcrumbs'])) {
-                            ?>
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <?= Breadcrumbs::widget([
-                                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                                        ]) ?>
-                                    </ol>
-                                </div>
-                            <?php
-                            }
-                            */
-                            ?>
                         </div>
                         <?= Alert::widget() ?>
                         <div class="row">
@@ -761,12 +237,10 @@ $user = Yii::$app->user;
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script> © Trust Anchor Group.
+                        <?=date('Y')?> © <?= Yii::$app->params['branding']['copyright'] ?>
                     </div>
                     <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Design & Develop by Trust Anchor Group
-                        </div>
+                            <?php $templateHelper->footerMenu($contentHelper->footerMenuContent()) ?>
                     </div>
                 </div>
             </div>

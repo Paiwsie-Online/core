@@ -105,7 +105,7 @@ return [
         ],*/
         'request' => [
             'cookieValidationKey' => 'change_now_your_validation_key',
-            'csrfParam' => '_csrf-backend',
+            'csrfParam' => '_csrfbackend',
             'enableCsrfValidation' => false,
         ],
         'baseController' => [
