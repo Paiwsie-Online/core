@@ -132,7 +132,7 @@ if (isset($sidebarSetting) && in_array($sidebarSetting->value, ['lg', 'sm'])) {
                     if (Yii::$app->params['default_site_settings']['use_notifications']) {
                         echo '<div id="notificationBell">';
                         // Notifications/Messages
-                        $notificationHelper->alertBell();
+                        echo $notificationHelper->alertBell();
                         echo '</div>';
                     }
                     ?>

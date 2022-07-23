@@ -56,6 +56,7 @@ return [
         'user' => 'backend\controllers\core\UserController',
         'user-login' => 'backend\controllers\core\UserLoginController',
         'user-setting' => 'backend\controllers\core\UserSettingController',
+        'notification' => 'backend\controllers\core\NotificationController',
     ],
     'controllerNamespace' => 'backend\controllers\core',
     'modules' => [

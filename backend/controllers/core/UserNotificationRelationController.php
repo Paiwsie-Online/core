@@ -2,19 +2,17 @@
 
 namespace backend\controllers\core;
 
-use backend\helpers\core\NotificationHelper;
 use Yii;
-use common\models\core\Notification;
-use common\models\core\NotificationSearch;
+use common\models\core\UserNotificationRelation;
+use common\models\core\UserNotificationRelationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
 
 /**
- * NotificationController implements the CRUD actions for Notification model.
+ * UserNotificationRelationController implements the CRUD actions for UserNotificationRelation model.
  */
-class NotificationController extends Controller
+class UserNotificationRelationController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,12 +30,12 @@ class NotificationController extends Controller
     }
 
     /**
-     * Lists all Notification models.
+     * Lists all UserNotificationRelation models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new NotificationSearch();
+        $searchModel = new UserNotificationRelationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,29 +45,30 @@ class NotificationController extends Controller
     }
 
     /**
-     * Displays a single Notification model.
-     * @param integer $id
+     * Displays a single UserNotificationRelation model.
+     * @param integer $notification_id
+     * @param integer $user_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($notification_id, $user_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($notification_id, $user_id),
         ]);
     }
 
     /**
-     * Creates a new Notification model.
+     * Creates a new UserNotificationRelation model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Notification();
+        $model = new UserNotificationRelation();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'notification_id' => $model->notification_id, 'user_id' => $model->user_id]);
         }
 
         return $this->render('create', [
@@ -78,18 +77,19 @@ class NotificationController extends Controller
     }
 
     /**
-     * Updates an existing Notification model.
+     * Updates an existing UserNotificationRelation model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $notification_id
+     * @param integer $user_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($notification_id, $user_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($notification_id, $user_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'notification_id' => $model->notification_id, 'user_id' => $model->user_id]);
         }
 
         return $this->render('update', [
@@ -98,52 +98,31 @@ class NotificationController extends Controller
     }
 
     /**
-     * Deletes an existing Notification model.
+     * Deletes an existing UserNotificationRelation model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $notification_id
+     * @param integer $user_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($notification_id, $user_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($notification_id, $user_id)->delete();
 
         return $this->redirect(['index']);
     }
 
-    public function actionDropdown()
-    {
-        $this->response->format = Response::FORMAT_RAW;
-        $notificationHelper = new NotificationHelper();
-        return $notificationHelper->alertDropdownContent();
-    }
-
-    public function actionCount()
-    {
-        $this->response->format = Response::FORMAT_JSON;
-        $notificationHelper = new NotificationHelper();
-        return json_encode(['total' => $notificationHelper->newNotificationsCount,
-            'messages' => $notificationHelper->newMessagesCount,
-            'alerts' => $notificationHelper->newAlertsCount]);
-    }
-
-    public function actionRead($id)
-    {
-        $model = $this->findModel($id);
-        $model->status = "seen";
-        $model->save();
-    }
-
     /**
-     * Finds the Notification model based on its primary key value.
+     * Finds the UserNotificationRelation model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Notification the loaded model
+     * @param integer $notification_id
+     * @param integer $user_id
+     * @return UserNotificationRelation the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($notification_id, $user_id)
     {
-        if (($model = Notification::findOne($id)) !== null) {
+        if (($model = UserNotificationRelation::findOne(['notification_id' => $notification_id, 'user_id' => $user_id])) !== null) {
             return $model;
         }
 

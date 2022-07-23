@@ -16,6 +16,15 @@ use common\models\core\UserSetting;
 use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Html;
 
+$data = [
+    'image' => 'https://back.core.test/img/users/avatar-2.jpg',
+    'heading' => 'Angela Bernier',
+    'message' => 'Answered to your comment on the cash flow forecast\'s graph 🔔.',
+    'link' => '#!'
+];
+echo "<pre>";
+var_dump(json_encode($data));
+echo "</pre>";
 
 $testClass = 'common\models\User';
 if (class_exists($testClass)) {

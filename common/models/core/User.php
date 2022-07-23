@@ -53,6 +53,7 @@ use yii\web\ServerErrorHttpException;
  * @property UserSetting $userSettingForgotPasswordVerificationCode
  * @property Picture $profile_picture
  * @property int $profile_picture_id
+ * @property Notification[] $notifications
  */
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
@@ -777,6 +778,18 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         $infoArr['modelName'] = Yii::t('core_model', 'User');
         $infoArr['objectName'] = ($this->first_name ?? '').' '.($this->last_name ?? '');
         return $infoArr;
+    }
+
+    public function getNotifications($category = null, $status = 'unread')
+    {
+        $query = Notification::find()->leftJoin('user_notification_relation', 'user_notification_relation.notification_id = notification.id')->where(['user_notification_relation.user_id' => $this->id]);
+        if ($status) {
+            $query->andWhere(['notification.status' => $status]);
+        }
+        if ($category) {
+            $query->andWhere(['notification.category' => $category]);
+        }
+        return $query->all();
     }
 
 }
