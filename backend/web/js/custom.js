@@ -42,6 +42,22 @@ $(function () {
     }
 });*/
 
+$("#topnav-hamburger-icon").click(function() {
+    if ("sm" === document.documentElement.getAttribute("data-sidebar-size")) {
+        document.documentElement.setAttribute("data-sidebar-size", "");
+        $.get( "/user-setting/set", { setting: "sidebar-size", value: "lg" } )
+            .done(function( data ) {
+                alert( "Data Loaded: " + data );
+            });
+    } else {
+        document.documentElement.setAttribute("data-sidebar-size", "sm");
+        $.get( "/user-setting/set", { setting: "sidebar-size", value: "sm" } )
+            .done(function( data ) {
+                alert( "Data Loaded: " + data );
+            });
+    }
+});
+
 // QR scan received from TAGid
 function qrScanReceived() {
     $.post("/api/tagidscan", {}, function () {

@@ -57,6 +57,7 @@ return [
         'user' => 'backend\controllers\core\UserController',
         'user-login' => 'backend\controllers\core\UserLoginController',
         'user-setting' => 'backend\controllers\core\UserSettingController',
+        'notification' => 'backend\controllers\core\NotificationController',
     ],
     'controllerNamespace' => 'backend\controllers\core',
     'modules' => [
@@ -106,7 +107,7 @@ return [
         ],*/
         'request' => [
             'cookieValidationKey' => 'change_now_your_validation_key',
-            'csrfParam' => '_csrf-backend',
+            'csrfParam' => '_csrfbackend',
             'enableCsrfValidation' => false,
         ],
         'baseController' => [

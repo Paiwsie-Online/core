@@ -52,6 +52,7 @@ use yii\web\ServerErrorHttpException;
  * @property UserSetting $userSettingForgotPasswordVerificationCode
  * @property Picture $profile_picture
  * @property int $profile_picture_id
+ * @property Notification[] $notifications
  */
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
@@ -772,10 +773,51 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
     }
 
     public function collectInfo() {
-        $infoArr = [];
-        $infoArr['modelName'] = Yii::t('core_model', 'User');
-        $infoArr['objectName'] = ($this->first_name ?? '').' '.($this->last_name ?? '');
-        return $infoArr;
+        return [
+            'modelName' => Yii::t('core_model', 'User'),
+            'objectName' => ($this->first_name ?? '').' '.($this->last_name ?? ''),
+        ];
+    }
+
+    public function getNotifications($category = null, $status = 'unread')
+    {
+        $query = Notification::find()->leftJoin('user_notification_relation', 'user_notification_relation.notification_id = notification.id')->where(['user_notification_relation.user_id' => $this->id]);
+        if ($status) {
+            $query->andWhere(['notification.status' => $status]);
+        }
+        if ($category) {
+            $query->andWhere(['notification.category' => $category]);
+        }
+        return $query->all();
+    }
+
+    public function setDetails($array)
+    {
+        foreach ($array as $detail => $value) {
+            $userDetail = UserDetail::findOne(['user_id' => $this->id, 'detail' => $detail]);
+            if (!$userDetail) {
+                $userDetail = new UserDetail();
+                $userDetail->user_id = $this->id;
+                $userDetail->detail = $detail;
+                $syslogEvent = "user_detail_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "user_detail_updated";
+                $messageEvent = "updated";
+            }
+            if ($userDetail->value !== $value) {
+                $userDetail->value = $value;
+                $userDetail->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = $this->id;
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent ." detail: " . $detail;
+                $systemLog->message = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent . " detail: " . $detail . " to: " . $value;
+                $systemLog->data_format = json_encode(['detail' => $detail, 'value' => $value]);
+            }
+        }
+        return null;
     }
 
 }
