@@ -17,6 +17,7 @@ use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 
+/*TOOD: load TemplateHelper and Contenthelper dynamically to support overriding functions without changing layout file*/
 $templateHelper = new TemplateHelper();
 $contentHelper = new ContentHelper();
 
@@ -296,9 +297,6 @@ $this->endBody()
 ?>
 <input id="timeOutValue" type="hidden" value="<?=Yii::$app->params['systemTimeout']['authTimeout']?>">
 <input id="modalShowValue" type="hidden" value="<?=Yii::$app->params['systemTimeout']['modalShow']?>">
-</body>
-</html>
-<?php $this->endPage() ?>
 <script>
     $(document).ready(function() {
         $('#site-modal-warning').find('button.close').hide();
@@ -311,3 +309,7 @@ $this->endBody()
     });
 
 </script>
+</body>
+</html>
+<?php $this->endPage() ?>
+

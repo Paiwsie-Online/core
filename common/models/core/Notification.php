@@ -1,4 +1,14 @@
 <?php
+/*THE DEFAULT NOTIFICATION DATA LOOKS AS FOLLOWS
+
+$data = [
+    'image' => 'https://back.core.test/img/users/avatar-2.jpg',
+    'heading' => 'Angela Bernier',
+    'message' => 'Answered to your comment on the cash flow.',
+    'link' => '#!'
+];
+ */
+
 
 namespace common\models\core;
 

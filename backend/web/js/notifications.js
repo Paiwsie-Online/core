@@ -9,9 +9,7 @@ $('#notificationDropdownDiv').on('click', function(event){
 
 setInterval(()=>{
    $.get( "/notification/count", (data) => {
-      console.log(data);
       let counters = JSON.parse(data);
-      console.log(counters.alerts);
       $('#notificationBellBadgeCount').html(counters.total);
       if (counters.total === 0) {
          $('#notificationBellBadge').hide();

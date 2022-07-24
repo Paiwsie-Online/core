@@ -16,31 +16,11 @@ use common\models\core\UserSetting;
 use Imagine\Image\ManipulatorInterface;
 use yii\bootstrap5\Html;
 
-$data = [
-    'image' => 'https://back.core.test/img/users/avatar-2.jpg',
-    'heading' => 'Angela Bernier',
-    'message' => 'Answered to your comment on the cash flow forecast\'s graph 🔔.',
-    'link' => '#!'
-];
-echo "<pre>";
-var_dump(json_encode($data));
-echo "</pre>";
-
-$testClass = 'common\models\User';
-if (class_exists($testClass)) {
-    $myClass = $testClass::findOne(60);
-}
 
 $this->title = Yii::t('core_system', 'Home');
 
 $this->registerJsFile('@web/js/pageScripts/index.js',['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$theme = UserSetting::findOne(['user_id' => Yii::$app->user->identity->id, 'setting' => 'theme']);
-echo Html::a('setTheme', ['/user-setting/set', 'setting' => 'theme', 'value' => 'light'], [
-    'data' => [
-        'method' => 'post',
-    ],
-]);
 if (isset(Yii::$app->user->identity->selectedOrganization->id)) {
     $organizationModulesCount = (int)OrganizationModuleRelation::find()->where(['organization_id' => Yii::$app->user->identity->selectedOrganization->id])->count();
 }

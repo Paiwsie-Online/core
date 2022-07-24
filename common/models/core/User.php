@@ -774,10 +774,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
     }
 
     public function collectInfo() {
-        $infoArr = [];
-        $infoArr['modelName'] = Yii::t('core_model', 'User');
-        $infoArr['objectName'] = ($this->first_name ?? '').' '.($this->last_name ?? '');
-        return $infoArr;
+        return [
+            'modelName' => Yii::t('core_model', 'User'),
+            'objectName' => ($this->first_name ?? '').' '.($this->last_name ?? ''),
+        ];
     }
 
     public function getNotifications($category = null, $status = 'unread')
@@ -790,6 +790,35 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
             $query->andWhere(['notification.category' => $category]);
         }
         return $query->all();
+    }
+
+    public function setDetails($array)
+    {
+        foreach ($array as $detail => $value) {
+            $userDetail = UserDetail::findOne(['user_id' => $this->id, 'detail' => $detail]);
+            if (!$userDetail) {
+                $userDetail = new UserDetail();
+                $userDetail->user_id = $this->id;
+                $userDetail->detail = $detail;
+                $syslogEvent = "user_detail_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "user_detail_updated";
+                $messageEvent = "updated";
+            }
+            if ($userDetail->value !== $value) {
+                $userDetail->value = $value;
+                $userDetail->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = $this->id;
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent ." detail: " . $detail;
+                $systemLog->message = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent . " detail: " . $detail . " to: " . $value;
+                $systemLog->data_format = json_encode(['detail' => $detail, 'value' => $value]);
+            }
+        }
+        return null;
     }
 
 }

@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property string|null $message_short
  * @property string|null $message
  * @property string|null $data_format
+ * @property string|null $event
  * @property int $created_at
  * @property int|null $created_by
 
@@ -50,7 +51,7 @@ class SystemLog extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['user_id', 'organization_id'], 'integer'],
-            [['message', 'data_format'], 'string'],
+            [['message', 'data_format', 'event'], 'string'],
             [['created_at', 'instance', 'created_by'], 'safe'],
             [['message_short'], 'string', 'max' => 512],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'id']],
@@ -70,6 +71,7 @@ class SystemLog extends \yii\db\ActiveRecord {
             'organization_name'  =>  Yii::t('core_model', 'Organization'),
             'user_name'  =>  Yii::t('core_model', 'User'),
             'instance'  =>  Yii::t('core_model', 'Instance'),
+            'event' => Yii::t('core_model', 'Event'),
         ];
     }
 
