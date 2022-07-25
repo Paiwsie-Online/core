@@ -24,7 +24,7 @@ $this->registerJsFile('@web/js/pageScripts/index.js',['depends' => [\yii\web\Jqu
 if (isset(Yii::$app->user->identity->selectedOrganization->id)) {
     $organizationModulesCount = (int)OrganizationModuleRelation::find()->where(['organization_id' => Yii::$app->user->identity->selectedOrganization->id])->count();
 }
-if (isset($organizationModulesCount) && $organizationModulesCount === 0 || !isset($organizationModulesCount)) {
+if ((isset($organizationModulesCount) && $organizationModulesCount === 0) || !isset($organizationModulesCount)) {
     ?>
     <div class="col-12 border-rounded mt-4 mb-3">
         <div class="d-inline-flex">
