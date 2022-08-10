@@ -38,8 +38,7 @@
         "onmotion/yii2-widget-apexcharts": "*",
         "helmutschneider/swish-php": "2.0",
         "endroid/qr-code": "^4.4",
-        "yiisoft/yii2-bootstrap5": "^2.0",
-      "ext-http": "*"
+        "yiisoft/yii2-bootstrap5": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.17",
