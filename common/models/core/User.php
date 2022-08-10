@@ -820,4 +820,33 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return null;
     }
 
+    public function setSettings($array)
+    {
+        foreach ($array as $setting => $value) {
+            $userDetail = UserSetting::findOne(['user_id' => $this->id, 'setting' => $setting]);
+            if (!$userDetail) {
+                $userDetail = new UserSetting();
+                $userDetail->user_id = $this->id;
+                $userDetail->setting = $setting;
+                $syslogEvent = "user_setting_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "user_setting_updated";
+                $messageEvent = "updated";
+            }
+            if ($userDetail->value !== $value) {
+                $userDetail->value = $value;
+                $userDetail->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = $this->id;
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent ." setting: " . $setting;
+                $systemLog->message = ($this->first_name ?? '').' '.($this->last_name ?? '') . $messageEvent . " setting: " . $setting . " to: " . $value;
+                $systemLog->data_format = json_encode(['setting' => $setting, 'value' => $value]);
+            }
+        }
+        return null;
+    }
+
 }

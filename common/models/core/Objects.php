@@ -193,4 +193,33 @@ class Objects extends \yii\db\ActiveRecord
         }
         return $query->andWhere(['a.model' => $objectType])->all();
     }
+
+    public function setDetails($array)
+    {
+        foreach ($array as $detail => $value) {
+            $objectDetail = ObjectDetail::findOne(['object' => $this->id, 'detail' => $detail]);
+            if (!$objectDetail) {
+                $objectDetail = new ObjectDetail();
+                $objectDetail->object = $this->id;
+                $objectDetail->detail = $detail;
+                $syslogEvent = "object_detail_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "object_detail_updated";
+                $messageEvent = "updated";
+            }
+            if ($objectDetail->value !== $value) {
+                $objectDetail->value = $value;
+                $objectDetail->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = (Yii::$app->user->identity->id ?? null);
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = 'Object' . ($this->id ?? ''). ' ' . $messageEvent ." detail: " . $detail;
+                $systemLog->message = 'Object' . ($this->id ?? ''). ' ' . $messageEvent . " detail: " . $detail . " to: " . $value;
+                $systemLog->data_format = json_encode(['object' => $this->id,'detail' => $detail, 'value' => $value]);
+            }
+        }
+        return null;
+    }
 }

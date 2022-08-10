@@ -298,4 +298,64 @@ class Organization extends \yii\db\ActiveRecord {
         return $infoArr;
     }
 
+    public function setDetails($array)
+    {
+        foreach ($array as $detail => $value) {
+            $organizationDetail = OrganizationDetail::findOne(['organization_id' => $this->id, 'detail' => $detail]);
+            if (!$organizationDetail) {
+                $organizationDetail = new OrganizationDetail();
+                $organizationDetail->organization_id = $this->id;
+                $organizationDetail->detail = $detail;
+                $syslogEvent = "organization_detail_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "organization_detail_updated";
+                $messageEvent = "updated";
+            }
+            if ($organizationDetail->value !== $value) {
+                $organizationDetail->value = $value;
+                $organizationDetail->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = (Yii::$app->user->identity->id ?? null);
+                $systemLog->organization_id = $this->id;
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = ($this->name ?? ''). ' ' . $messageEvent ." detail: " . $detail;
+                $systemLog->message = ($this->name ?? ''). ' ' . $messageEvent . " detail: " . $detail . " to: " . $value;
+                $systemLog->data_format = json_encode(['detail' => $detail, 'value' => $value]);
+            }
+        }
+        return null;
+    }
+
+    public function setSettings($array)
+    {
+        foreach ($array as $setting => $value) {
+            $organizationSetting = OrganizationSetting::findOne(['organization_id' => $this->id, 'setting' => $setting]);
+            if (!$organizationSetting) {
+                $organizationSetting = new OrganizationSetting();
+                $organizationSetting->organization_id = $this->id;
+                $organizationSetting->setting = $setting;
+                $syslogEvent = "organization_setting_added";
+                $messageEvent = "added";
+            } else {
+                $syslogEvent = "organization_setting_updated";
+                $messageEvent = "updated";
+            }
+            if ($organizationSetting->value !== $value) {
+                $organizationSetting->value = $value;
+                $organizationSetting->save();
+                $systemLog = new SystemLog();
+                $systemLog->user_id = (Yii::$app->user->identity->id ?? null);
+                $systemLog->organization_id = $this->id;
+                $systemLog->instance = $this->instance;
+                $systemLog->event = $syslogEvent;
+                $systemLog->message_short = ($this->name ?? ''). ' ' . $messageEvent ." detail: " . $setting;
+                $systemLog->message = ($this->name ?? ''). ' ' . $messageEvent . " detail: " . $setting . " to: " . $value;
+                $systemLog->data_format = json_encode(['detail' => $setting, 'value' => $value]);
+            }
+        }
+        return null;
+    }
+
 }
